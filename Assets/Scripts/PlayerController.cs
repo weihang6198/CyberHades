@@ -35,6 +35,10 @@ public class PlayerController : MonoBehaviour
     }
     void Move()
     {
+        if(input.magnitude>0)
+        {
+            Debug.Log("input.magnitude :"+input.magnitude);
+        }
         rb.MovePosition(transform.position + (transform.forward * input.magnitude) * speed * Time.deltaTime);
     }
 }
