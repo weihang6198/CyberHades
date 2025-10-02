@@ -22,14 +22,22 @@ public class PlayerControllerTutorial : MonoBehaviour
     CameraController cameraController;
     Animator animator;
     CharacterController characterController;
+    MeleeFighter meleeFighter;
     private void Awake()
     {
         cameraController=Camera.main.GetComponent<CameraController>();
         animator = GetComponent<Animator>();
         characterController=GetComponent<CharacterController>();
+        meleeFighter=GetComponent<MeleeFighter>();
     }
     private void Update()
     {
+
+        if (meleeFighter.InAction)
+        {
+            animator.SetFloat("MoveAmount",0f);
+            return; //if player is attacking , return
+        }
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
@@ -40,7 +48,7 @@ public class PlayerControllerTutorial : MonoBehaviour
         var moveDir= cameraController.PlaneRotation* moveInput;
 
         GroundCheck();
-        Debug.Log("GroundCheck :" + isGrounded);
+        //Debug.Log("GroundCheck :" + isGrounded);
 
         if(isGrounded)
         {
