@@ -30,4 +30,12 @@ public class MeleeFighter : MonoBehaviour
 
         InAction = false;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag=="HitBox")
+        {
+            Debug.Log("charac was hit");
+        }
+    }
 }
