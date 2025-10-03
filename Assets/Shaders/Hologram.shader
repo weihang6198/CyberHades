@@ -62,8 +62,7 @@ Shader "Unlit/Hologram"
                 col.rgb = col.rgb * dissolveValue;
                 return col ;
             }
-            ENDCG
-            ]
+            ENDCG            
         }
     }
 }
