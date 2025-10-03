@@ -63,6 +63,7 @@ Shader "Unlit/Hologram"
                 return col ;
             }
             ENDCG
+            ]
         }
     }
 }
