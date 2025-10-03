@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float speed = 5;
     [SerializeField] private float turnSpeed = 180;
-    void Update()
+    private void Update()
     {
         GatherInput();
         Look();
