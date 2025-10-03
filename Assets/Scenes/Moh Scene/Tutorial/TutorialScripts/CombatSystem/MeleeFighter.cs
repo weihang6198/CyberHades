@@ -33,9 +33,23 @@ public class MeleeFighter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag=="HitBox")
+        if(other.tag=="HitBox"&& !InAction) //check if has the hitbox tag and not in other action
         {
             Debug.Log("charac was hit");
+            StartCoroutine(PlayHitReaction());
         }
+    }
+
+    IEnumerator PlayHitReaction()
+    {
+        InAction = true;
+        animator.CrossFade("SwordImpact", 0.2f);
+        yield return null;//wait for a single frame
+
+        //1 represent override layer
+        var animState = animator.GetNextAnimatorStateInfo(1);
+        yield return new WaitForSeconds(animState.length);
+
+        InAction = false;
     }
 }
