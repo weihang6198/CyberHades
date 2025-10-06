@@ -6,6 +6,7 @@ public class PlayerControllerTutorial : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float rotationSpeed = 500f;
+    [SerializeField] float animBlendInTime = 0.1f;
 
     [Header("Ground check settings")]
     [SerializeField] float groundCheckRadius = 0.2f;
@@ -77,7 +78,8 @@ public class PlayerControllerTutorial : MonoBehaviour
 
        transform.rotation=Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        animator.SetFloat("MoveAmount", moveAmount,0.2f,Time.deltaTime);
+       animator.SetFloat("MoveAmount", moveAmount, animBlendInTime, Time.deltaTime);
+       // animator.SetFloat("MoveAmount", moveAmount);
     }
 
     void GroundCheck()
