@@ -456,7 +456,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.9811321, g: 0.7593081, b: 0.33784264, a: 1}
   m_Intensity: 1.96
   m_Range: 10
   m_SpotAngle: 30
@@ -3230,8 +3230,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 930deb79d17c8dc4696f6a0492fd9303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  circlingSpeed: 20
   distanceToStand: 3
   adjustDistanceThreshold: 3
+  IdleTimeRange: {x: 1, y: 2}
+  CirclingTimeRange: {x: 5, y: 7}
 --- !u!114 &5866666019960238339
 MonoBehaviour:
   m_ObjectHideFlags: 0
