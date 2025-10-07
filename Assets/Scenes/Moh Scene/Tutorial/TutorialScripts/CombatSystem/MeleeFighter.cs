@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum AttackState
+public enum AttackStates
 {
     Idle,Windup,Impact,Cooldown
 }
@@ -17,7 +17,7 @@ public class MeleeFighter : MonoBehaviour
     Animator animator;
 
     //variables
-    public AttackState attackState;
+    public AttackStates attackState {  get; private set; }
     bool doCombo;
     int comboCount = 0;
     public bool InAction { get;private set; } = false;
@@ -52,7 +52,7 @@ public class MeleeFighter : MonoBehaviour
         {
             StartCoroutine(Attack());
         }
-        else if(attackState == AttackState.Impact ||attackState==AttackState.Cooldown)
+        else if(attackState == AttackStates.Impact ||attackState==AttackStates.Cooldown)
         {
             doCombo = true;
         }
@@ -61,7 +61,7 @@ public class MeleeFighter : MonoBehaviour
     IEnumerator Attack()
     {
         InAction = true;
-        attackState = AttackState.Windup;
+        attackState = AttackStates.Windup;
 
 
 
@@ -77,29 +77,29 @@ public class MeleeFighter : MonoBehaviour
             timer += Time.deltaTime;
             float normalizedTime = timer / animState.length;
             //prepare to attack
-            if (attackState == AttackState.Windup)
+            if (attackState == AttackStates.Windup)
             {
                 //if anim time> impact start time, enable sword collider
                 if(normalizedTime > attacks[comboCount].ImpactStartTime)
                 {
-                    attackState = AttackState.Impact;
+                    attackState = AttackStates.Impact;
                     //enable sword collider
                     EnableHitBox(attacks[comboCount]);
                 }
             }
             //disable sword collision after impact time
-            else if(attackState == AttackState.Impact)
+            else if(attackState == AttackStates.Impact)
             {
                 //if anim time> impact end time, disable sword collider
                 if (normalizedTime > attacks[comboCount].ImpactEndTime)
                 {
-                    attackState = AttackState.Cooldown;
+                    attackState = AttackStates.Cooldown;
                     //disable sword collider
                     DisableAllHitBox();
                 }   
             }
             //handle combo
-            else if(attackState == AttackState.Cooldown)
+            else if(attackState == AttackStates.Cooldown)
             {
                
                 if(doCombo)
@@ -123,7 +123,7 @@ public class MeleeFighter : MonoBehaviour
         }
 
         //reset all attacks
-        attackState = AttackState.Idle;
+        attackState = AttackStates.Idle;
         comboCount = 0;
         InAction = false;
     }
@@ -176,11 +176,16 @@ public class MeleeFighter : MonoBehaviour
     }
     void DisableAllHitBox()
     {
-        swordCollider.enabled = false;
-        leftHandCollider.enabled = false;
-        rightHandCollider.enabled = false;
-        leftFootCollider.enabled = false;
-        rightFootCollider.enabled = false;
+        if(swordCollider != null)       
+            swordCollider.enabled = false;
+        if(leftHandCollider!=null)       
+            leftHandCollider.enabled = false;
+        if(rightHandCollider != null)    
+            rightHandCollider.enabled = false;
+        if(leftFootCollider != null)     
+            leftFootCollider.enabled = false;
+        if(rightFootCollider != null)   
+            rightFootCollider.enabled = false;
 
     }
 }
