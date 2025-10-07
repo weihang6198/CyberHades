@@ -13,11 +13,11 @@ public class EnemyController : MonoBehaviour
     Dictionary<EnemyState, State<EnemyController>> stateDict;
 
     public NavMeshAgent NavAgent {  get;  private set;}
-    public Animator Animator { get; private set; }
+    public Animator animator { get; private set; }
     private void Start()
     {
         NavAgent = GetComponent<NavMeshAgent>();
-        Animator=GetComponent<Animator>();
+        animator=GetComponent<Animator>();
         //initialize the state machine
         stateDict = new Dictionary<EnemyState, State<EnemyController>>();
         stateDict[EnemyState.Idle]=GetComponent<IdleState>(); 
@@ -32,10 +32,23 @@ public class EnemyController : MonoBehaviour
     {
         stateMachine.ChangeState(stateDict[state]);
     }
+    Vector3 prevPos;
     private void Update()
     {
         stateMachine.Execute();
+
+        //v=dx/dt
+        var deltaPos=transform.position - prevPos;
+        var velocity=deltaPos/Time.deltaTime;
+
+        float forwardSpeed=Vector3.Dot(velocity, transform.forward);
         //apply to all conditions
-        Animator.SetFloat("MoveAmount", NavAgent.velocity.magnitude / NavAgent.speed);
+        animator.SetFloat("ForwardSpeed", forwardSpeed / NavAgent.speed,0.2f,Time.deltaTime);
+
+        float angle=Vector3.SignedAngle(transform.forward, velocity, Vector3.up);
+        float strafeSpeed=Mathf.Sin(angle*Mathf.Deg2Rad);
+
+        animator.SetFloat("StrafeSpeed", strafeSpeed, 0.2f, Time.deltaTime);
+        prevPos=transform.position;
     }
 }
