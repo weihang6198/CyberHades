@@ -13,11 +13,17 @@ public class IdleState :State<EnemyController>
 
     public override void Execute()
     {
-        Debug.Log("execute idle state");
-
-        if(Input.GetKey(KeyCode.T))
+        foreach(var target in enemy.TargetsInRange)
         {
-            enemy.ChangeState(EnemyState.Chase);   
+            var vecToTarget=target.transform.position-transform.position;
+            float angle= Vector3.Angle(transform.forward,vecToTarget);
+
+            if(angle<=enemy.Fov/2)
+            {
+                enemy.Target = target;
+                enemy.ChangeState(EnemyState.CombatMovement);
+                break;
+            }
         }
     }
 
