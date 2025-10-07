@@ -90,5 +90,5 @@ Material:
     - _InnerColor: {r: 0, g: 1, b: 0.47058824, a: 0}
     - _IntersectionColor: {r: 1, g: 0.8569099, b: 0, a: 1}
     - _OuterColor: {r: 0, g: 0.5137255, b: 1, a: 0}
-    - _SlicePlane: {r: 0.15526871, g: 0.98787224, b: 0, a: 0.089323804}
+    - _SlicePlane: {r: 0.6858571, g: 0.72773623, b: 0, a: -0.033030525}
   m_BuildTextureStacks: []

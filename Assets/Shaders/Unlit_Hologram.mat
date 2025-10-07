@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Unlit_Hologram
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: ede89ea6c58dd4a40ac251f356a4efe5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -63,26 +63,59 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SDIDTexture:
+        m_Texture: {fileID: 2800000, guid: fe092911f8b835343b076642b5e53347, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AdjustDissolve: 0.5
+    - _Amount: 0.0117
+    - _Back: 0.5
     - _BumpScale: 1
+    - _CellOffset: 0.172
+    - _CellSpeed: 3.61
+    - _CellVariation: 0.728
+    - _ColorEnabled: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _DetailedTransitionWidth: 0.5
     - _DstBlend: 0
+    - _FadeEnabled: 0
+    - _FadeEnd: 0.837
+    - _FadeRange: 0.5
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _LargeThickness: 0.018
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _Offset: 0.317
     - _Parallax: 0.02
+    - _Power: 1
+    - _PulseEnabled: 0
+    - _Range: 3.5
+    - _RimPower: 1.76
+    - _Scale: 0.73
+    - _SmallThickness: 0.015
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _Speed: -2.5
     - _SrcBlend: 1
+    - _TransitionOffset: 1.47
+    - _TransitionWidth: 1
     - _UVSec: 0
+    - _WireThickness: 100
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Center: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0, g: 0.8835013, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _InnerColor: {r: 1, g: 0.41245282, b: 0.18396229, a: 0}
+    - _IntersectionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OuterColor: {r: 0.25999996, g: 0.18999997, b: 0.15999997, a: 0}
+    - _SlicePlane: {r: 0, g: 1, b: 0, a: 0.5}
+    - _TransmissionPlane: {r: 0, g: 1, b: 0, a: 0}
+    - _WireColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

@@ -2,7 +2,7 @@
 - Project name: CyberHades
 - Unity version: Unity 2022.3.62f1
 - Active game object:
-  - Name: Global Volume
+  - Name: WorldObjects
   - Tag: Untagged
-  - Layer: PostEffect
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
