@@ -5,8 +5,14 @@ using UnityEngine;
 public enum AICombatStates { Idle,Chase,Circling}
 public class CombatMovmentState : State<EnemyController>
 {
+    [SerializeField] float circlingSpeed = 20f;
     [SerializeField] float distanceToStand = 3f;
     [SerializeField] float adjustDistanceThreshold = 3f;
+    [SerializeField] Vector2 IdleTimeRange = new Vector2(1, 2);
+    [SerializeField] Vector2 CirclingTimeRange = new Vector2(5, 7);
+
+    float timer = 0f;
+    int circlingDir = 1;
     AICombatStates state;
     EnemyController enemy;
     public override void Enter(EnemyController owner)
@@ -22,7 +28,17 @@ public class CombatMovmentState : State<EnemyController>
 
         if(state==AICombatStates.Idle)
         {
-
+            if(timer<=0)
+            {
+                if (Random.Range(0, 2) == 0)//either return 0 or 1, no decimal will be return
+                {
+                    StartIdle();
+                }
+                else
+                {
+                    StartCircling();
+                }
+            }
         }
         else if (state == AICombatStates.Chase)
         {
@@ -35,22 +51,58 @@ public class CombatMovmentState : State<EnemyController>
         }
         else if (state == AICombatStates.Circling)
         {
+            if(timer<=0)
+            {
+                StartIdle();
+                return;
+            }
+           // transform.RotateAround(enemy.Target.transform.position, Vector3.up, circlingSpeed * circlingDir*Time.deltaTime);
 
+            var vectorToTarget = enemy.transform.position - enemy.Target.transform.position;
+            var rotatePos=Quaternion.Euler(0, circlingSpeed * circlingDir * Time.deltaTime, 0) * vectorToTarget;
+
+            enemy.NavAgent.Move(rotatePos - vectorToTarget);
+            enemy.transform.rotation = Quaternion.LookRotation(-rotatePos);
         }
 
-      //apply to all conditions
-        enemy.Animator.SetFloat("MoveAmount", enemy.NavAgent.velocity.magnitude/enemy.NavAgent.speed);
+        if(timer>0)
+        {
+            timer-=Time.deltaTime;
+        }
     }
 
     void StartChase()
     {
         state = AICombatStates.Chase;
-        enemy.Animator.SetBool("CombatMode", false);
+        enemy.animator.SetBool("CombatMode", false);
+        //enemy.animator.SetBool("Circling", false);
     }
     void StartIdle()
     {
         state = AICombatStates.Idle;
-        enemy.Animator.SetBool("CombatMode", true);
+        timer = Random.Range(IdleTimeRange.x, IdleTimeRange.y);
+
+        enemy.animator.SetBool("CombatMode", true);
+        //enemy.animator.SetBool("Circling", false);
+    }
+
+    void StartCircling()
+    {
+        state = AICombatStates.Circling;
+        enemy.NavAgent.ResetPath(); 
+        timer = Random.Range(CirclingTimeRange.x, CirclingTimeRange.y);
+        if (Random.Range(0, 2) == 0)//either return 0 or 1, no decimal will be return
+        {
+            circlingDir = 1;
+        }
+        else
+        {
+            circlingDir = -1;
+        }
+
+        //enemy.animator.SetBool("Circling", true);
+        //enemy.animator.SetFloat("CirclingDir", circlingDir);
+
     }
     public override void Exit()
     {

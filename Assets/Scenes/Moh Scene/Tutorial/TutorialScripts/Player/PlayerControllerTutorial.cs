@@ -36,7 +36,7 @@ public class PlayerControllerTutorial : MonoBehaviour
 
         if (meleeFighter.InAction)
         {
-            animator.SetFloat("MoveAmount",0f);
+            animator.SetFloat("ForwardSpeed",0f);
             return; //if player is attacking , return
         }
         float h = Input.GetAxis("Horizontal");
@@ -78,7 +78,7 @@ public class PlayerControllerTutorial : MonoBehaviour
 
        transform.rotation=Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-       animator.SetFloat("MoveAmount", moveAmount, animBlendInTime, Time.deltaTime);
+       animator.SetFloat("ForwardSpeed", moveAmount, animBlendInTime, Time.deltaTime);
        // animator.SetFloat("MoveAmount", moveAmount);
     }
 
