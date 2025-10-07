@@ -66,24 +66,24 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SDIDTexture:
-        m_Texture: {fileID: 2800000, guid: fc46c36ef22e76f4aafab1b741749e4d, type: 3}
+        m_Texture: {fileID: 2800000, guid: fe092911f8b835343b076642b5e53347, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - Transparent: 1
     - _BumpScale: 1
-    - _CellOffset: 0.494
+    - _CellOffset: 0.526
     - _CellSize: 0.2
     - _CellSpeed: 3.69
-    - _CellVariation: 0.474
+    - _CellVariation: 0.588
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DetailedTransitionWidth: 0.744
+    - _DetailedTransitionWidth: 0.87
     - _DstBlend: 0
     - _Fade: 1
     - _FadeEnabled: 0
-    - _FadeEnd: 0.3
+    - _FadeEnd: 0.317
     - _FadeRange: 0.5
     - _Falloff_Dst_Max: 6
     - _Falloff_Dst_Min: 2
@@ -92,26 +92,26 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LargeThickness: 0.123
+    - _LargeThickness: 0.007
     - _LineSize: 0.02
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Power: 0.3
+    - _Power: 1.03
     - _PulseEnabled: 1
     - _PulseWidth: 2
     - _Radius: 2
     - _RangeScale: 1.86
     - _Scale: 1
-    - _SmallThickness: 0.162
+    - _SmallThickness: 0.034
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 0.43
     - _SrcBlend: 1
-    - _TransitionOffset: 7.5551205
-    - _TransitionWidth: 2
+    - _TransitionOffset: 4.01
+    - _TransitionWidth: 1.76
     - _TrianglesScale: 0.85
     - _UVSec: 0
     - _UseWireframe: 1
@@ -121,7 +121,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Center: {r: -0.089914635, g: -0.23851077, b: 1.7919999, a: 0}
-    - _Color: {r: 0, g: 1, b: 0.847, a: 0.3372549}
+    - _Color: {r: 0, g: 0.67964804, b: 0.9150943, a: 0.3372549}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LineColor: {r: 0.102941036, g: 0, b: 1, a: 1}
     - _PulseColor: {r: 0.145, g: 0.447, b: 0.922, a: 1}
