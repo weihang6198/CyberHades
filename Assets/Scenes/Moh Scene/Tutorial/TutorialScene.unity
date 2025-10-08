@@ -238,7 +238,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 04433801b33c53942a3adc16740f90bd, type: 2}
+  - {fileID: 2100000, guid: b2424ae8de8157d44ba85995173df2ad, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -293,6 +293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 268579988}
   - component: {fileID: 268579987}
+  - component: {fileID: 268579989}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -377,6 +378,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &268579989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268579986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &301510199 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8112288033700807349, guid: fe48e31a996b96f4580850dc7dd0853e, type: 3}
@@ -518,13 +542,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.7
-  m_Radius: 0.2
+  m_Height: 2
+  m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.87, z: 0.08}
+  m_Center: {x: 0, y: 0.99, z: 0.08}
 --- !u!114 &614395404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,6 +616,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4504060519440007539, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
+      propertyPath: attackDistance
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6013846590332745425, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.82
@@ -602,7 +630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6013846590332745425, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.1646867
+      value: -5.37
       objectReference: {fileID: 0}
     - target: {fileID: 6013846590332745425, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1125,6 +1153,10 @@ PrefabInstance:
     - target: {fileID: 742500699557458448, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3901698692511070276, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
+      propertyPath: distanceToRetreat
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6013846590332745425, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
       propertyPath: m_LocalPosition.x

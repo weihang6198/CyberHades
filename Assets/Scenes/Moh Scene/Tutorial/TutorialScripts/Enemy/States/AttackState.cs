@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackState : State<EnemyController>
 {
-    [SerializeField] float attackDistance = 1f;
+    [SerializeField] float attackDistance = 1.2f;
     bool isAttacking;
     EnemyController enemy;
     public override void Enter(EnemyController owner)
@@ -22,18 +22,33 @@ public class AttackState : State<EnemyController>
 
         if (Vector3.Distance(enemy.Target.transform.position, enemy.transform.position) <= attackDistance +0.03f)
         {
-            StartCoroutine(Attack());
+            StartCoroutine(Attack(Random.Range(0,enemy.Fighter.attacks.Count+1)));
         }
     }
 
-    IEnumerator Attack()
+    //num of attack based on  @param comboCount
+    IEnumerator Attack(int comboCount=1)
     {
         isAttacking = true;
         enemy.animator.applyRootMotion = true;
         enemy.Fighter.TryToAttack();
-        yield return new WaitUntil(() => enemy.Fighter.attackState==AttackStates.Idle);
+        for (int i = 1; i < comboCount; i++)
+        {
+            //combo mechanic, make enemy attack more than 1 times 
+            //wait the atk to go cooldown states, then do attack again
+            yield return new WaitUntil(() => enemy.Fighter.attackState == AttackStates.Cooldown);
+            enemy.Fighter.TryToAttack();
+        }
+        yield return new WaitUntil(() => enemy.Fighter.attackState == AttackStates.Idle);
 
         enemy.animator.applyRootMotion = false;
         isAttacking = false;
+
+        enemy.ChangeState(EnemyState.RetreatAfterAttack);
+    }
+
+    public override void Exit()
+    {
+      enemy.NavAgent.ResetPath(); 
     }
 }

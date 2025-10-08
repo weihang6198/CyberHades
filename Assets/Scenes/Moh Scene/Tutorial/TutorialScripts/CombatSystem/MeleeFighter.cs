@@ -8,7 +8,8 @@ public enum AttackStates
 
 public class MeleeFighter : MonoBehaviour
 {
-    [SerializeField] List<AttackData> attacks;
+    [SerializeField]public  List<AttackData> attacks;
+   
     [SerializeField] GameObject sword;
 
     BoxCollider swordCollider;
@@ -21,6 +22,9 @@ public class MeleeFighter : MonoBehaviour
     bool doCombo;
     int comboCount = 0;
     public bool InAction { get;private set; } = false;
+
+
+   
 
     public void Awake()
     {
@@ -188,4 +192,5 @@ public class MeleeFighter : MonoBehaviour
             rightFootCollider.enabled = false;
 
     }
+
 }

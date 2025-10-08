@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum EnemyState { Idle,CombatMovement,Attack}
+public enum EnemyState { Idle,CombatMovement,Attack,RetreatAfterAttack}
 public class EnemyController : MonoBehaviour
 {
     [field:SerializeField]public float Fov { get; private set; } = 180f;
@@ -29,10 +29,13 @@ public class EnemyController : MonoBehaviour
         stateDict[EnemyState.Idle]=GetComponent<IdleState>(); 
         stateDict[EnemyState.CombatMovement]=GetComponent<CombatMovmentState>(); 
         stateDict[EnemyState.Attack]=GetComponent<AttackState>(); 
+        stateDict[EnemyState.RetreatAfterAttack]=GetComponent<RetreatAfterAttackState>(); 
 
 
         stateMachine = new StateMachine<EnemyController>(this);
         stateMachine.ChangeState(stateDict[EnemyState.Idle]);
+
+
     }
 
     public void ChangeState(EnemyState state)
@@ -50,7 +53,7 @@ public class EnemyController : MonoBehaviour
         stateMachine.Execute();
 
         //v=dx/dt
-        var deltaPos=transform.position - prevPos;
+        var deltaPos=animator.applyRootMotion? Vector3.zero :transform.position - prevPos;
         var velocity=deltaPos/Time.deltaTime;
 
         float forwardSpeed=Vector3.Dot(velocity, transform.forward);
