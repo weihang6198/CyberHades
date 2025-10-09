@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 public enum AttackStates
 {
     Idle,Windup,Impact,Cooldown
@@ -22,7 +23,7 @@ public class MeleeFighter : MonoBehaviour
     bool doCombo;
     int comboCount = 0;
     public bool InAction { get;private set; } = false;
-
+    public bool InCounter { get; set; } = false;
 
    
 
@@ -80,9 +81,12 @@ public class MeleeFighter : MonoBehaviour
         {
             timer += Time.deltaTime;
             float normalizedTime = timer / animState.length;
+
             //prepare to attack
+            //can be counter at this state
             if (attackState == AttackStates.Windup)
             {
+                if (InCounter) break;
                 //if anim time> impact start time, enable sword collider
                 if(normalizedTime > attacks[comboCount].ImpactStartTime)
                 {
@@ -141,6 +145,7 @@ public class MeleeFighter : MonoBehaviour
         }
     }
 
+    //the function that play hit reaction
     IEnumerator PlayHitReaction()
     {
         InAction = true;
@@ -154,6 +159,52 @@ public class MeleeFighter : MonoBehaviour
 
         yield return new WaitForSeconds(animState.length* animeEndPercentage);
 
+        InAction = false;
+    }
+
+    //the function that plays counter attack
+    public IEnumerator PerformCounterAttack(EnemyController opponent)
+    {
+        //setup
+        InAction = true;
+        InCounter = true;
+        opponent.MeleeFighter.InCounter = true;
+        opponent.ChangeState(EnemyState.Dead);
+
+        //make sure both player and enemy face each other while performing counter atk
+        var displacementVector= opponent.transform.position - transform.position;
+        displacementVector.y = 0f;
+        transform.rotation = Quaternion.LookRotation(displacementVector);
+        opponent.transform.rotation = Quaternion.LookRotation(-displacementVector);
+
+        //mamnually set the pos of the player while counter
+        var targetPosition=opponent.transform.position - displacementVector.normalized * 1.2f;
+
+
+        //play animations
+        animator.CrossFade("CounterAttack", 0.2f);
+        opponent.animator.CrossFade("CounterAttackVictim", 0.2f);
+        yield return null;//wait for a single frame
+
+        //1 represent override layer
+        var animState = animator.GetNextAnimatorStateInfo(1);
+
+        float timer = 0f;
+
+        //make the player move to target position while performing counter attack
+        //
+        while(timer<=animState.length)
+        {
+            transform.position=Vector3.MoveTowards(transform.position, targetPosition, 5 * Time.deltaTime);
+            yield return null;
+            timer += Time.deltaTime;
+        }
+       // float animeEndPercentage = 0.6f;
+
+       // yield return new WaitForSeconds(animState.length * animeEndPercentage);
+
+        InCounter = false;
+        opponent.MeleeFighter.InCounter = false;
         InAction = false;
     }
 
@@ -193,4 +244,5 @@ public class MeleeFighter : MonoBehaviour
 
     }
 
+    public bool IsCounterable => attackState == AttackStates.Windup && comboCount == 0;
 }
