@@ -42,8 +42,13 @@ public class EnemyManager : MonoBehaviour
             {
                 //attack player
                 var attackingEnemy = SelectEnemyForAttack();
-                attackingEnemy.ChangeState(EnemyState.Attack);
-                notAttackingTimer = Random.Range(timeRangeBetweenAttacks.x, timeRangeBetweenAttacks.y);
+
+                if(attackingEnemy != null)
+                {
+                    attackingEnemy.ChangeState(EnemyState.Attack);
+                    notAttackingTimer = Random.Range(timeRangeBetweenAttacks.x, timeRangeBetweenAttacks.y);
+                }
+             
             }
 
 
@@ -52,7 +57,7 @@ public class EnemyManager : MonoBehaviour
 
     EnemyController SelectEnemyForAttack()
     {
-        return enemiesInRange.OrderByDescending(e=>e.CombatMovementTimer).FirstOrDefault();
+        return enemiesInRange.OrderByDescending(e=>e.CombatMovementTimer).FirstOrDefault(e=>e.Target!=null);
     }
 
     public EnemyController GetAttackingEnemy()

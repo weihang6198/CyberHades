@@ -36,6 +36,7 @@ public class PlayerControllerTutorial : MonoBehaviour
 
         if (meleeFighter.InAction)
         {
+            targetRotation = transform.rotation;
             animator.SetFloat("ForwardSpeed",0f);
             return; //if player is attacking , return
         }

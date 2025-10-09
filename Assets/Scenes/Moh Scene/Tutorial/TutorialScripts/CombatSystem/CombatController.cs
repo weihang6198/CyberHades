@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class CombatController : MonoBehaviour
 {
+    public EnemyController targetEnemy;
     MeleeFighter meleeFighter;
     Animator animator;
-
+    CameraController cam;
     private void Awake()
     {
         meleeFighter = GetComponent<MeleeFighter>();
         animator= GetComponent<Animator>();
+        cam=Camera.main.GetComponent<CameraController>();
     }
 
     private void Update()
@@ -34,10 +36,23 @@ public class CombatController : MonoBehaviour
     //apply root motion of rot and pos separately
     private void OnAnimatorMove()
     {
-        //apply the position of root motion
-        transform.position += animator.deltaPosition;
+        if(!meleeFighter.InCounter)
+        {
+            //apply the position of root motion
+            transform.position += animator.deltaPosition;
+        }
+       
+       
 
         //apply the rotation of root motion
         transform.rotation *= animator.deltaRotation;
+    }
+
+    public Vector3 GetTargetingDir()
+    {
+        var vecFromCam=transform.position - cam.transform.position;
+        vecFromCam.y = 0f;
+        return vecFromCam.normalized;
+
     }
 }
