@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     [field:SerializeField]public float Fov { get; private set; } = 180f;
     public List<MeleeFighter> TargetsInRange {  get; private set; }= new List<MeleeFighter>();
     public MeleeFighter Target { get;  set; }
+    public SkinMeshHighlighter MeshHighlighter { get; private set; }
 
     //track how long the enemy is in this state
     public float CombatMovementTimer { get; set; } = 0f;
@@ -20,6 +21,7 @@ public class EnemyController : MonoBehaviour
     public Animator animator { get; private set; }
     public MeleeFighter MeleeFighter { get; private set; }
 
+
     public VisionSensor VisionSensor {  get;  set; }
     private void Start()
     {
@@ -27,6 +29,7 @@ public class EnemyController : MonoBehaviour
         CharacterController = GetComponent<CharacterController>();
         animator=GetComponent<Animator>();
         MeleeFighter=GetComponent<MeleeFighter>();
+        MeshHighlighter = GetComponent<SkinMeshHighlighter>();
 
         //initialize the state machine
         stateDict = new Dictionary<EnemyState, State<EnemyController>>();

@@ -296,11 +296,12 @@ GameObject:
   - component: {fileID: 6011202583659921581}
   - component: {fileID: 2470838255216490525}
   - component: {fileID: 6982582375609162165}
-  - component: {fileID: 1323279407769347802}
   - component: {fileID: 7384802634771996757}
   - component: {fileID: 4504060519440007539}
   - component: {fileID: 3901698692511070276}
   - component: {fileID: 19339381707975042}
+  - component: {fileID: 1985734261783456962}
+  - component: {fileID: 815733911473982757}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -417,23 +418,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbdbba84f16f80948ae0347c29b45972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1323279407769347802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742500699557458448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 930deb79d17c8dc4696f6a0492fd9303, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  circlingSpeed: 20
-  distanceToStand: 3
-  adjustDistanceThreshold: 3
-  IdleTimeRange: {x: 2, y: 5}
-  CirclingTimeRange: {x: 3, y: 6}
 --- !u!195 &7384802634771996757
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -495,6 +479,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61eb8c22580429a47b62e0eb62fd9475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1985734261783456962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742500699557458448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 086b5646854f65742985401d16de0485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshesToHighlight:
+  - {fileID: 4730958300018729650}
+  - {fileID: 5947651007821364764}
+  originalMaterial: {fileID: 1106563633393636324, guid: 2893d36e2e6ba9f40a899959a3880d63, type: 3}
+  highlightedMaterial: {fileID: 2100000, guid: c1a2277c693e715429e6178adf6c4520, type: 2}
+--- !u!114 &815733911473982757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742500699557458448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 930deb79d17c8dc4696f6a0492fd9303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circlingSpeed: 20
+  distanceToStand: 3
+  adjustDistanceThreshold: 3
+  IdleTimeRange: {x: 1, y: 2}
+  CirclingTimeRange: {x: 5, y: 7}
 --- !u!1 &971448529871609974
 GameObject:
   m_ObjectHideFlags: 0

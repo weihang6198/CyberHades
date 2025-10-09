@@ -9,6 +9,8 @@ public class IdleState :State<EnemyController>
     {
         enemy = owner;
         Debug.Log("Enter idle state");
+
+        enemy.animator.SetBool("CombatMode", false);
     }
 
     public override void Execute()
