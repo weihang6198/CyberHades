@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 92eb0cbdc9f737247b8ad9cf41b05c67, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 620fe7b0b682a1848b07710cee884a0d, type: 2}
   isGlobal: 1
   blendDistance: 0
   weight: 1
@@ -642,7 +642,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cc880b4625420ba44928bf2ffeccee86, type: 2}
   - {fileID: 11400000, guid: fd6b976cc70e76a479e1deaf8267a0be, type: 2}
   sword: {fileID: 261874598}
-  attackState: 0
 --- !u!1 &980054758 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7356586511500283538, guid: fe48e31a996b96f4580850dc7dd0853e, type: 3}
@@ -750,6 +749,7 @@ GameObject:
   - component: {fileID: 1248608660}
   - component: {fileID: 1248608661}
   - component: {fileID: 1248608662}
+  - component: {fileID: 1248608663}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -934,7 +934,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -955,6 +955,23 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1248608663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248608656}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 620fe7b0b682a1848b07710cee884a0d, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
 --- !u!1 &1266937105
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,7 +1268,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1800, y: 1000}
+  m_AnchoredPosition: {x: -1173, y: 700}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1989244693
@@ -1390,7 +1407,7 @@ Transform:
   m_GameObject: {fileID: 2053331965}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50, y: 0, z: -50}
+  m_LocalPosition: {x: -25, y: 0, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2062,7 +2079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7633628446109882736, guid: fe48e31a996b96f4580850dc7dd0853e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.47
+      value: -12.8
       objectReference: {fileID: 0}
     - target: {fileID: 7633628446109882736, guid: fe48e31a996b96f4580850dc7dd0853e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3544,7 +3561,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attacks: []
   sword: {fileID: 0}
-  attackState: 0
 --- !u!143 &5866666019960238337
 CharacterController:
   m_ObjectHideFlags: 0
