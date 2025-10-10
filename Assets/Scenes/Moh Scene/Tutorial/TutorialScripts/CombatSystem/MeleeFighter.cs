@@ -13,6 +13,9 @@ public class MeleeFighter : MonoBehaviour
    
     [SerializeField] GameObject sword;
 
+    [SerializeField] float rotationSpeed=500f;
+
+
     BoxCollider swordCollider;
     SphereCollider leftHandCollider, rightHandCollider, leftFootCollider, rightFootCollider;
 
@@ -50,12 +53,12 @@ public class MeleeFighter : MonoBehaviour
         }
     }
 
-    public void TryToAttack()
+    public void TryToAttack(Vector3? attackDir=null)
     {
         //if not atking, perform atk
         if (!InAction) 
         {
-            StartCoroutine(Attack());
+            StartCoroutine(Attack(attackDir));
         }
         else if(attackState == AttackStates.Impact ||attackState==AttackStates.Cooldown)
         {
@@ -63,7 +66,7 @@ public class MeleeFighter : MonoBehaviour
         }
     }
 
-    IEnumerator Attack()
+    IEnumerator Attack(Vector3? attackDir = null)
     {
         InAction = true;
         attackState = AttackStates.Windup;
@@ -82,6 +85,12 @@ public class MeleeFighter : MonoBehaviour
             timer += Time.deltaTime;
             float normalizedTime = timer / animState.length;
 
+            //rotate to the attacking dir
+            if(attackDir!=null)
+            {
+               transform.rotation= Quaternion.RotateTowards(transform.rotation, 
+                   Quaternion.LookRotation(attackDir.Value),rotationSpeed*Time.deltaTime);
+            }
             //prepare to attack
             //can be counter at this state
             if (attackState == AttackStates.Windup)
@@ -141,14 +150,20 @@ public class MeleeFighter : MonoBehaviour
         if(other.tag=="HitBox"&& !InAction) //check if has the hitbox tag and not in other action
         {
             Debug.Log("charac was hit");
-            StartCoroutine(PlayHitReaction());
+            StartCoroutine(PlayHitReaction(other.GetComponentInParent<MeleeFighter>().transform));
         }
     }
 
     //the function that play hit reaction
-    IEnumerator PlayHitReaction()
+    IEnumerator PlayHitReaction(Transform attacker)
     {
         InAction = true;
+
+        //make character  face the attacker when ebing attacked
+        var dispalcementVector = attacker.position - transform.position;
+        dispalcementVector.y = 0;
+        transform.rotation = Quaternion.LookRotation(dispalcementVector);
+
         animator.CrossFade("SwordImpact", 0.2f);
         yield return null;//wait for a single frame
 

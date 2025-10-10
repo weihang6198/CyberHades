@@ -4,7 +4,37 @@ using UnityEngine;
 
 public class CombatController : MonoBehaviour
 {
-    public EnemyController targetEnemy;
+    EnemyController targetEnemy;
+    public EnemyController TargetEnemy
+    {
+        get => targetEnemy;
+
+        set
+        {
+            targetEnemy = value;
+
+            if (targetEnemy == null)
+                combatMode = false;
+        }
+    }
+
+    //combat mode means player lock on into enemy
+    bool combatMode;
+    public bool CombatMode
+    {
+        get => combatMode;
+        set
+        {
+            combatMode = value;
+
+            if (TargetEnemy == null)
+                combatMode = false;
+
+            Debug.Log("animator set bool to "+combatMode);
+            animator.SetBool("CombatMode", combatMode);
+        }
+    }
+
     MeleeFighter meleeFighter;
     Animator animator;
     CameraController cam;
@@ -22,13 +52,30 @@ public class CombatController : MonoBehaviour
             var enemy=EnemyManager.instance.GetAttackingEnemy();
             if ((enemy!=null && enemy.MeleeFighter.IsCounterable && !meleeFighter.InAction))
             {
-                StartCoroutine(meleeFighter.PerformCounterAttack(enemy));
+                //test only
+               StartCoroutine(meleeFighter.PerformCounterAttack(enemy));
+               // meleeFighter.TryToAttack(PlayerControllerTutorial.instance.InputDir);
             }
             else
             {
+                //rotate towards closest enemy and attack based on player input dir
+               var enemyToAttack= EnemyManager.instance.GetClosestEnemyToDir(PlayerControllerTutorial.instance.InputDir);
+                Vector3? dirToAttack = null;
+                if(enemyToAttack!=null)
+                {
+                    dirToAttack = enemyToAttack.transform.position - transform.position;
+                }
+                meleeFighter.TryToAttack(dirToAttack);
+                CombatMode = true;
 
             }
-            meleeFighter.TryToAttack(); 
+
+        }
+            
+        if(Input.GetButtonDown("LockOn") || JoyStickHelper.instance.GetAxisDown("LockOnTrigger"))
+        {
+            Debug.Log("lock on button pressed");
+            CombatMode = !CombatMode;
         }
     }
 
@@ -50,9 +97,17 @@ public class CombatController : MonoBehaviour
 
     public Vector3 GetTargetingDir()
     {
-        var vecFromCam=transform.position - cam.transform.position;
-        vecFromCam.y = 0f;
-        return vecFromCam.normalized;
+        if(!combatMode)
+        {
+            var vecFromCam = transform.position - cam.transform.position;
+            vecFromCam.y = 0f;
+            return vecFromCam.normalized;
+        }
+        else
+        {
+            return transform.forward;
+        }
+      
 
     }
 }

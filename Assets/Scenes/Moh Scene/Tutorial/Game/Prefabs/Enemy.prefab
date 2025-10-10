@@ -367,6 +367,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b6dbd465055f4cd4fbc1cd99642eb59e, type: 2}
   - {fileID: 11400000, guid: cc880b4625420ba44928bf2ffeccee86, type: 2}
   sword: {fileID: 7339153886979993762}
+  rotationSpeed: 500
 --- !u!143 &6011202583659921581
 CharacterController:
   m_ObjectHideFlags: 0
@@ -387,7 +388,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.8
-  m_Radius: 0.4
+  m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08

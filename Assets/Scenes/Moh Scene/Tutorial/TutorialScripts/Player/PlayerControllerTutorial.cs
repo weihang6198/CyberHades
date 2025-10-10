@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerControllerTutorial : MonoBehaviour
 {
@@ -20,16 +21,25 @@ public class PlayerControllerTutorial : MonoBehaviour
 
     Quaternion targetRotation;
 
+    public Vector3 InputDir {  get; private set; }
+
     CameraController cameraController;
     Animator animator;
     CharacterController characterController;
     MeleeFighter meleeFighter;
+
+    CombatController combatController;
+
+    public static PlayerControllerTutorial instance { get; private set; } 
     private void Awake()
     {
         cameraController=Camera.main.GetComponent<CameraController>();
         animator = GetComponent<Animator>();
         characterController=GetComponent<CharacterController>();
         meleeFighter=GetComponent<MeleeFighter>();
+        combatController=GetComponent<CombatController>();
+
+        instance = this;
     }
     private void Update()
     {
@@ -48,6 +58,7 @@ public class PlayerControllerTutorial : MonoBehaviour
         var moveInput = (new Vector3(h, 0, v)).normalized;
 
         var moveDir= cameraController.PlaneRotation* moveInput;
+        InputDir= moveDir; 
 
         GroundCheck();
         //Debug.Log("GroundCheck :" + isGrounded);
@@ -61,26 +72,61 @@ public class PlayerControllerTutorial : MonoBehaviour
             ySpeed += Physics.gravity.y * Time.deltaTime;
         }
             var velocity = moveDir * moveSpeed;
+       
+        //if player is in combat mode (player lock on to enemy)
+        //rotate player and cam towards lock on enemy
+        if (combatController.CombatMode)
+        {
+            //player cannot run in this mode
+            velocity /= 2f;
+
+            //Rotate and face the target enemy
+            var targetVec=combatController.TargetEnemy.transform.position - transform.position;
+            targetVec.y = 0;
+
+            //only do this if player is moving
+            if (moveAmount > 0)
+            {
+                //rotate chara relative to camera 
+                targetRotation = Quaternion.LookRotation(targetVec);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 
+                    rotationSpeed * Time.deltaTime);
+
+            }
+            //split the velocity into its forward and sideward comp and set it intot he forwardSpeed and strafeSpeed
+            float forwardSpeed = Vector3.Dot(velocity, transform.forward);
+            //apply to all conditions
+            animator.SetFloat("ForwardSpeed", forwardSpeed / moveSpeed, 0.2f, Time.deltaTime);
+
+            float angle = Vector3.SignedAngle(transform.forward, velocity, Vector3.up);
+            float strafeSpeed = Mathf.Sin(angle * Mathf.Deg2Rad);
+
+            animator.SetFloat("StrafeSpeed", strafeSpeed, 0.2f, Time.deltaTime);
+            
+        }
+        else
+        {
+            //player is moving
+            if (moveAmount > 0)
+            {
+                //rotate chara relative to camera 
+                targetRotation = Quaternion.LookRotation(moveDir);
+                //transform.position += moveDir * moveSpeed * Time.deltaTime; //old 
+
+            }
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            animator.SetFloat("ForwardSpeed", moveAmount, animBlendInTime, Time.deltaTime);
+      
+        }
         //apply gravity if player not on ground 
         velocity.y = ySpeed;
 
         //move the chara relative to camera,vertical movement is also applied
         characterController.Move(velocity * Time.deltaTime);
-        //player is moving
-        if (moveAmount>0)
-        {
-           
-           
-            //transform.position += moveDir * moveSpeed * Time.deltaTime; //old 
 
-            //rotate chara relative to camera 
-            targetRotation = Quaternion.LookRotation(moveDir);
-        }
 
-       transform.rotation=Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-       animator.SetFloat("ForwardSpeed", moveAmount, animBlendInTime, Time.deltaTime);
-       // animator.SetFloat("MoveAmount", moveAmount);
     }
 
     void GroundCheck()

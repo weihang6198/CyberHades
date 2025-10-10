@@ -30,13 +30,13 @@ public class EnemyManager : MonoBehaviour
         enemiesInRange.Remove(enemy);
 
         //if player is far away from enemy, enemy will be removed
-        if (enemy == player.targetEnemy)
+        if (enemy == player.TargetEnemy)
         {
             enemy.MeshHighlighter.HighlightMesh(false);
 
             //look for a new target enemy to target when the prev enemy is removed
-            player.targetEnemy = GetClosestEnemyToPlayerDir();
-            player.targetEnemy?.MeshHighlighter.HighlightMesh(true);
+            player.TargetEnemy = GetClosestEnemyToDir(player.GetTargetingDir());
+            player.TargetEnemy?.MeshHighlighter.HighlightMesh(true);
         }
 
 
@@ -74,14 +74,14 @@ public class EnemyManager : MonoBehaviour
 
             timer = 0f;
             //get closest enemy to target lock on 
-           var closestEnemy=GetClosestEnemyToPlayerDir();
-            if(closestEnemy != null && closestEnemy !=player.targetEnemy)
+           var closestEnemy= GetClosestEnemyToDir(player.GetTargetingDir());
+            if(closestEnemy != null && closestEnemy !=player.TargetEnemy)
             {
-                var prevEnemy = player.targetEnemy;
+                var prevEnemy = player.TargetEnemy;
 
-                player.targetEnemy = closestEnemy;
+                player.TargetEnemy = closestEnemy;
 
-                player?.targetEnemy?.MeshHighlighter.HighlightMesh(true);
+                player?.TargetEnemy?.MeshHighlighter.HighlightMesh(true);
                 prevEnemy?.MeshHighlighter?.HighlightMesh(false);
             }
         }
@@ -99,10 +99,10 @@ public class EnemyManager : MonoBehaviour
        return  enemiesInRange.FirstOrDefault(e => e.IsInState(EnemyState.Attack));
     }
 
-    public EnemyController GetClosestEnemyToPlayerDir()
+    public EnemyController GetClosestEnemyToDir(Vector3 direction)
     {
-        Debug.Log("inside GetClosestEnemyToPlayerDir");
-        var targetingDir=player.GetTargetingDir();
+       // Debug.Log("inside GetClosestEnemyToPlayerDir");
+        //var targetingDir=player.GetTargetingDir();
 
         float minDistance=Mathf.Infinity;
         EnemyController closestEnemy = null;
@@ -111,7 +111,8 @@ public class EnemyManager : MonoBehaviour
             var vecToEnemy=enemy.transform.position - player.transform.position;
             vecToEnemy.y = 0;
 
-            float angle=Vector3.Angle(targetingDir, vecToEnemy);
+            float angle=Vector3.Angle(direction, vecToEnemy);
+            // float angle=Vector3.Angle(targetingDir, vecToEnemy); //old
             float distance=vecToEnemy.magnitude*Mathf.Sin(angle*Mathf.Deg2Rad);
 
             if (distance < minDistance)

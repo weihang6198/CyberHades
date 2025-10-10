@@ -544,7 +544,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.25
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.02
@@ -562,7 +562,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1b3ca77804d4d741a5c53f6609bcc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetEnemy: {fileID: 0}
 --- !u!114 &614395405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +579,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cc880b4625420ba44928bf2ffeccee86, type: 2}
   - {fileID: 11400000, guid: fd6b976cc70e76a479e1deaf8267a0be, type: 2}
   sword: {fileID: 261874598}
+  rotationSpeed: 500
 --- !u!1 &980054758 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7356586511500283538, guid: fe48e31a996b96f4580850dc7dd0853e, type: 3}
@@ -888,6 +888,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 540303639}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1487684646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1487684647}
+  - component: {fileID: 1487684648}
+  m_Layer: 0
+  m_Name: JoyStickHelper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1487684647
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487684646}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.179881, y: 2.892107, z: -1.0279193}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1487684648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487684646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c973748dc417e4abdf109b13b588dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1649752163 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 742500699557458448, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
@@ -1013,7 +1057,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7633628446109882736, guid: fe48e31a996b96f4580850dc7dd0853e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.45
+      value: -11.61
       objectReference: {fileID: 0}
     - target: {fileID: 7633628446109882736, guid: fe48e31a996b96f4580850dc7dd0853e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1241,3 +1285,4 @@ SceneRoots:
   - {fileID: 1239090114}
   - {fileID: 540303639}
   - {fileID: 150455078}
+  - {fileID: 1487684647}
