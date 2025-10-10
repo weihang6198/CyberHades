@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum EnemyState { Idle,CombatMovement,Attack,RetreatAfterAttack,Dead}
+public enum EnemyState { Idle,CombatMovement,Attack,RetreatAfterAttack,Dead,GettingHit}
 public class EnemyController : MonoBehaviour
 {
     [field:SerializeField]public float Fov { get; private set; } = 180f;
@@ -38,12 +38,19 @@ public class EnemyController : MonoBehaviour
         stateDict[EnemyState.Attack]=GetComponent<AttackState>(); 
         stateDict[EnemyState.RetreatAfterAttack]=GetComponent<RetreatAfterAttackState>(); 
         stateDict[EnemyState.Dead]=GetComponent<DeadState>(); 
+        stateDict[EnemyState.GettingHit] =GetComponent<GettingHitState>(); 
 
 
         stateMachine = new StateMachine<EnemyController>(this);
         stateMachine.ChangeState(stateDict[EnemyState.Idle]);
 
+       // MeleeFighter.OnGotHit += ReactToHit; //simple way 
+        MeleeFighter.OnGotHit +=() => ChangeState(EnemyState.GettingHit); //advnced way 
+    }
 
+    void ReactToHit()
+    {
+        ChangeState(EnemyState.GettingHit);
     }
 
     public void ChangeState(EnemyState state)
@@ -73,5 +80,20 @@ public class EnemyController : MonoBehaviour
 
         animator.SetFloat("StrafeSpeed", strafeSpeed, 0.2f, Time.deltaTime);
         prevPos=transform.position;
+    }
+
+    public MeleeFighter FindTarget()
+    {
+        foreach (var target in TargetsInRange)
+        {
+            var vecToTarget = target.transform.position - transform.position;
+            float angle = Vector3.Angle(transform.forward, vecToTarget);
+
+            if (angle <= Fov / 2)
+            {
+                return target;
+            }
+        }
+        return null;
     }
 }

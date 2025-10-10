@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 19339381707975042}
   - component: {fileID: 1985734261783456962}
   - component: {fileID: 815733911473982757}
+  - component: {fileID: 2066832029076364375}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -514,6 +515,19 @@ MonoBehaviour:
   adjustDistanceThreshold: 3
   IdleTimeRange: {x: 1, y: 2}
   CirclingTimeRange: {x: 5, y: 7}
+--- !u!114 &2066832029076364375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742500699557458448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0676c5216921b343863783b1bb1fb19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunTime: 0.5
 --- !u!1 &971448529871609974
 GameObject:
   m_ObjectHideFlags: 0
