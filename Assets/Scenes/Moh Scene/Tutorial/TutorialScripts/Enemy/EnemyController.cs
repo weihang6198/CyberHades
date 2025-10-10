@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum EnemyState { Idle,CombatMovement,Attack,RetreatAfterAttack}
+public enum EnemyState { Idle,CombatMovement,Attack,RetreatAfterAttack,Dead}
 public class EnemyController : MonoBehaviour
 {
     [field:SerializeField]public float Fov { get; private set; } = 180f;
     public List<MeleeFighter> TargetsInRange {  get; private set; }= new List<MeleeFighter>();
     public MeleeFighter Target { get;  set; }
+    public SkinMeshHighlighter MeshHighlighter { get; private set; }
 
     //track how long the enemy is in this state
     public float CombatMovementTimer { get; set; } = 0f;
@@ -16,13 +17,19 @@ public class EnemyController : MonoBehaviour
     Dictionary<EnemyState, State<EnemyController>> stateDict;
 
     public NavMeshAgent NavAgent {  get;  private set;}
+    public CharacterController CharacterController {  get;  private set;}
     public Animator animator { get; private set; }
-    public MeleeFighter Fighter { get; private set; }
+    public MeleeFighter MeleeFighter { get; private set; }
+
+
+    public VisionSensor VisionSensor {  get;  set; }
     private void Start()
     {
         NavAgent = GetComponent<NavMeshAgent>();
+        CharacterController = GetComponent<CharacterController>();
         animator=GetComponent<Animator>();
-        Fighter=GetComponent<MeleeFighter>();
+        MeleeFighter=GetComponent<MeleeFighter>();
+        MeshHighlighter = GetComponent<SkinMeshHighlighter>();
 
         //initialize the state machine
         stateDict = new Dictionary<EnemyState, State<EnemyController>>();
@@ -30,6 +37,7 @@ public class EnemyController : MonoBehaviour
         stateDict[EnemyState.CombatMovement]=GetComponent<CombatMovmentState>(); 
         stateDict[EnemyState.Attack]=GetComponent<AttackState>(); 
         stateDict[EnemyState.RetreatAfterAttack]=GetComponent<RetreatAfterAttackState>(); 
+        stateDict[EnemyState.Dead]=GetComponent<DeadState>(); 
 
 
         stateMachine = new StateMachine<EnemyController>(this);

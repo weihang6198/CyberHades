@@ -4,18 +4,110 @@ using UnityEngine;
 
 public class CombatController : MonoBehaviour
 {
-    MeleeFighter meleeFighter;
+    EnemyController targetEnemy;
+    public EnemyController TargetEnemy
+    {
+        get => targetEnemy;
 
+        set
+        {
+            targetEnemy = value;
+
+            if (targetEnemy == null)
+                combatMode = false;
+        }
+    }
+
+    //combat mode means player lock on into enemy
+    bool combatMode;
+    public bool CombatMode
+    {
+        get => combatMode;
+        set
+        {
+            combatMode = value;
+
+            if (TargetEnemy == null)
+                combatMode = false;
+
+            Debug.Log("animator set bool to "+combatMode);
+            animator.SetBool("CombatMode", combatMode);
+        }
+    }
+
+    MeleeFighter meleeFighter;
+    Animator animator;
+    CameraController cam;
     private void Awake()
     {
         meleeFighter = GetComponent<MeleeFighter>();
+        animator= GetComponent<Animator>();
+        cam=Camera.main.GetComponent<CameraController>();
     }
 
     private void Update()
     {
         if (Input.GetButtonDown("Attack"))
         {
-            meleeFighter.TryToAttack(); 
+            var enemy=EnemyManager.instance.GetAttackingEnemy();
+            if ((enemy!=null && enemy.MeleeFighter.IsCounterable && !meleeFighter.InAction))
+            {
+                //test only
+               StartCoroutine(meleeFighter.PerformCounterAttack(enemy));
+               // meleeFighter.TryToAttack(PlayerControllerTutorial.instance.InputDir);
+            }
+            else
+            {
+                //rotate towards closest enemy and attack based on player input dir
+               var enemyToAttack= EnemyManager.instance.GetClosestEnemyToDir(PlayerControllerTutorial.instance.InputDir);
+                Vector3? dirToAttack = null;
+                if(enemyToAttack!=null)
+                {
+                    dirToAttack = enemyToAttack.transform.position - transform.position;
+                }
+                meleeFighter.TryToAttack(dirToAttack);
+                CombatMode = true;
+
+            }
+
         }
+            
+        if(Input.GetButtonDown("LockOn") || JoyStickHelper.instance.GetAxisDown("LockOnTrigger"))
+        {
+            Debug.Log("lock on button pressed");
+            CombatMode = !CombatMode;
+        }
+    }
+
+    //apply root motion manually
+    //apply root motion of rot and pos separately
+    private void OnAnimatorMove()
+    {
+        if(!meleeFighter.InCounter)
+        {
+            //apply the position of root motion
+            transform.position += animator.deltaPosition;
+        }
+       
+       
+
+        //apply the rotation of root motion
+        transform.rotation *= animator.deltaRotation;
+    }
+
+    public Vector3 GetTargetingDir()
+    {
+        if(!combatMode)
+        {
+            var vecFromCam = transform.position - cam.transform.position;
+            vecFromCam.y = 0f;
+            return vecFromCam.normalized;
+        }
+        else
+        {
+            return transform.forward;
+        }
+      
+
     }
 }

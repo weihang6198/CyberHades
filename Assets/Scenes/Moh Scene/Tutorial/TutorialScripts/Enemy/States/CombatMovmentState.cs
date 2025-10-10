@@ -20,6 +20,8 @@ public class CombatMovmentState : State<EnemyController>
        enemy=owner;
         enemy.NavAgent.stoppingDistance = distanceToStand;
         enemy.CombatMovementTimer = 0f;
+
+        enemy.animator.SetBool("CombatMode", true);
     }
 
     public override void Execute()
@@ -76,7 +78,7 @@ public class CombatMovmentState : State<EnemyController>
     void StartChase()
     {
         state = AICombatStates.Chase;
-        enemy.animator.SetBool("CombatMode", false);
+       
         //enemy.animator.SetBool("Circling", false);
     }
     void StartIdle()
@@ -84,7 +86,7 @@ public class CombatMovmentState : State<EnemyController>
         state = AICombatStates.Idle;
         timer = Random.Range(IdleTimeRange.x, IdleTimeRange.y);
 
-        enemy.animator.SetBool("CombatMode", true);
+       
         //enemy.animator.SetBool("Circling", false);
     }
 

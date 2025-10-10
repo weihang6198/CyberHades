@@ -5,6 +5,10 @@ using UnityEngine;
 public class VisionSensor : MonoBehaviour
 {
     [SerializeField] EnemyController enemy;
+    private void Awake()
+    {
+        enemy.VisionSensor = this;
+    }
     private void OnTriggerEnter(Collider other)
     {
 

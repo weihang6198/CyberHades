@@ -22,7 +22,7 @@ public class AttackState : State<EnemyController>
 
         if (Vector3.Distance(enemy.Target.transform.position, enemy.transform.position) <= attackDistance +0.03f)
         {
-            StartCoroutine(Attack(Random.Range(0,enemy.Fighter.attacks.Count+1)));
+            StartCoroutine(Attack(Random.Range(0,enemy.MeleeFighter.attacks.Count+1)));
         }
     }
 
@@ -31,20 +31,21 @@ public class AttackState : State<EnemyController>
     {
         isAttacking = true;
         enemy.animator.applyRootMotion = true;
-        enemy.Fighter.TryToAttack();
+        enemy.MeleeFighter.TryToAttack();
         for (int i = 1; i < comboCount; i++)
         {
             //combo mechanic, make enemy attack more than 1 times 
             //wait the atk to go cooldown states, then do attack again
-            yield return new WaitUntil(() => enemy.Fighter.attackState == AttackStates.Cooldown);
-            enemy.Fighter.TryToAttack();
+            yield return new WaitUntil(() => enemy.MeleeFighter.attackState == AttackStates.Cooldown);
+            enemy.MeleeFighter.TryToAttack();
         }
-        yield return new WaitUntil(() => enemy.Fighter.attackState == AttackStates.Idle);
+        yield return new WaitUntil(() => enemy.MeleeFighter.attackState == AttackStates.Idle);
 
         enemy.animator.applyRootMotion = false;
         isAttacking = false;
 
-        enemy.ChangeState(EnemyState.RetreatAfterAttack);
+        if(enemy.IsInState(EnemyState.Attack))
+            enemy.ChangeState(EnemyState.RetreatAfterAttack);
     }
 
     public override void Exit()
