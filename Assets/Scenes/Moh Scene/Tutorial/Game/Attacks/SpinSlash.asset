@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 683e81d3016067c4db01a8f9a6b5893b, type: 3}
-  m_Name: Slash
+  m_Name: SpinSlash
   m_EditorClassIdentifier: 
-  <AnimName>k__BackingField: Slash
+  <AnimName>k__BackingField: SpinSlash
   <HitBoxToUse>k__BackingField: 4
-  <ImpactStartTime>k__BackingField: 0.33
-  <ImpactEndTime>k__BackingField: 0.5
+  <ImpactStartTime>k__BackingField: 0.54
+  <ImpactEndTime>k__BackingField: 0.84
   <MoveToTarget>k__BackingField: 1
-  <DistanceFromTarget>k__BackingField: 0.5
-  <MaxMoveDistance>k__BackingField: 0.8
+  <DistanceFromTarget>k__BackingField: 1
+  <MaxMoveDistance>k__BackingField: 3
   <MoveStartTime>k__BackingField: 0
-  <MoveEndTime>k__BackingField: 0.46
+  <MoveEndTime>k__BackingField: 1

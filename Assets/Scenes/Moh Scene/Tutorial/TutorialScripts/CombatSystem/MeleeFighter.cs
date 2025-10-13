@@ -11,6 +11,9 @@ public enum AttackStates
 public class MeleeFighter : MonoBehaviour
 {
     [SerializeField]public  List<AttackData> attacks;
+    [SerializeField]public  List<AttackData> longRangeAttacks;
+    [SerializeField] float longRangeAttackThreshold = 3f;
+
    
     [SerializeField] GameObject sword;
 
@@ -56,12 +59,12 @@ public class MeleeFighter : MonoBehaviour
         }
     }
 
-    public void TryToAttack(Vector3? attackDir=null)
+    public void TryToAttack(MeleeFighter target=null)
     {
         //if not atking, perform atk
         if (!InAction) 
         {
-            StartCoroutine(Attack(attackDir));
+            StartCoroutine(Attack(target));
         }
         else if(attackState == AttackStates.Impact ||attackState==AttackStates.Cooldown)
         {
@@ -69,14 +72,47 @@ public class MeleeFighter : MonoBehaviour
         }
     }
 
-    IEnumerator Attack(Vector3? attackDir = null)
+    
+    IEnumerator Attack(MeleeFighter target=null)
     {
         InAction = true;
+        
         attackState = AttackStates.Windup;
 
+        var attack = attacks[comboCount];
 
+        var attackDir = transform.forward;
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = Vector3.zero;
 
-        animator.CrossFade(attacks[comboCount].AnimName, 0.2f);
+        if (target != null)
+        {
+            var vecToTarget = target.transform.position - transform.position;
+            vecToTarget.y = 0;
+            attackDir = vecToTarget.normalized;
+            float distance = vecToTarget.magnitude -  attack.DistanceFromTarget;
+
+            if (distance>longRangeAttackThreshold)
+            {
+                attack = longRangeAttacks[0];
+            }
+
+            if(attack.MoveToTarget)
+            {
+                if (distance < attack.MaxMoveDistance)
+                {
+                    targetPos = target.transform.position - attackDir * attack.DistanceFromTarget;
+                }
+                else
+                {
+                    targetPos = startPos + attackDir * attack.MaxMoveDistance;
+                }
+            }
+          
+          
+        }
+
+        animator.CrossFade(attack.AnimName, 0.2f);
         yield return null;//wait for a single frame
 
         //1 represent override layer
@@ -88,11 +124,18 @@ public class MeleeFighter : MonoBehaviour
             timer += Time.deltaTime;
             float normalizedTime = timer / animState.length;
 
+            //move the attacker towards the target while performing attack
+            if (target != null && attack.MoveToTarget)
+            {
+                float percentageTime = (normalizedTime - attack.MoveStartTime) / (attack.MoveEndTime - attack.MoveStartTime);
+              transform.position=  Vector3.Lerp(startPos , targetPos, percentageTime);
+            }
+
             //rotate to the attacking dir
             if(attackDir!=null)
             {
                transform.rotation= Quaternion.RotateTowards(transform.rotation, 
-                   Quaternion.LookRotation(attackDir.Value),rotationSpeed*Time.deltaTime);
+                   Quaternion.LookRotation(attackDir),rotationSpeed*Time.deltaTime);
             }
             //prepare to attack
             //can be counter at this state
@@ -100,18 +143,18 @@ public class MeleeFighter : MonoBehaviour
             {
                 if (InCounter) break;
                 //if anim time> impact start time, enable sword collider
-                if(normalizedTime > attacks[comboCount].ImpactStartTime)
+                if(normalizedTime > attack.ImpactStartTime)
                 {
                     attackState = AttackStates.Impact;
                     //enable sword collider
-                    EnableHitBox(attacks[comboCount]);
+                    EnableHitBox(attack);
                 }
             }
             //disable sword collision after impact time
             else if(attackState == AttackStates.Impact)
             {
                 //if anim time> impact end time, disable sword collider
-                if (normalizedTime > attacks[comboCount].ImpactEndTime)
+                if (normalizedTime > attack.ImpactEndTime)
                 {
                     attackState = AttackStates.Cooldown;
                     //disable sword collider

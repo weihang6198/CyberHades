@@ -544,12 +544,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.4
+  m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.99, z: 0.08}
+  m_Center: {x: 0, y: 1, z: -0.01}
 --- !u!114 &614395404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,6 +578,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b6dbd465055f4cd4fbc1cd99642eb59e, type: 2}
   - {fileID: 11400000, guid: cc880b4625420ba44928bf2ffeccee86, type: 2}
   - {fileID: 11400000, guid: fd6b976cc70e76a479e1deaf8267a0be, type: 2}
+  longRangeAttacks:
+  - {fileID: 11400000, guid: e0a47625737f3e64cb0a552685ce39f2, type: 2}
+  longRangeAttackThreshold: 2.5
   sword: {fileID: 261874598}
   rotationSpeed: 500
 --- !u!1 &980054758 stripped
@@ -1228,6 +1231,10 @@ PrefabInstance:
     - target: {fileID: 3901698692511070276, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
       propertyPath: distanceToRetreat
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011202583659921581, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
+      propertyPath: m_Center.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6013846590332745425, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
       propertyPath: m_LocalPosition.x

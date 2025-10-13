@@ -60,12 +60,12 @@ public class CombatController : MonoBehaviour
             {
                 //rotate towards closest enemy and attack based on player input dir
                var enemyToAttack= EnemyManager.instance.GetClosestEnemyToDir(PlayerControllerTutorial.instance.InputDir);
-                Vector3? dirToAttack = null;
-                if(enemyToAttack!=null)
-                {
-                    dirToAttack = enemyToAttack.transform.position - transform.position;
-                }
-                meleeFighter.TryToAttack(dirToAttack);
+
+                if (enemyToAttack != null)
+                    meleeFighter.TryToAttack(enemyToAttack.MeleeFighter);
+                else 
+                    meleeFighter.TryToAttack(null);
+
                 CombatMode = true;
 
             }
