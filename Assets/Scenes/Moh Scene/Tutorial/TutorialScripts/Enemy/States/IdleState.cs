@@ -15,17 +15,22 @@ public class IdleState :State<EnemyController>
 
     public override void Execute()
     {
-        foreach(var target in enemy.TargetsInRange)
-        {
-            var vecToTarget=target.transform.position-transform.position;
-            float angle= Vector3.Angle(transform.forward,vecToTarget);
+        //foreach(var target in enemy.TargetsInRange)
+        //{
+        //    var vecToTarget=target.transform.position-transform.position;
+        //    float angle= Vector3.Angle(transform.forward,vecToTarget);
 
-            if(angle<=enemy.Fov/2)
-            {
-                enemy.Target = target;
-                enemy.ChangeState(EnemyState.CombatMovement);
-                break;
-            }
+        //    if(angle<=enemy.Fov/2)
+        //    {
+        //        enemy.Target = target;
+        //        enemy.ChangeState(EnemyState.CombatMovement);
+        //        break;
+        //    }
+        //}
+        enemy.Target=enemy.FindTarget();
+        if(enemy.Target!=null)
+        {
+            enemy.ChangeState(EnemyState.CombatMovement);
         }
     }
 

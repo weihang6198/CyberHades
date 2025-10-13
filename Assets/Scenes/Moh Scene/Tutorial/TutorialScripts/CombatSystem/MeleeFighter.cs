@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+using System;
 public enum AttackStates
 {
     Idle,Windup,Impact,Cooldown
@@ -15,6 +16,8 @@ public class MeleeFighter : MonoBehaviour
 
     [SerializeField] float rotationSpeed=500f;
 
+    public event Action OnGotHit; 
+    public event Action OnHitComplete; 
 
     BoxCollider swordCollider;
     SphereCollider leftHandCollider, rightHandCollider, leftFootCollider, rightFootCollider;
@@ -164,6 +167,11 @@ public class MeleeFighter : MonoBehaviour
         dispalcementVector.y = 0;
         transform.rotation = Quaternion.LookRotation(dispalcementVector);
 
+        //this is delegate func
+        //all attached func will be called
+        //this is for enemy
+        OnGotHit?.Invoke();
+
         animator.CrossFade("SwordImpact", 0.2f);
         yield return null;//wait for a single frame
 
@@ -174,6 +182,7 @@ public class MeleeFighter : MonoBehaviour
 
         yield return new WaitForSeconds(animState.length* animeEndPercentage);
 
+        OnHitComplete?.Invoke(); 
         InAction = false;
     }
 

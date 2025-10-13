@@ -72,7 +72,8 @@ public class CombatController : MonoBehaviour
 
         }
             
-        if(Input.GetButtonDown("LockOn") || JoyStickHelper.instance.GetAxisDown("LockOnTrigger"))
+        //if(Input.GetButtonDown("LockOn") || JoyStickHelper.instance.GetAxisDown("LockOnTrigger"))
+        if(Input.GetButtonDown("LockOn") )
         {
             Debug.Log("lock on button pressed");
             CombatMode = !CombatMode;
