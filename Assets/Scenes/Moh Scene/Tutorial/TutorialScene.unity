@@ -168,6 +168,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeRangeBetweenAttacks: {x: 1, y: 4}
   player: {fileID: 614395404}
+  <enemyLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &261874598 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1236681843019306695, guid: 083b043d48ce80e43a8d866eef40c81e, type: 3}
@@ -574,6 +577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b630b71039b8241b0ace8e0051b31a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <health>k__BackingField: 100
   attacks:
   - {fileID: 11400000, guid: b6dbd465055f4cd4fbc1cd99642eb59e, type: 2}
   - {fileID: 11400000, guid: cc880b4625420ba44928bf2ffeccee86, type: 2}
@@ -627,7 +631,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6013846590332745425, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.53
+      value: 14.35
       objectReference: {fileID: 0}
     - target: {fileID: 6013846590332745425, guid: 0e0c76e0af9e95d408527ec31a97c49a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1052,7 +1056,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7633628446109882736, guid: fe48e31a996b96f4580850dc7dd0853e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.07
+      value: 5.21
       objectReference: {fileID: 0}
     - target: {fileID: 7633628446109882736, guid: fe48e31a996b96f4580850dc7dd0853e, type: 3}
       propertyPath: m_LocalPosition.y
