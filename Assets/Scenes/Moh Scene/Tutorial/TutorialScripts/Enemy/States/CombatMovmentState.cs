@@ -26,18 +26,25 @@ public class CombatMovmentState : State<EnemyController>
 
     public override void Execute()
     {
-        //search for target when entering this state if target is empty
-        if (enemy.Target == null)
-        {
-            //find target as soon as enter combat movement state
-            enemy.Target = enemy.FindTarget();
+        ////search for target when entering this state if target is empty
+        //if (enemy.Target == null)
+        //{
+        //    //find target as soon as enter combat movement state
+        //    enemy.Target = enemy.FindTarget();
 
-            //if no target, go back idle state
-            if(enemy.Target==null)
-            {
-                enemy.ChangeState(EnemyState.Idle);
-                return;
-            }
+        //    //if no target, go back idle state
+        //    if(enemy.Target==null)
+        //    {
+        //        enemy.ChangeState(EnemyState.Idle);
+        //        return;
+        //    }
+        //}
+        if(enemy.Target.health<=0)
+        {
+            enemy.Target = null;
+            enemy.ChangeState (EnemyState.Idle);
+
+            return;
         }
         if(Vector3.Distance(enemy.Target.transform.position,enemy.transform.position)> distanceToStand+ adjustDistanceThreshold)
             StartChase(); 
@@ -106,7 +113,7 @@ public class CombatMovmentState : State<EnemyController>
     void StartCircling()
     {
         state = AICombatStates.Circling;
-        enemy.NavAgent.ResetPath(); 
+        enemy.NavAgent.ResetPath();     
         timer = Random.Range(CirclingTimeRange.x, CirclingTimeRange.y);
         if (Random.Range(0, 2) == 0)//either return 0 or 1, no decimal will be return
         {

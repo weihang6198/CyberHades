@@ -7,6 +7,7 @@ public enum EnemyState { Idle,CombatMovement,Attack,RetreatAfterAttack,Dead,Gett
 public class EnemyController : MonoBehaviour
 {
     [field:SerializeField]public float Fov { get; private set; } = 180f;
+    [field: SerializeField] public float AlertRange { get; private set; } = 20f;
     public List<MeleeFighter> TargetsInRange {  get; private set; }= new List<MeleeFighter>();
     public MeleeFighter Target { get;  set; }
     public SkinMeshHighlighter MeshHighlighter { get; private set; }
@@ -44,8 +45,29 @@ public class EnemyController : MonoBehaviour
         stateMachine = new StateMachine<EnemyController>(this);
         stateMachine.ChangeState(stateDict[EnemyState.Idle]);
 
-       // MeleeFighter.OnGotHit += ReactToHit; //simple way 
-        MeleeFighter.OnGotHit +=() => ChangeState(EnemyState.GettingHit); //advnced way 
+        // MeleeFighter.OnGotHit += ReactToHit; //simple way 
+        // MeleeFighter.OnGotHit +=() => ChangeState(EnemyState.GettingHit); //advnced way 
+        MeleeFighter.OnGotHit += (MeleeFighter attacker) =>
+        {
+
+            if (MeleeFighter.health > 0)
+            {
+                if(Target==null)
+                {
+                    Target = attacker;
+                    AlertNearbyEnemies(); ;
+                }
+                Debug.Log("enemy getting hit");
+                ChangeState(EnemyState.GettingHit); //advnced way 
+            }
+               
+            else
+            {
+                Debug.Log("enemy dead");
+                ChangeState(EnemyState.Dead);
+            }
+                
+        };
     }
 
     void ReactToHit()
@@ -79,6 +101,12 @@ public class EnemyController : MonoBehaviour
         float strafeSpeed=Mathf.Sin(angle*Mathf.Deg2Rad);
 
         animator.SetFloat("StrafeSpeed", strafeSpeed, 0.2f, Time.deltaTime);
+
+        if(Target?.health<=0)
+        {
+            TargetsInRange.Remove(Target);
+            EnemyManager.instance.RemoveEnemyInRange(this);
+        }
         prevPos=transform.position;
     }
 
@@ -95,5 +123,23 @@ public class EnemyController : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void AlertNearbyEnemies()
+    {
+        var colliders=Physics.OverlapBox(transform.position, new Vector3(AlertRange/2f, 1f, AlertRange/2f),
+            Quaternion.identity,EnemyManager.instance.enemyLayer);
+
+        foreach (var collider in colliders)
+        {
+            if (collider.gameObject == gameObject) continue;
+            var nearbyEnemy=collider.GetComponent<EnemyController>();
+            if(nearbyEnemy != null &&nearbyEnemy.Target==null)
+            {
+                nearbyEnemy.Target = Target; 
+                nearbyEnemy.ChangeState(EnemyState.CombatMovement);
+            }
+
+        }
     }
 }

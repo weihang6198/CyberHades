@@ -44,7 +44,7 @@ public class PlayerControllerTutorial : MonoBehaviour
     private void Update()
     {
 
-        if (meleeFighter.InAction)
+        if (meleeFighter.InAction ||meleeFighter.health<=0)
         {
             targetRotation = transform.rotation;
             animator.SetFloat("ForwardSpeed",0f);
@@ -134,9 +134,14 @@ public class PlayerControllerTutorial : MonoBehaviour
         isGrounded=Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
     }
 
+    public Vector3 GetIntentDirection()
+    {
+        return InputDir != Vector3.zero ? PlayerControllerTutorial.instance.InputDir : transform.forward;
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(0, 1, 0, 0.5f);
         Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
     }
 }
+

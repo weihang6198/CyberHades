@@ -45,9 +45,21 @@ public class CombatController : MonoBehaviour
         cam=Camera.main.GetComponent<CameraController>();
     }
 
+    private void Start()
+    {
+
+        meleeFighter.OnGotHit += (MeleeFighter attacker) =>
+        {
+            //when player got hit by enemy, change the targetEnemy to enemy that is currently atking player
+            if (combatMode && attacker != targetEnemy.MeleeFighter)
+                targetEnemy = attacker.GetComponent<EnemyController>();
+
+        };
+    }
+
     private void Update()
     {
-        if (Input.GetButtonDown("Attack"))
+        if (Input.GetButtonDown("Attack") && !meleeFighter.isTakingHit)
         {
             var enemy=EnemyManager.instance.GetAttackingEnemy();
             if ((enemy!=null && enemy.MeleeFighter.IsCounterable && !meleeFighter.InAction))
@@ -59,10 +71,10 @@ public class CombatController : MonoBehaviour
             else
             {
                 //rotate towards closest enemy and attack based on player input dir
-               var enemyToAttack= EnemyManager.instance.GetClosestEnemyToDir(PlayerControllerTutorial.instance.InputDir);
+               var enemyToAttack= EnemyManager.instance.GetClosestEnemyToDir(PlayerControllerTutorial.instance.GetIntentDirection());
 
                 if (enemyToAttack != null)
-                    meleeFighter.TryToAttack(enemyToAttack.MeleeFighter);
+                    meleeFighter.TryToAttack(enemyToAttack?.MeleeFighter);
                 else 
                     meleeFighter.TryToAttack(null);
 

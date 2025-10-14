@@ -364,9 +364,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b630b71039b8241b0ace8e0051b31a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <health>k__BackingField: 10
   attacks:
   - {fileID: 11400000, guid: b6dbd465055f4cd4fbc1cd99642eb59e, type: 2}
   - {fileID: 11400000, guid: cc880b4625420ba44928bf2ffeccee86, type: 2}
+  longRangeAttacks: []
+  longRangeAttackThreshold: 3
   sword: {fileID: 7339153886979993762}
   rotationSpeed: 500
 --- !u!143 &6011202583659921581

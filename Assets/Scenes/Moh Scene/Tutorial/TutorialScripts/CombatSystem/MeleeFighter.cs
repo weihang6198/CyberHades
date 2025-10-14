@@ -10,16 +10,20 @@ public enum AttackStates
 
 public class MeleeFighter : MonoBehaviour
 {
+    [field: SerializeField] public float health { get; private set; } = 25f;
+
     [SerializeField]public  List<AttackData> attacks;
     [SerializeField]public  List<AttackData> longRangeAttacks;
     [SerializeField] float longRangeAttackThreshold = 3f;
 
-   
+    
     [SerializeField] GameObject sword;
 
     [SerializeField] float rotationSpeed=500f;
 
-    public event Action OnGotHit; 
+    public bool isTakingHit {  get; private set; }
+
+    public event Action<MeleeFighter> OnGotHit; 
     public event Action OnHitComplete; 
 
     BoxCollider swordCollider;
@@ -92,7 +96,7 @@ public class MeleeFighter : MonoBehaviour
             attackDir = vecToTarget.normalized;
             float distance = vecToTarget.magnitude -  attack.DistanceFromTarget;
 
-            if (distance>longRangeAttackThreshold)
+            if (distance>longRangeAttackThreshold && longRangeAttacks.Count>0)
             {
                 attack = longRangeAttacks[0];
             }
@@ -193,27 +197,39 @@ public class MeleeFighter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag=="HitBox"&& !InAction) //check if has the hitbox tag and not in other action
+        if(other.tag=="HitBox"&& !isTakingHit &&!InCounter) //check if has the hitbox tag and not in other action
         {
+            var attacker = other.GetComponentInParent<MeleeFighter>();
             Debug.Log("charac was hit");
-            StartCoroutine(PlayHitReaction(other.GetComponentInParent<MeleeFighter>().transform));
+            TakeDamage(5f);
+            OnGotHit?.Invoke(attacker);
+            if (health > 0)
+                //StartCoroutine(PlayHitReaction(other.GetComponentInParent<MeleeFighter>().transform));
+                StartCoroutine(PlayHitReaction(attacker));
+            else
+                PlayDeathAnimation(attacker);
+
         }
     }
 
+    void TakeDamage(float damage)
+    {
+        health = Mathf.Clamp(health - damage, 0, health);
+    }
     //the function that play hit reaction
-    IEnumerator PlayHitReaction(Transform attacker)
+    IEnumerator PlayHitReaction(MeleeFighter attacker)
     {
         InAction = true;
 
         //make character  face the attacker when ebing attacked
-        var dispalcementVector = attacker.position - transform.position;
+        var dispalcementVector = attacker.transform.position - transform.position;
         dispalcementVector.y = 0;
         transform.rotation = Quaternion.LookRotation(dispalcementVector);
 
         //this is delegate func
         //all attached func will be called
         //this is for enemy
-        OnGotHit?.Invoke();
+        //OnGotHit?.Invoke();
 
         animator.CrossFade("SwordImpact", 0.2f);
         yield return null;//wait for a single frame
@@ -227,6 +243,13 @@ public class MeleeFighter : MonoBehaviour
 
         OnHitComplete?.Invoke(); 
         InAction = false;
+        isTakingHit = false;
+    }
+
+    void PlayDeathAnimation(MeleeFighter fighter)
+    {
+        Debug.Log("plying death anim");
+        animator.CrossFade("Death", 0.2f);
     }
 
     //the function that plays counter attack
@@ -262,6 +285,7 @@ public class MeleeFighter : MonoBehaviour
         //
         while(timer<=animState.length)
         {
+            if (isTakingHit) break;
             transform.position=Vector3.MoveTowards(transform.position, targetPosition, 5 * Time.deltaTime);
             yield return null;
             timer += Time.deltaTime;
