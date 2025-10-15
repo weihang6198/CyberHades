@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] Vector2 timeRangeBetweenAttacks = new Vector2(1, 4);
-    [SerializeField] CombatController player;
+    [SerializeField] CombatControllerTutorial player;
     [field: SerializeField] public LayerMask enemyLayer { get; private set; }
 
     float timer = 0;

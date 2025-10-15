@@ -8,7 +8,7 @@ public enum AttackStates
     Idle,Windup,Impact,Cooldown
 }
 
-public class MeleeFighter : MonoBehaviour
+public class MeleeFighterTutorial : MonoBehaviour
 {
     [field: SerializeField] public float health { get; private set; } = 25f;
 
@@ -23,7 +23,7 @@ public class MeleeFighter : MonoBehaviour
 
     public bool isTakingHit {  get; private set; }
 
-    public event Action<MeleeFighter> OnGotHit; 
+    public event Action<MeleeFighterTutorial> OnGotHit; 
     public event Action OnHitComplete; 
 
     BoxCollider swordCollider;
@@ -63,7 +63,7 @@ public class MeleeFighter : MonoBehaviour
         }
     }
 
-    public void TryToAttack(MeleeFighter target=null)
+    public void TryToAttack(MeleeFighterTutorial target=null)
     {
         //if not atking, perform atk
         if (!InAction) 
@@ -77,7 +77,7 @@ public class MeleeFighter : MonoBehaviour
     }
 
     
-    IEnumerator Attack(MeleeFighter target=null)
+    IEnumerator Attack(MeleeFighterTutorial target=null)
     {
         InAction = true;
         
@@ -199,7 +199,7 @@ public class MeleeFighter : MonoBehaviour
     {
         if(other.tag=="HitBox"&& !isTakingHit &&!InCounter) //check if has the hitbox tag and not in other action
         {
-            var attacker = other.GetComponentInParent<MeleeFighter>();
+            var attacker = other.GetComponentInParent<MeleeFighterTutorial>();
             Debug.Log("charac was hit");
             TakeDamage(5f);
             OnGotHit?.Invoke(attacker);
@@ -217,7 +217,7 @@ public class MeleeFighter : MonoBehaviour
         health = Mathf.Clamp(health - damage, 0, health);
     }
     //the function that play hit reaction
-    IEnumerator PlayHitReaction(MeleeFighter attacker)
+    IEnumerator PlayHitReaction(MeleeFighterTutorial attacker)
     {
         InAction = true;
 
@@ -246,7 +246,7 @@ public class MeleeFighter : MonoBehaviour
         isTakingHit = false;
     }
 
-    void PlayDeathAnimation(MeleeFighter fighter)
+    void PlayDeathAnimation(MeleeFighterTutorial fighter)
     {
         Debug.Log("plying death anim");
         animator.CrossFade("Death", 0.2f);

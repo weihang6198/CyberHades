@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatController : MonoBehaviour
+public class CombatControllerTutorial : MonoBehaviour
 {
     EnemyController targetEnemy;
     public EnemyController TargetEnemy
@@ -35,12 +35,12 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    MeleeFighter meleeFighter;
+    MeleeFighterTutorial meleeFighter;
     Animator animator;
     CameraController cam;
     private void Awake()
     {
-        meleeFighter = GetComponent<MeleeFighter>();
+        meleeFighter = GetComponent<MeleeFighterTutorial>();
         animator= GetComponent<Animator>();
         cam=Camera.main.GetComponent<CameraController>();
     }
@@ -48,7 +48,7 @@ public class CombatController : MonoBehaviour
     private void Start()
     {
 
-        meleeFighter.OnGotHit += (MeleeFighter attacker) =>
+        meleeFighter.OnGotHit += (MeleeFighterTutorial attacker) =>
         {
             //when player got hit by enemy, change the targetEnemy to enemy that is currently atking player
             if (combatMode && attacker != targetEnemy.MeleeFighter)

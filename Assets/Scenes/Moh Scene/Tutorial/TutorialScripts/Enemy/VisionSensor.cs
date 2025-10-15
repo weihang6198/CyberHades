@@ -13,7 +13,7 @@ public class VisionSensor : MonoBehaviour
     {
 
         Debug.Log("enter  vison sensor");
-        var fighter=other.GetComponent<MeleeFighter>();
+        var fighter=other.GetComponent<MeleeFighterTutorial>();
         if(fighter != null )
         {
             enemy.TargetsInRange.Add(fighter);
@@ -25,7 +25,7 @@ public class VisionSensor : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         Debug.Log("exit  vison sensor");
-        var fighter = other.GetComponent<MeleeFighter>();
+        var fighter = other.GetComponent<MeleeFighterTutorial>();
         if (fighter != null)
         {
             enemy.TargetsInRange.Remove(fighter);

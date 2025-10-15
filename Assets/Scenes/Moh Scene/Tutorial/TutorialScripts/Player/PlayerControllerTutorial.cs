@@ -26,9 +26,9 @@ public class PlayerControllerTutorial : MonoBehaviour
     CameraController cameraController;
     Animator animator;
     CharacterController characterController;
-    MeleeFighter meleeFighter;
+    MeleeFighterTutorial meleeFighter;
 
-    CombatController combatController;
+    CombatControllerTutorial combatController;
 
     public static PlayerControllerTutorial instance { get; private set; } 
     private void Awake()
@@ -36,8 +36,8 @@ public class PlayerControllerTutorial : MonoBehaviour
         cameraController=Camera.main.GetComponent<CameraController>();
         animator = GetComponent<Animator>();
         characterController=GetComponent<CharacterController>();
-        meleeFighter=GetComponent<MeleeFighter>();
-        combatController=GetComponent<CombatController>();
+        meleeFighter=GetComponent<MeleeFighterTutorial>();
+        combatController=GetComponent<CombatControllerTutorial>();
 
         instance = this;
     }

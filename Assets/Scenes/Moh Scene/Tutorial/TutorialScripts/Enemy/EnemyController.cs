@@ -8,8 +8,8 @@ public class EnemyController : MonoBehaviour
 {
     [field:SerializeField]public float Fov { get; private set; } = 180f;
     [field: SerializeField] public float AlertRange { get; private set; } = 20f;
-    public List<MeleeFighter> TargetsInRange {  get; private set; }= new List<MeleeFighter>();
-    public MeleeFighter Target { get;  set; }
+    public List<MeleeFighterTutorial> TargetsInRange {  get; private set; }= new List<MeleeFighterTutorial>();
+    public MeleeFighterTutorial Target { get;  set; }
     public SkinMeshHighlighter MeshHighlighter { get; private set; }
 
     //track how long the enemy is in this state
@@ -20,7 +20,7 @@ public class EnemyController : MonoBehaviour
     public NavMeshAgent NavAgent {  get;  private set;}
     public CharacterController CharacterController {  get;  private set;}
     public Animator animator { get; private set; }
-    public MeleeFighter MeleeFighter { get; private set; }
+    public MeleeFighterTutorial MeleeFighter { get; private set; }
 
 
     public VisionSensor VisionSensor {  get;  set; }
@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour
         NavAgent = GetComponent<NavMeshAgent>();
         CharacterController = GetComponent<CharacterController>();
         animator=GetComponent<Animator>();
-        MeleeFighter=GetComponent<MeleeFighter>();
+        MeleeFighter=GetComponent<MeleeFighterTutorial>();
         MeshHighlighter = GetComponent<SkinMeshHighlighter>();
 
         //initialize the state machine
@@ -47,7 +47,7 @@ public class EnemyController : MonoBehaviour
 
         // MeleeFighter.OnGotHit += ReactToHit; //simple way 
         // MeleeFighter.OnGotHit +=() => ChangeState(EnemyState.GettingHit); //advnced way 
-        MeleeFighter.OnGotHit += (MeleeFighter attacker) =>
+        MeleeFighter.OnGotHit += (MeleeFighterTutorial attacker) =>
         {
 
             if (MeleeFighter.health > 0)
@@ -110,7 +110,7 @@ public class EnemyController : MonoBehaviour
         prevPos=transform.position;
     }
 
-    public MeleeFighter FindTarget()
+    public MeleeFighterTutorial FindTarget()
     {
         foreach (var target in TargetsInRange)
         {
