@@ -123,6 +123,7 @@ namespace StarterAssets
         }
 
 
+        MeleeFighter _meleeFighter;
         private void Awake()
         {
             // get a reference to our main camera
@@ -130,6 +131,7 @@ namespace StarterAssets
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+            _meleeFighter= GetComponent<MeleeFighter>();
         }
 
         private void Start()
@@ -154,8 +156,14 @@ namespace StarterAssets
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
 
+            _hasAnimator = TryGetComponent(out _animator);
+            if (_meleeFighter.InAction)
+            {
+                _animator.SetFloat("Speed", 0f);
+                //_animIDSpeed
+                return;
+            }
             JumpAndGravity();
             GroundedCheck();
             Move();

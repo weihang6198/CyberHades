@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using System;
-public enum AttackStates
+public enum AttackStatesTutorial
 {
     Idle,Windup,Impact,Cooldown
 }
