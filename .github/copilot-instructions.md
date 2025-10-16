@@ -2,7 +2,7 @@
 - Project name: CyberHades
 - Unity version: Unity 2022.3.62f1
 - Active game object:
-  - Name: Plane
+  - Name: RawImage
   - Tag: Untagged
-  - Layer: Obstacles
+  - Layer: UI
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
