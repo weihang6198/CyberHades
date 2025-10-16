@@ -322,11 +322,7 @@ namespace StarterAssets
                     }
                 }
 
-                if(_input.attack)
-                {
-                    Debug.Log("attack");
-                    _input.attack = false;
-                }
+               
 
                 // jump timeout
                 if (_jumpTimeoutDelta >= 0.0f)

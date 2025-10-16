@@ -127,6 +127,7 @@ public class EnemyController : MonoBehaviour
 
     public void AlertNearbyEnemies()
     {
+        return;
         var colliders=Physics.OverlapBox(transform.position, new Vector3(AlertRange/2f, 1f, AlertRange/2f),
             Quaternion.identity,EnemyManager.instance.enemyLayer);
 
