@@ -1,23 +1,224 @@
+#define FADE_IN 
+
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class TitleScreen : MonoBehaviour
 {
+    public CanvasGroup UIGroup;
+    public CanvasGroup PanelGroup;
+    public CanvasGroup mainMenuCanvasGroup;
+    public CanvasGroup playScreenCanvasGroup;
+    public GameObject mainMenu;
+    public GameObject titleScreen;
+    public GameObject playScreen;
+    public float ScaleSpeed = 0.5f;
+    public float transitionDuration = 2.0f;
+    public float fadeDuration = 10.0f;
+
+    TextMeshProUGUI TextMP;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+#if FADE_IN
+        StartCoroutine(FadeOutStart());
+#endif
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is called once per frame
+    void Update()
     {
-        if(Input.GetKeyDown("enter"))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            //SceneManager.LoadScene
+            if (titleScreen.activeSelf)
+            {
+                OnTitleClick();
+                Debug.Log("enter key has down");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (playScreen.activeSelf)
+            {
+                OnEscClick();
+            }
+
+            Debug.Log("esc key has down");
+        }     
+    }
+
+    public void OnTitleClick()
+    {
+        Debug.Log("OnTitleClick function called");
+
+        FindTextByName("PushEnterToStart");
+
+        if (TextMP != null)
+        {
+            StartCoroutine(ZoomAndFadeOutCoroutine(mainMenuCanvasGroup,false, true, false));
         }
     }
+
+    public void OnEscClick()
+    {
+        Debug.Log("OnEscClick function called");
+
+        OnFadeByCanvesGroup(mainMenuCanvasGroup, false, true, false);
+  
+    }
+
+    public void OnPlayClick()
+    {
+        Debug.Log("OnPlayClick function called");
+
+        FindTextByName("PlayTMP");
+
+        if (TextMP != null)
+        {
+            StartCoroutine(ZoomAndFadeOutCoroutine(playScreenCanvasGroup,false, false, true));
+        }
+        else
+            Debug.Log("Play TMP not found!");
+
+    }
+
+    public void OnExitClick()
+    {
+        Debug.Log("OnExitClick function called");
+
+        Application.Quit();
+    }
+
+    private void FindTextByName(string name)
+    {
+        TextMeshProUGUI[] texts = GetComponentsInChildren<TextMeshProUGUI>();
+        foreach (TextMeshProUGUI text in texts)
+        {
+            if (text == null) continue;
+
+            if (text.name == name)
+            {
+                TextMP = text;
+                Debug.Log("TextTMP: " + name);
+
+                break;
+            }
+        }
+    }
+
+    public void OnFadeByCanvesGroup(CanvasGroup canvasGroup, bool isTitleActive, bool isMenuActive, bool isPlayActive)
+    {
+        titleScreen.SetActive(isTitleActive);
+        mainMenu.SetActive(isMenuActive);
+        playScreen.SetActive(isPlayActive);
+
+        mainMenuCanvasGroup.alpha = 0.0f;
+        mainMenuCanvasGroup.interactable = false;
+        StartCoroutine(FadeInCoroutine(canvasGroup));
+    }
+
+    private IEnumerator FadeInCoroutine(CanvasGroup canvasGroup)
+    {
+        float startTime = Time.time;
+        float fadeDuration = transitionDuration;
+
+        while (Time.time < startTime + fadeDuration)
+        {
+            float elapsed = Time.time - startTime;
+            float progress = elapsed / fadeDuration;
+
+            float easedProgress = Mathf.SmoothStep(0.0f, 1.0f, progress);
+            float currentAlpha = Mathf.Lerp(0.0f, 1.0f, easedProgress);
+
+            canvasGroup.alpha = currentAlpha;
+
+            yield return null;
+        }
+
+        canvasGroup.alpha = 1.0f;
+        canvasGroup.interactable = true;
+    }
+
+    private IEnumerator FadeOutStart()
+    {
+        Debug.Log("FadeInStart function Called!");
+
+        GameObject panel = PanelGroup.GameObject();
+        panel.SetActive(true);
+
+        PanelGroup.alpha =1.0f;
+        PanelGroup.interactable = false;
+        PanelGroup.blocksRaycasts = true;
+
+        float elapsedTime = 0.0f;
+
+        while (elapsedTime< fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float progress = elapsedTime / fadeDuration;
+            float easedProgress = Mathf.SmoothStep(0.0f, 1.0f, progress);
+            PanelGroup.alpha = Mathf.Lerp(1.0f, 0.0f, easedProgress);
+            yield return null;
+
+        }
+
+        PanelGroup.alpha = 0f;
+        PanelGroup.interactable = false;
+        PanelGroup.blocksRaycasts = false;
+        panel.SetActive(false);
+
+    }
+
+    private IEnumerator ZoomAndFadeOutCoroutine(CanvasGroup canvasGroup, bool isTitleActive, bool isMenuActive, bool isPlayActive)
+    {
+        float startTime = Time.time;
+        Color baseColor = TextMP.color;
+
+        baseColor.a = 1.0f;
+
+        while (Time.time < startTime + transitionDuration)
+        {
+            float elapsed = Time.time - startTime;
+            float progress = elapsed / transitionDuration;
+
+            float easedProgress = Mathf.SmoothStep(0.0f, 1.0f, progress);
+
+            float currentScale = Mathf.Lerp(1.0f, 2.0f, easedProgress);
+            TextMP.transform.localScale = new Vector3(currentScale, currentScale, currentScale);
+
+            float currentAlpha = Mathf.Lerp(1.0f, 0.0f, easedProgress);
+
+            Color c = baseColor;
+            c.a = currentAlpha;
+            TextMP.color = c;
+
+            yield return null;
+        }
+
+        TextMP.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
+        Color finalC = baseColor;
+        finalC.a = 0.0f;
+        TextMP.color = finalC;
+
+        OnFadeByCanvesGroup(canvasGroup, isTitleActive, isMenuActive, isPlayActive);
+        //titleScreen.SetActive(isTitleActive);
+        //mainMenu.SetActive(isMenuActive);
+        //playScreen.SetActive(isPlayActive);
+
+        TextMP.transform.localScale = Vector3.one;
+        finalC.a = 1.0f;
+        TextMP.color = finalC;
+        TextMP = null;
+    }
+
+
+
 }

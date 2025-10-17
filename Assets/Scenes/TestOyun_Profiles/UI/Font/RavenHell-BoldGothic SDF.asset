@@ -28,14 +28,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 4392287427902535676}
+        m_Texture: {fileID: -5919290512359993704, guid: 94f6367985eefa04c88d7dde1fcf33bf, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _MaskOpacity: 1
     m_Colors:
-    - _FaceColor: {r: 0.38679248, g: 0.18792278, b: 0.18792278, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _FaceColor: {r: 0.6226415, g: 0.28488788, b: 0.28488788, a: 1}
     - _ShineColor: {r: 1, g: 0.7122642, b: 0.7122642, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &11400000

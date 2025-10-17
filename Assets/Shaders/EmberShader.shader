@@ -1,19 +1,13 @@
-Shader "Unlit/StartTextShiness"
+Shader "Unlit/EmberShader"
 {
     Properties
     {
-        _MainTex ("Font Atlas", 2D) = "white" {}
-        _Color ("Color", Color) = (1,1,1,1)
-        _FaceColor ("Face Color", Color) = (1,1,1,1)
-        _ShineColor ("Shine Color", Color) = (1,1,1,1)
-        _MaskOpacity ("Shine Strength", Range(0,1)) = 1
+        _MainTex ("Texture", 2D) = "White" {}
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
+        Tags { "RenderType"="Transparent" }
         Blend SrcAlpha OneMinusSrcAlpha
-        Cull Off
-        ZWrite Off
         LOD 100
 
         Pass
@@ -41,10 +35,6 @@ Shader "Unlit/StartTextShiness"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float4 _Color;
-            float4 _FaceColor;
-            float4 _ShineColor;
-            float _MaskOpacity;
 
             v2f vert (appdata v)
             {
@@ -58,22 +48,7 @@ Shader "Unlit/StartTextShiness"
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 faceSample = tex2D(_MainTex, i.uv);
-                float dist =faceSample.a;
-
-                float edge = fwidth(dist);
-                float alpha = smoothstep(0.5 - edge ,0.5f+edge, dist);
-
-                fixed4 col = _FaceColor;
-                col.a *= alpha;
-
-                float t = sin(_Time.y * 3.0);
-                float shine = saturate((_MaskOpacity * t)*0.5 + 0.5);
-                col.rgb += col.r *_ShineColor.rgb * shine;
-
-                col.a *= _Color.a;
-
-
+                fixed4 col = tex2D(_MainTex, i.uv) * fixed4(1,0.1f,0,1);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;

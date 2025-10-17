@@ -66,20 +66,30 @@ Shader "Unlit/Title"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // sample the texture
+// sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
                 
                 fixed4 blended;
                 
-               blended.rgb = col.g ;
-               float t =sin(_Time.y * 2.0); // oscillates smoothly
-               float shine = saturate((_MaskOpacity * t) * 0.5 + 0.7); //
-               blended.rgb += col.r * _ShineColor.rgb * shine +_Brightness;
-               blended.a = col.a;
-
+                // 1. Calculate the pulsing shine
+                float t = sin(_Time.y * 2.0); // Smooth oscillation: -1.0 to 1.0
+                float shineIntensity = saturate((_MaskOpacity * t) * 0.5 + 0.7); // 0.0 to 1.0 intensity
+                
+                // 2. Base Color: If col.g is the main texture, copy its intensity to all RGB channels for a grayscale base
+                fixed3 baseColor = col.g; 
+                
+                // 3. Shine Color: Use the R channel (Glow/Shine Map) as a multiplier for the custom shine color
+                fixed3 glow = col.r * _ShineColor.rgb * shineIntensity;
+                
+                // 4. Combine: Base Color + Glow + Global Brightness
+                blended.rgb = baseColor + glow + _Brightness;
+                
+                // 5. Alpha: Use the original texture alpha
+                blended.a = col.a;
+                
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, blended);
-                return fixed4(blended);
+                return blended;
             }
             ENDCG
         }
