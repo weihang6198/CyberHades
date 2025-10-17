@@ -1,28 +1,18 @@
-Shader "Unlit/Title"
+Shader "Unlit/StartTextShiness"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
-        _BlendMode ("Blend Mode", Float) = 0 // 0 = Normal, 1 = Multiply
-        _MaskOpacity ("Mask Opacity", Float) = 0 
-        _ShineColor ("Color", Color) = (1,1,1,1)
-        _Brightness ("Brightness", Float) = 0.2
+        _MainTex ("Font Atlas", 2D) = "white" {}
+        _FaceColor ("Face Color", Color) = (1,1,1,1)
+        _ShineColor ("Shine Color", Color) = (1,1,1,1)
+        _MaskOpacity ("Shine Strength", Range(0,1)) = 1
     }
     SubShader
     {
-        Tags
-        {
-            "Queue"="Transparent"
-            "IgnoreProjector"="True"
-            "RenderType"="Transparent"
-            "PreviewType"="Plane"
-            "CanvasModulateColor"="True"
-        }
-        Cull Off
-        Lighting Off
-        ZWrite Off
+        Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
         Blend SrcAlpha OneMinusSrcAlpha
-
+        Cull Off
+        ZWrite Off
         LOD 100
 
         Pass
@@ -50,10 +40,9 @@ Shader "Unlit/Title"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float _BlendMode;
+            float4 _FaceColor;
+            float4 _ShineColor;
             float _MaskOpacity;
-            float _Brightness;
-            fixed4 _ShineColor;
 
             v2f vert (appdata v)
             {
@@ -67,19 +56,24 @@ Shader "Unlit/Title"
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
-                
-                fixed4 blended;
-                
-               blended.rgb = col.g ;
-               float t =sin(_Time.y * 2.0); // oscillates smoothly
-               float shine = saturate((_MaskOpacity * t) * 0.5 + 0.7); //
-               blended.rgb += col.r * _ShineColor.rgb * shine +_Brightness;
-               blended.a = col.a;
+                fixed4 faceSample = tex2D(_MainTex, i.uv);
+                float dist =faceSample.a;
+
+                float edge = fwidth(dist);
+                float alpha = smoothstep(0.5 - edge ,0.5f+edge, dist);
+
+                fixed4 col = _FaceColor;
+                col.a *= alpha;
+
+                float t = sin(_Time.y * 3.0);
+                float shine = saturate((_MaskOpacity * t)*0.5 + 0.5);
+                col.rgb += col.r *_ShineColor.rgb * shine;
+
+
 
                 // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, blended);
-                return fixed4(blended);
+                UNITY_APPLY_FOG(i.fogCoord, col);
+                return col;
             }
             ENDCG
         }

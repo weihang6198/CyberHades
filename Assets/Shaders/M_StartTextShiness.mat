@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Title
-  m_Shader: {fileID: 4800000, guid: 8573a991232b6f049b8bdc0d9a8ef55c, type: 3}
+  m_Name: M_StartTextShiness
+  m_Shader: {fileID: 4800000, guid: e6fa7f9239a28f84c95dbb91821d4ea1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,19 +23,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b6ea9ca61867ac441bd5cb837ed8c30f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MaskTex:
-        m_Texture: {fileID: 2800000, guid: 5983e1f9564110b41a48ddb905c81aff, type: 3}
+    - _FaceTex:
+        m_Texture: {fileID: 4392287427902535676, guid: 53c327f20d07304458ea11bde9c92505, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlendMode: 0
-    - _Brightness: 0.02
     - _MaskOpacity: 1
     m_Colors:
-    - _ShineColor: {r: 1, g: 0.19345686, b: 0, a: 1}
+    - _FaceColor: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
+    - _ShineColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
