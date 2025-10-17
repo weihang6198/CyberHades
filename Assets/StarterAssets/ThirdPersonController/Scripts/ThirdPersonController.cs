@@ -1,4 +1,6 @@
 ﻿ using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -124,6 +126,7 @@ namespace StarterAssets
 
 
         MeleeFighter _meleeFighter;
+        
         private void Awake()
         {
             // get a reference to our main camera
@@ -136,6 +139,7 @@ namespace StarterAssets
 
         private void Start()
         {
+            
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
             _hasAnimator = TryGetComponent(out _animator);
@@ -156,7 +160,8 @@ namespace StarterAssets
 
         private void Update()
         {
-
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             _hasAnimator = TryGetComponent(out _animator);
             if (_meleeFighter.InAction)
             {
@@ -164,9 +169,10 @@ namespace StarterAssets
                 //_animIDSpeed
                 return;
             }
-            JumpAndGravity();
+            //JumpAndGravity();
             GroundedCheck();
             Move();
+           
         }
 
         private void LateUpdate()
@@ -288,6 +294,7 @@ namespace StarterAssets
             }
         }
 
+       
         private void JumpAndGravity()
         {
             if (Grounded)
