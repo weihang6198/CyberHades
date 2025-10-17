@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - HitBox
+  - CinemachineTarget
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - PlayerHitBox
   - EnemyHitBox
   - VisionSensor
-  - 
+  - Ground
   - 
   - 
   - 
