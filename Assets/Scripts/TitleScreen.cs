@@ -14,13 +14,16 @@ public class TitleScreen : MonoBehaviour
     public CanvasGroup PanelGroup;
     public CanvasGroup mainMenuCanvasGroup;
     public CanvasGroup playScreenCanvasGroup;
+    public CanvasGroup loadingScreenCanvasGroup;
     public GameObject mainMenu;
     public GameObject titleScreen;
     public GameObject playScreen;
+    public GameObject loadingScreen;
     public float ScaleSpeed = 0.5f;
     public float transitionDuration = 2.0f;
     public float fadeDuration = 10.0f;
 
+    public Image LoadingBarFill;
     TextMeshProUGUI TextMP;
 
     // Start is called before the first frame update
@@ -51,7 +54,7 @@ public class TitleScreen : MonoBehaviour
             }
 
             Debug.Log("esc key has down");
-        }     
+        }
     }
 
     public void OnTitleClick()
@@ -62,7 +65,7 @@ public class TitleScreen : MonoBehaviour
 
         if (TextMP != null)
         {
-            StartCoroutine(ZoomAndFadeOutCoroutine(mainMenuCanvasGroup,false, true, false));
+            StartCoroutine(ZoomAndFadeOutCoroutine(mainMenuCanvasGroup, false, true, false));
         }
     }
 
@@ -71,7 +74,7 @@ public class TitleScreen : MonoBehaviour
         Debug.Log("OnEscClick function called");
 
         OnFadeByCanvesGroup(mainMenuCanvasGroup, false, true, false);
-  
+
     }
 
     public void OnPlayClick()
@@ -82,7 +85,7 @@ public class TitleScreen : MonoBehaviour
 
         if (TextMP != null)
         {
-            StartCoroutine(ZoomAndFadeOutCoroutine(playScreenCanvasGroup,false, false, true));
+            StartCoroutine(ZoomAndFadeOutCoroutine(playScreenCanvasGroup, false, false, true));
         }
         else
             Debug.Log("Play TMP not found!");
@@ -94,6 +97,49 @@ public class TitleScreen : MonoBehaviour
         Debug.Log("OnExitClick function called");
 
         Application.Quit();
+    }
+
+    public void OnNewGameClick(int SceneID)
+    {
+        Debug.Log("OnExitClick function called");
+
+        FindTextByName("NewGameTMP");
+
+        if (TextMP != null)
+        {
+            StartCoroutine(ZoomAndFadeOutCoroutine(loadingScreenCanvasGroup, false, false, false));
+        }
+        //LoadScene(SceneID);
+    }
+
+    public void OnLoadGameClick(int SceneID)
+    {
+        Debug.Log("OnLoadGameClick function called");
+
+        //ToDo
+    }
+
+    public void LoadScene(int SceneID)
+    {
+        StartCoroutine(LoadSceneAsync(SceneID));
+    }
+
+    IEnumerator LoadSceneAsync(int SceneID)
+    {
+        
+        loadingScreen.SetActive(true);
+
+
+        AsyncOperation operation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(SceneID);
+
+        while (!operation.isDone)
+        {
+            float progressValue = Mathf.Clamp01(operation.progress / 0.9f);
+
+            LoadingBarFill.fillAmount = progressValue;
+            yield return null;
+
+        }
     }
 
     private void FindTextByName(string name)
@@ -128,6 +174,8 @@ public class TitleScreen : MonoBehaviour
     {
         float startTime = Time.time;
         float fadeDuration = transitionDuration;
+
+        canvasGroup.gameObject.SetActive(true);
 
         while (Time.time < startTime + fadeDuration)
         {
