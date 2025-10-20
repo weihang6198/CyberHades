@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/TestOyun_Profiles/UI/TitleScene.unity
+    guid: e80a0c10c000609468d3d5438db9b17c
+  - enabled: 1
+    path: Assets/Scenes/TestOyun_Profiles/Stage/TestStage.unity
+    guid: 7b8c38648eb9c8043b2c1e8ceeb2e32c
+  - enabled: 1
     path: Assets/Scenes/TestOyun_Profiles/Scene1.unity
     guid: 3c26d057a3b9ffa44b15806b435fcc7a
   - enabled: 1

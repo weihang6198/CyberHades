@@ -2,7 +2,7 @@
 - Project name: CyberHades
 - Unity version: Unity 2022.3.62f1
 - Active game object:
-  - Name: Canvas
-  - Tag: Untagged
-  - Layer: UI
+  - Name: Main Camera
+  - Tag: MainCamera
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

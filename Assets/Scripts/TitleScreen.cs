@@ -109,7 +109,7 @@ public class TitleScreen : MonoBehaviour
         {
             StartCoroutine(ZoomAndFadeOutCoroutine(loadingScreenCanvasGroup, false, false, false));
         }
-        //LoadScene(SceneID);
+        LoadScene(SceneID);
     }
 
     public void OnLoadGameClick(int SceneID)
@@ -126,9 +126,10 @@ public class TitleScreen : MonoBehaviour
 
     IEnumerator LoadSceneAsync(int SceneID)
     {
-        
-        loadingScreen.SetActive(true);
 
+        //loadingScreen.SetActive(true);
+        //ForDebug
+        yield return new WaitForSeconds(2f);
 
         AsyncOperation operation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(SceneID);
 
@@ -137,6 +138,8 @@ public class TitleScreen : MonoBehaviour
             float progressValue = Mathf.Clamp01(operation.progress / 0.9f);
 
             LoadingBarFill.fillAmount = progressValue;
+
+
             yield return null;
 
         }
