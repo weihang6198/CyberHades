@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class CombatMovementState : State<EnemyController>
 {
-
+    [SerializeField] float distanceToStop = 3f;
+    EnemyController enemy;
     public override void Enter(EnemyController owner)
     {
-        Debug.Log("enemy enter combatmovement state");
+        enemy = owner;
+        enemy.NavAgent.stoppingDistance = distanceToStop;
+
     }
 
     public override void Execute()
     {
-        Debug.Log("enemy enter executing combatmovement state");
+        enemy.NavAgent.SetDestination(enemy.Target.transform.position);
+        enemy.animator.SetFloat("Speed",enemy.NavAgent.velocity.magnitude);
+        enemy.animator.SetFloat("MotionSpeed", 1);
     }
 
     public override void Exit()

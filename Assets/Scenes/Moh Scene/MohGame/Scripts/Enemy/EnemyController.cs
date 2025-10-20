@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum EnemyStates { Idle, CombatMovement, Attack, RetreatAfterAttack, Dead, GettingHit }
 
@@ -13,9 +14,15 @@ public class EnemyController     : MonoBehaviour
     public MeleeFighter Target { get; set; }
 
     Dictionary<EnemyStates, State<EnemyController>> stateDict;
+
+    public NavMeshAgent NavAgent { get; private set; }
+
+    public Animator animator { get; private set; }
     // Start is called before the first frame update
     void Start()
     {
+        NavAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
         stateDict = new Dictionary<EnemyStates, State<EnemyController>>();
       
         stateDict[EnemyStates.Idle] = GetComponent<IdleState>();

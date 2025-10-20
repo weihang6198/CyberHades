@@ -8,7 +8,7 @@ public class IdleState : State<EnemyController>
     public override void Enter(EnemyController owner)
     {
         enemy = owner;
-        Debug.Log("enemy enter  state");
+        Debug.Log("enemy enter idle  state");
      
     }
 
@@ -22,6 +22,7 @@ public class IdleState : State<EnemyController>
             if (angle <= enemy.Fov / 2)
             {
                 enemy.Target = target;
+                Debug.Log("enemy.Target :" + enemy.Target);
                 enemy.ChangeState(EnemyStates.CombatMovement);
                 break;
             }
