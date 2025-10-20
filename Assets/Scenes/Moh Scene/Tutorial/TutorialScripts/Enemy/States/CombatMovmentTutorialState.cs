@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum AICombatStates { Idle,Chase,Circling}
-public class CombatMovmentState : State<EnemyController>
+public class CombatMovmentTutorialState : State<EnemyControllerTutorial>
 {
     [SerializeField] float circlingSpeed = 20f;
     [SerializeField] float distanceToStand = 3f;
@@ -14,8 +14,8 @@ public class CombatMovmentState : State<EnemyController>
     float timer = 0f;
     int circlingDir = 1;
     AICombatStates state;
-    EnemyController enemy;
-    public override void Enter(EnemyController owner)
+    EnemyControllerTutorial enemy;
+    public override void Enter(EnemyControllerTutorial owner)
     {
        enemy=owner;
         enemy.NavAgent.stoppingDistance = distanceToStand;

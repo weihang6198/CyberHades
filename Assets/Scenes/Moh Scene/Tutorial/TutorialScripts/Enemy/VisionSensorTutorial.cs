@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VisionSensor : MonoBehaviour
+public class VisionSensorTutorial : MonoBehaviour
 {
-    [SerializeField] EnemyController enemy;
+    [SerializeField] EnemyControllerTutorial enemy;
     private void Awake()
     {
         enemy.VisionSensor = this;

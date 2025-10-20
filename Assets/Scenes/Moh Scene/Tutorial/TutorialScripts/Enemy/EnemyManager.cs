@@ -16,17 +16,17 @@ public class EnemyManager : MonoBehaviour
     {
         instance = this;
     }
-     List<EnemyController> enemiesInRange=new List<EnemyController>();
+     List<EnemyControllerTutorial> enemiesInRange=new List<EnemyControllerTutorial>();
     float notAttackingTimer = 2f;
 
 
-    public void AddEnemyRange(EnemyController enemy)
+    public void AddEnemyRange(EnemyControllerTutorial enemy)
     {
         if(!enemiesInRange.Contains(enemy))
             enemiesInRange.Add(enemy);
     }
 
-    public void RemoveEnemyInRange(EnemyController enemy)
+    public void RemoveEnemyInRange(EnemyControllerTutorial enemy)
     {
         enemiesInRange.Remove(enemy);
 
@@ -89,24 +89,24 @@ public class EnemyManager : MonoBehaviour
         timer += Time.deltaTime;
     }
 
-    EnemyController SelectEnemyForAttack()
+    EnemyControllerTutorial SelectEnemyForAttack()
     {
         return enemiesInRange.OrderByDescending(e=>e.CombatMovementTimer).FirstOrDefault(e=>e.Target!=null &&e.IsInState(EnemyState.CombatMovement));
     }
 
-    public EnemyController GetAttackingEnemy()
+    public EnemyControllerTutorial GetAttackingEnemy()
     {
         //return the first enemy that does not satify/satisfy the condition
        return  enemiesInRange.FirstOrDefault(e => e.IsInState(EnemyState.Attack));
     }
 
-    public EnemyController GetClosestEnemyToDir(Vector3 direction)
+    public EnemyControllerTutorial GetClosestEnemyToDir(Vector3 direction)
     {
        // Debug.Log("inside GetClosestEnemyToPlayerDir");
         //var targetingDir=player.GetTargetingDir();
 
         float minDistance=Mathf.Infinity;
-        EnemyController closestEnemy = null;
+        EnemyControllerTutorial closestEnemy = null;
         foreach (var enemy in enemiesInRange)
         {
             var vecToEnemy=enemy.transform.position - player.transform.position;

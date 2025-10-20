@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackState : State<EnemyController>
+public class AttackState : State<EnemyControllerTutorial>
 {
     [SerializeField] float attackDistance = 1.2f;
     bool isAttacking;
-    EnemyController enemy;
-    public override void Enter(EnemyController owner)
+    EnemyControllerTutorial enemy;
+    public override void Enter(EnemyControllerTutorial owner)
     {
         
         enemy= owner;

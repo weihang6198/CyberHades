@@ -253,7 +253,7 @@ public class MeleeFighterTutorial : MonoBehaviour
     }
 
     //the function that plays counter attack
-    public IEnumerator PerformCounterAttack(EnemyController opponent)
+    public IEnumerator PerformCounterAttack(EnemyControllerTutorial opponent)
     {
         //setup
         InAction = true;

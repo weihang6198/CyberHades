@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RetreatAfterAttackState : State<EnemyController>
+public class RetreatAfterAttackState : State<EnemyControllerTutorial>
 {
     [SerializeField] float backwardWalkSpeed = 1.5f;
     [SerializeField] float distanceToRetreat = 3f;
 
-    EnemyController enemy;
+    EnemyControllerTutorial enemy;
     Vector3 targetPos;
-    public override void Enter(EnemyController owner)
+    public override void Enter(EnemyControllerTutorial owner)
     {
         enemy = owner;
         targetPos = enemy.Target.transform.position;
