@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public enum EnemyState { Idle,CombatMovement,Attack,RetreatAfterAttack,Dead,GettingHit}
-public class EnemyController : MonoBehaviour
+public class EnemyControllerTutorial : MonoBehaviour
 {
     [field:SerializeField]public float Fov { get; private set; } = 180f;
     [field: SerializeField] public float AlertRange { get; private set; } = 20f;
@@ -14,8 +14,8 @@ public class EnemyController : MonoBehaviour
 
     //track how long the enemy is in this state
     public float CombatMovementTimer { get; set; } = 0f;
-    public StateMachine<EnemyController> stateMachine {  get; private set; }
-    Dictionary<EnemyState, State<EnemyController>> stateDict;
+    public StateMachine<EnemyControllerTutorial> stateMachine {  get; private set; }
+    Dictionary<EnemyState, State<EnemyControllerTutorial>> stateDict;
 
     public NavMeshAgent NavAgent {  get;  private set;}
     public CharacterController CharacterController {  get;  private set;}
@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour
     public MeleeFighterTutorial MeleeFighter { get; private set; }
 
 
-    public VisionSensor VisionSensor {  get;  set; }
+    public VisionSensorTutorial VisionSensor {  get;  set; }
     private void Start()
     {
         NavAgent = GetComponent<NavMeshAgent>();
@@ -33,16 +33,16 @@ public class EnemyController : MonoBehaviour
         MeshHighlighter = GetComponent<SkinMeshHighlighter>();
 
         //initialize the state machine
-        stateDict = new Dictionary<EnemyState, State<EnemyController>>();
-        stateDict[EnemyState.Idle]=GetComponent<IdleState>(); 
-        stateDict[EnemyState.CombatMovement]=GetComponent<CombatMovmentState>(); 
+        stateDict = new Dictionary<EnemyState, State<EnemyControllerTutorial>>();
+        stateDict[EnemyState.Idle]=GetComponent<IdleStateTutorial>(); 
+        stateDict[EnemyState.CombatMovement]=GetComponent<CombatMovmentTutorialState>(); 
         stateDict[EnemyState.Attack]=GetComponent<AttackState>(); 
         stateDict[EnemyState.RetreatAfterAttack]=GetComponent<RetreatAfterAttackState>(); 
         stateDict[EnemyState.Dead]=GetComponent<DeadState>(); 
         stateDict[EnemyState.GettingHit] =GetComponent<GettingHitState>(); 
 
 
-        stateMachine = new StateMachine<EnemyController>(this);
+        stateMachine = new StateMachine<EnemyControllerTutorial>(this);
         stateMachine.ChangeState(stateDict[EnemyState.Idle]);
 
         // MeleeFighter.OnGotHit += ReactToHit; //simple way 
@@ -134,7 +134,7 @@ public class EnemyController : MonoBehaviour
         foreach (var collider in colliders)
         {
             if (collider.gameObject == gameObject) continue;
-            var nearbyEnemy=collider.GetComponent<EnemyController>();
+            var nearbyEnemy=collider.GetComponent<EnemyControllerTutorial>();
             if(nearbyEnemy != null &&nearbyEnemy.Target==null)
             {
                 nearbyEnemy.Target = Target; 

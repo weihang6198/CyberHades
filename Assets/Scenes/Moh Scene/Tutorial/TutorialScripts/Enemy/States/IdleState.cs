@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleState :State<EnemyController>
+public class IdleStateTutorial :State<EnemyControllerTutorial>
 {
-    EnemyController enemy;
-    public override void Enter(EnemyController owner)
+    EnemyControllerTutorial enemy;
+    public override void Enter(EnemyControllerTutorial owner)
     {
         enemy = owner;
         Debug.Log("Enter idle state");

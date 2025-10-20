@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GettingHitState : State<EnemyController>
+public class GettingHitState : State<EnemyControllerTutorial>
 {
     [SerializeField] float stunTime = 0.5f;
-    EnemyController enemy;
-    public override void Enter(EnemyController owner)
+    EnemyControllerTutorial enemy;
+    public override void Enter(EnemyControllerTutorial owner)
     {
         StopAllCoroutines(); 
         enemy = owner;

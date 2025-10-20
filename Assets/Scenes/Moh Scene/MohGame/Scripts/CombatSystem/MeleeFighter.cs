@@ -126,16 +126,18 @@ public class MeleeFighter : MonoBehaviour
                     StartCoroutine(Attack());
                     yield break;
                 }
-                //chara can move after cooldown state
-                if (input.move != Vector2.zero)
-                {
-                    attackState = AttackStates.Idle;
-                    comboCount = 0;
-                    InAction = false;
-                    //cancel the current animation and go back to locomotion
+                //has bug
+                //cannot force cancel animation directly
+                ////chara can move after cooldown state
+                //if (input.move != Vector2.zero)
+                //{
+                //    attackState = AttackStates.Idle;
+                //    comboCount = 0;
+                //    InAction = false;
+                //    //cancel the current animation and go back to locomotion
                     
-                    yield break;
-                }
+                //    yield break;
+                //}
 
             }
 

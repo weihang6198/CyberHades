@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CombatControllerTutorial : MonoBehaviour
 {
-    EnemyController targetEnemy;
-    public EnemyController TargetEnemy
+    EnemyControllerTutorial targetEnemy;
+    public EnemyControllerTutorial TargetEnemy
     {
         get => targetEnemy;
 
@@ -52,7 +52,7 @@ public class CombatControllerTutorial : MonoBehaviour
         {
             //when player got hit by enemy, change the targetEnemy to enemy that is currently atking player
             if (combatMode && attacker != targetEnemy.MeleeFighter)
-                targetEnemy = attacker.GetComponent<EnemyController>();
+                targetEnemy = attacker.GetComponent<EnemyControllerTutorial>();
 
         };
     }
