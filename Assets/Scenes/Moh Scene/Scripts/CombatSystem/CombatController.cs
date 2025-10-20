@@ -10,7 +10,8 @@ public class CombatController : MonoBehaviour
   
 
     MeleeFighter meleeFighter;
-
+   
+  
     private void Awake()
     {
         meleeFighter = GetComponent<MeleeFighter>();
@@ -40,5 +41,5 @@ public class CombatController : MonoBehaviour
        // RotateTowardMouse();
     }
 
-    
+   
 }

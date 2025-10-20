@@ -34,8 +34,8 @@ public class TitleScreen : MonoBehaviour
 #endif
     }
 
-    // Update is called once per frame
-    void Update()
+ // Update is called once per frame
+ void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {

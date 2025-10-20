@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 
 public enum AttackStates {Idle,Windup,Impact,Cooldown};
+
 public class MeleeFighter : MonoBehaviour
 {
 
@@ -23,10 +24,16 @@ public class MeleeFighter : MonoBehaviour
     int comboCount = 0;
 
     private StarterAssetsInputs input;
-    public bool isDashing = false;
+   
 
     public Camera mainCamera;       // assign your main camera in Inspector
-    public float rotationSpeed = 10f; // rotation smoothness
+
+    public bool isDashing = false;
+    private bool canDash = true;
+    public float dashWaitPercent = 0.7f;
+    public float dashCooldown = 1.5f;
+
+    
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -62,14 +69,13 @@ public class MeleeFighter : MonoBehaviour
     {
         
         attackState = AttackStates.Windup;
-        
+
         // Capture the mouse direction once at attack start
         Vector3 targetDirection = GetMouseDirection();
         targetDirection.y = 0f; // keep rotation horizontal
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
         animator.CrossFade(attacks[comboCount].AnimName, 0.2f, 1);
-      
         yield return null;
 
         var animState = animator.GetCurrentAnimatorStateInfo(1);
@@ -127,8 +133,7 @@ public class MeleeFighter : MonoBehaviour
                     comboCount = 0;
                     InAction = false;
                     //cancel the current animation and go back to locomotion
-                   
-                   
+                    
                     yield break;
                 }
 
@@ -165,7 +170,7 @@ public class MeleeFighter : MonoBehaviour
 
     public void TryToDash()
     {
-        if (!isDashing)
+        if (canDash)
         {
 
             StartCoroutine(Dash());
@@ -174,22 +179,28 @@ public class MeleeFighter : MonoBehaviour
     }
     IEnumerator Dash()
     {
-       
+
         //reset 
+        
+        animator.applyRootMotion = true; // Enable root motion
         comboCount = 0;
         attackState = AttackStates.Idle;
         InAction = false;
         isDashing = true;
-
+        canDash = false;
 
         animator.CrossFade("Dash", 0.2f);
         yield return null;
 
         var animState = animator.GetCurrentAnimatorStateInfo(1);
-        yield return new WaitForSeconds(animState.length);
+       
+        yield return new WaitForSeconds(animState.length * dashWaitPercent);
 
+        animator.applyRootMotion = false; // Enable root motion
         isDashing = false;
-        
+
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
 
     Vector3 GetMouseDirection()
@@ -212,5 +223,10 @@ public class MeleeFighter : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(direction);
         }
         
+    }
+
+    public void TimerCooldown(float value)
+    {
+
     }
 }

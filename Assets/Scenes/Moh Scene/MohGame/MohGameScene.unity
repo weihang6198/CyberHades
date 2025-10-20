@@ -651,9 +651,10 @@ MonoBehaviour:
   attacks: []
   sword: {fileID: 0}
   attackState: 0
-  isDashing: 0
   mainCamera: {fileID: 0}
-  rotationSpeed: 10
+  isDashing: 0
+  dashWaitPercent: 0.7
+  dashCooldown: 1.5
 --- !u!136 &1029730487
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3252,6 +3253,18 @@ PrefabInstance:
       value: LongSword
       objectReference: {fileID: 0}
     - target: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.03
       objectReference: {fileID: 0}
@@ -3265,31 +3278,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.33991125
+      value: -0.31524152
       objectReference: {fileID: 0}
     - target: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.16677624
+      value: 0.20970628
       objectReference: {fileID: 0}
     - target: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.2199282
+      value: 0.33536646
       objectReference: {fileID: 0}
     - target: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.8990426
+      value: -0.86265606
       objectReference: {fileID: 0}
     - target: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -6.429
+      value: 26.513
       objectReference: {fileID: 0}
     - target: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 96.507
+      value: -39.838
       objectReference: {fileID: 0}
     - target: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 88.407
+      value: 130.093
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3325,7 +3338,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 40db3173a05ae3242b1c182a09b0a183, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -3363,9 +3376,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: efc24666a7ddceb42be7f58231bf8c38, type: 2}
   sword: {fileID: 1730841976}
   attackState: 0
-  isDashing: 0
   mainCamera: {fileID: 8944336656349189699}
-  rotationSpeed: 10
+  isDashing: 0
+  dashWaitPercent: 0.5
+  dashCooldown: 0.3
 --- !u!4 &6983258930626336602
 Transform:
   m_ObjectHideFlags: 0
