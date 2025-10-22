@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AICombatStates { Idle,Chase,Circling}
+public enum AICombatStatesTutorial { Idle,Chase,Circling}
 public class CombatMovmentTutorialState : State<EnemyControllerTutorial>
 {
     [SerializeField] float circlingSpeed = 20f;
@@ -13,7 +13,7 @@ public class CombatMovmentTutorialState : State<EnemyControllerTutorial>
 
     float timer = 0f;
     int circlingDir = 1;
-    AICombatStates state;
+    AICombatStatesTutorial state;
     EnemyControllerTutorial enemy;
     public override void Enter(EnemyControllerTutorial owner)
     {
@@ -49,7 +49,7 @@ public class CombatMovmentTutorialState : State<EnemyControllerTutorial>
         if(Vector3.Distance(enemy.Target.transform.position,enemy.transform.position)> distanceToStand+ adjustDistanceThreshold)
             StartChase(); 
 
-        if(state==AICombatStates.Idle)
+        if(state==AICombatStatesTutorial.Idle)
         {
             if(timer<=0)
             {
@@ -63,7 +63,7 @@ public class CombatMovmentTutorialState : State<EnemyControllerTutorial>
                 }
             }
         }
-        else if (state == AICombatStates.Chase)
+        else if (state == AICombatStatesTutorial.Chase)
         {
             if (Vector3.Distance(enemy.Target.transform.position, enemy.transform.position) <= distanceToStand +0.03f)
             {
@@ -72,7 +72,7 @@ public class CombatMovmentTutorialState : State<EnemyControllerTutorial>
             }
             enemy.NavAgent.SetDestination(enemy.Target.transform.position);
         }
-        else if (state == AICombatStates.Circling)
+        else if (state == AICombatStatesTutorial.Circling)
         {
             if(timer<=0)
             {
@@ -97,13 +97,13 @@ public class CombatMovmentTutorialState : State<EnemyControllerTutorial>
 
     void StartChase()
     {
-        state = AICombatStates.Chase;
+        state = AICombatStatesTutorial.Chase;
        
         //enemy.animator.SetBool("Circling", false);
     }
     void StartIdle()
     {
-        state = AICombatStates.Idle;
+        state = AICombatStatesTutorial.Idle;
         timer = Random.Range(IdleTimeRange.x, IdleTimeRange.y);
 
        
@@ -112,7 +112,7 @@ public class CombatMovmentTutorialState : State<EnemyControllerTutorial>
 
     void StartCircling()
     {
-        state = AICombatStates.Circling;
+        state = AICombatStatesTutorial.Circling;
         enemy.NavAgent.ResetPath();     
         timer = Random.Range(CirclingTimeRange.x, CirclingTimeRange.y);
         if (Random.Range(0, 2) == 0)//either return 0 or 1, no decimal will be return

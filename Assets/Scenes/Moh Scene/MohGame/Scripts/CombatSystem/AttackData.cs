@@ -10,6 +10,11 @@ public class AttackData : ScriptableObject
     [field:SerializeField] public float ImpactStartTime {  get;private set; }
     [field:SerializeField] public float ImpactEndTime {  get;private set; }
 
+    [field: Header("VFX")]
+    [field: SerializeField] public float VFXStartTime { get; private set; }
+    [field: SerializeField] public float VFXEndTime { get; private set; }
+
+
     [field:Header("Move to target")]
     [field:SerializeField] public bool MoveToTarget {  get;private set; }
     [field: SerializeField] public float DistanceFromTarget { get; private set; } = 1f;
@@ -17,12 +22,8 @@ public class AttackData : ScriptableObject
     [field: SerializeField] public float MoveStartTime { get; private set; } = 0f;
     [field: SerializeField] public float MoveEndTime { get; private set; } = 1f;
 
-    [field: Header("VFX")]
-    [field: SerializeField] public Transform SlashSpawnPoint{ get; private set; }
-    [field: SerializeField] public AnimationClip Clip{ get; private set; }
 
-
-
+   
 }
 
 public enum AttackHitbox { LeftHand,RightHand ,LeftFoot, RightFoot,Sword};
