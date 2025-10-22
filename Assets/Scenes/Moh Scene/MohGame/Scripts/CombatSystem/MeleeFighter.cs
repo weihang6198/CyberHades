@@ -14,6 +14,7 @@ public class MeleeFighter : MonoBehaviour
 
     [SerializeField] List<AttackData> attacks;
     [SerializeField] GameObject sword;
+    [SerializeField] SlashEffect slashEffect;
 
     BoxCollider swordCollider;
 
@@ -106,6 +107,8 @@ public class MeleeFighter : MonoBehaviour
                 {
                     attackState = AttackStates.Impact;
                     swordCollider.enabled = true;
+
+       
                 }
             }
             else if (attackState == AttackStates.Impact)
@@ -114,6 +117,14 @@ public class MeleeFighter : MonoBehaviour
                 {
                     attackState = AttackStates.Cooldown;
                     swordCollider.enabled = false;
+
+
+                    //slashEffect.GetCalculatedSlashRotation(animator,);
+                    //Spawn Slash VFX
+                    Transform handTransform = animator.GetBoneTransform(HumanBodyBones.RightHand);
+                    handTransform.position = animator.GetBoneTransform(HumanBodyBones.Chest).position;
+
+                    slashEffect.SpawnEffect(handTransform);
                 }
             }
             else if (attackState == AttackStates.Cooldown)
