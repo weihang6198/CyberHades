@@ -149,6 +149,7 @@ public class MeleeFighter : MonoBehaviour
         InAction = false;
     }
 
+
     IEnumerator PlayHitReaction()
     {
         InAction = true;

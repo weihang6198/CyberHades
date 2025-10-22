@@ -163,7 +163,7 @@ namespace StarterAssets
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             _hasAnimator = TryGetComponent(out _animator);
-            if (_meleeFighter.InAction)
+            if (_meleeFighter.InAction && !_meleeFighter.isDashing)
             {
                 _animator.SetFloat("Speed", 0f);
                 //_animIDSpeed
@@ -390,6 +390,7 @@ namespace StarterAssets
 
         private void OnFootstep(AnimationEvent animationEvent)
         {
+         
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
                 if (FootstepAudioClips.Length > 0)
