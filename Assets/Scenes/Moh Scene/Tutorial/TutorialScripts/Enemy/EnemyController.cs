@@ -36,7 +36,7 @@ public class EnemyControllerTutorial : MonoBehaviour
         stateDict = new Dictionary<EnemyState, State<EnemyControllerTutorial>>();
         stateDict[EnemyState.Idle]=GetComponent<IdleStateTutorial>(); 
         stateDict[EnemyState.CombatMovement]=GetComponent<CombatMovmentTutorialState>(); 
-        stateDict[EnemyState.Attack]=GetComponent<AttackState>(); 
+        stateDict[EnemyState.Attack]=GetComponent<AttackStateTutorial>(); 
         stateDict[EnemyState.RetreatAfterAttack]=GetComponent<RetreatAfterAttackState>(); 
         stateDict[EnemyState.Dead]=GetComponent<DeadState>(); 
         stateDict[EnemyState.GettingHit] =GetComponent<GettingHitState>(); 
@@ -105,7 +105,7 @@ public class EnemyControllerTutorial : MonoBehaviour
         if(Target?.health<=0)
         {
             TargetsInRange.Remove(Target);
-            EnemyManager.instance.RemoveEnemyInRange(this);
+            EnemyManagerTutorial.instance.RemoveEnemyInRange(this);
         }
         prevPos=transform.position;
     }
@@ -129,7 +129,7 @@ public class EnemyControllerTutorial : MonoBehaviour
     {
         return;
         var colliders=Physics.OverlapBox(transform.position, new Vector3(AlertRange/2f, 1f, AlertRange/2f),
-            Quaternion.identity,EnemyManager.instance.enemyLayer);
+            Quaternion.identity,EnemyManagerTutorial.instance.enemyLayer);
 
         foreach (var collider in colliders)
         {

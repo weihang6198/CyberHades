@@ -61,7 +61,7 @@ public class CombatControllerTutorial : MonoBehaviour
     {
         if (Input.GetButtonDown("Attack") && !meleeFighter.isTakingHit)
         {
-            var enemy=EnemyManager.instance.GetAttackingEnemy();
+            var enemy=EnemyManagerTutorial.instance.GetAttackingEnemy();
             if ((enemy!=null && enemy.MeleeFighter.IsCounterable && !meleeFighter.InAction))
             {
                 //test only
@@ -71,7 +71,7 @@ public class CombatControllerTutorial : MonoBehaviour
             else
             {
                 //rotate towards closest enemy and attack based on player input dir
-               var enemyToAttack= EnemyManager.instance.GetClosestEnemyToDir(PlayerControllerTutorial.instance.GetIntentDirection());
+               var enemyToAttack= EnemyManagerTutorial.instance.GetClosestEnemyToDir(PlayerControllerTutorial.instance.GetIntentDirection());
 
                 if (enemyToAttack != null)
                     meleeFighter.TryToAttack(enemyToAttack?.MeleeFighter);

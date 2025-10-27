@@ -89,6 +89,7 @@ public class MeleeFighterTutorial : MonoBehaviour
         Vector3 startPos = transform.position;
         Vector3 targetPos = Vector3.zero;
 
+        //long range attack
         if (target != null)
         {
             var vecToTarget = target.transform.position - transform.position;

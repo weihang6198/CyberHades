@@ -18,18 +18,18 @@ public class visionSensor : MonoBehaviour
         {
             enemy.TargetsInRange.Add(fighter);
             //Debug.Log("add player to target in range");
-            //EnemyManager.instance.AddEnemyRange(enemy);
+            EnemyManager.instance.AddEnemyRange(enemy);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         //Debug.Log("exit  vison sensor");
-        //var fighter = other.GetComponent<MeleeFighterTutorial>();
-        //if (fighter != null)
-        //{
-        //    enemy.TargetsInRange.Remove(fighter);
-        //    EnemyManager.instance.RemoveEnemyInRange(enemy);
-        //}
+        var fighter = other.GetComponent<MeleeFighter>();
+        if (fighter != null)
+        {
+            enemy.TargetsInRange.Remove(fighter);
+            EnemyManager.instance.RemoveEnemyInRange(enemy);
+        }
     }
 }

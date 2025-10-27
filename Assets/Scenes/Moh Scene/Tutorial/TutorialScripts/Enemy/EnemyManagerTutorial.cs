@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManagerTutorial : MonoBehaviour
 {
     [SerializeField] Vector2 timeRangeBetweenAttacks = new Vector2(1, 4);
     [SerializeField] CombatControllerTutorial player;
     [field: SerializeField] public LayerMask enemyLayer { get; private set; }
 
     float timer = 0;
-    public static EnemyManager instance {  get; private set; }
+    public static EnemyManagerTutorial instance {  get; private set; }
 
     private void Awake()
     {
