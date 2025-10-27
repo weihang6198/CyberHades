@@ -12,6 +12,7 @@ public enum AttackStates {Idle,Windup,Impact,Cooldown};
 public class MeleeFighter : MonoBehaviour
 {
 
+    public GameObject character; // assign in Inspector
     [SerializeField] List<AttackData> attacks;
     [SerializeField] GameObject sword;
     [SerializeField] SlashEffect slashEffect;
@@ -37,6 +38,8 @@ public class MeleeFighter : MonoBehaviour
     
     private void Awake()
     {
+        if (character == null)
+            character = gameObject; // default to itself
         animator = GetComponent<Animator>();
         input = GetComponent<StarterAssetsInputs>();
     }
@@ -71,8 +74,17 @@ public class MeleeFighter : MonoBehaviour
         
         attackState = AttackStates.Windup;
 
-        // Capture the mouse direction once at attack start
-        Vector3 targetDirection = GetMouseDirection();
+        
+        //default, for enemy
+        Vector3 targetDirection = transform.forward;
+
+        //only for player
+        if (character.tag=="Player")
+        {
+            // Capture the mouse direction once at attack start
+            targetDirection = GetMouseDirection();
+        }
+       
         targetDirection.y = 0f; // keep rotation horizontal
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
@@ -121,10 +133,15 @@ public class MeleeFighter : MonoBehaviour
 
                     //slashEffect.GetCalculatedSlashRotation(animator,);
                     //Spawn Slash VFX
-                    Transform handTransform = animator.GetBoneTransform(HumanBodyBones.RightHand);
-                    handTransform.position = animator.GetBoneTransform(HumanBodyBones.Chest).position;
+                    if (slashEffect != null)
+                    {
+                        Transform handTransform = animator.GetBoneTransform(HumanBodyBones.RightHand);
+                        handTransform.position = animator.GetBoneTransform(HumanBodyBones.Chest).position;
 
-                    slashEffect.SpawnEffect(handTransform);
+
+                        slashEffect.SpawnEffect(handTransform);
+                    }
+                       
                 }
             }
             else if (attackState == AttackStates.Cooldown)

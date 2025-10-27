@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackState : State<EnemyControllerTutorial>
+public class AttackStateTutorial : State<EnemyControllerTutorial>
 {
     [SerializeField] float attackDistance = 1.2f;
     bool isAttacking;

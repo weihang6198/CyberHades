@@ -18,7 +18,7 @@ public class VisionSensorTutorial : MonoBehaviour
         {
             enemy.TargetsInRange.Add(fighter);
             Debug.Log("add player to target in range");
-            EnemyManager.instance.AddEnemyRange(enemy);
+            EnemyManagerTutorial.instance.AddEnemyRange(enemy);
         }
     }
 
@@ -29,7 +29,7 @@ public class VisionSensorTutorial : MonoBehaviour
         if (fighter != null)
         {
             enemy.TargetsInRange.Remove(fighter);
-            EnemyManager.instance.RemoveEnemyInRange(enemy);
+            EnemyManagerTutorial.instance.RemoveEnemyInRange(enemy);
         }
     }
 }

@@ -7,7 +7,7 @@ public class DeadState : State<EnemyControllerTutorial>
     public override void Enter(EnemyControllerTutorial owner)
     {
         owner.VisionSensor.gameObject.SetActive(false);
-        EnemyManager.instance.RemoveEnemyInRange(owner);
+        EnemyManagerTutorial.instance.RemoveEnemyInRange(owner);
 
         owner.NavAgent.enabled = false;
         owner.CharacterController.enabled = false;
