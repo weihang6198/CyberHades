@@ -28,6 +28,18 @@ public class CombatMovementState : State<EnemyController>
 
     public override void Execute()
     {
+        if (enemy.Target == null)
+        {
+            //find target as soon as enter combat movement state
+            enemy.Target = enemy.FindTarget();
+
+            //if no target, go back idle state
+            if (enemy.Target == null)
+            {
+                enemy.ChangeState(EnemyStates.Idle);
+                return;
+            }
+        }
         if (Vector3.Distance(enemy.Target.transform.position, enemy.transform.position) > distanceToStand + adjustDistanceThreshold)
             StartChase();
 
@@ -123,7 +135,7 @@ public class CombatMovementState : State<EnemyController>
     }
     public override void Exit()
     {
-        Debug.Log("enemy enter exiting combatmovement state");
+        
         enemy.CombatMovementTimer = 0;
     }
 }

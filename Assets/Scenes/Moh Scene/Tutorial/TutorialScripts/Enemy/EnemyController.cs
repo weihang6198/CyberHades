@@ -37,9 +37,9 @@ public class EnemyControllerTutorial : MonoBehaviour
         stateDict[EnemyState.Idle]=GetComponent<IdleStateTutorial>(); 
         stateDict[EnemyState.CombatMovement]=GetComponent<CombatMovmentTutorialState>(); 
         stateDict[EnemyState.Attack]=GetComponent<AttackStateTutorial>(); 
-        stateDict[EnemyState.RetreatAfterAttack]=GetComponent<RetreatAfterAttackState>(); 
-        stateDict[EnemyState.Dead]=GetComponent<DeadState>(); 
-        stateDict[EnemyState.GettingHit] =GetComponent<GettingHitState>(); 
+        stateDict[EnemyState.RetreatAfterAttack]=GetComponent<RetreatAfterAttackStateTutorial>(); 
+        stateDict[EnemyState.Dead]=GetComponent<DeadStateTutorial>(); 
+        stateDict[EnemyState.GettingHit] =GetComponent<GettingHitStateTutorial>(); 
 
 
         stateMachine = new StateMachine<EnemyControllerTutorial>(this);
