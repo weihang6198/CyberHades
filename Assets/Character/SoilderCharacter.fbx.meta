@@ -170,7 +170,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Shoulder_L
+    - boneName: Scapula_L
       humanName: LeftShoulder
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -178,7 +178,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Shoulder_R
+    - boneName: Scapula_R
       humanName: RightShoulder
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -186,7 +186,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: ShoulderPart1_L
+    - boneName: Shoulder_L
       humanName: LeftUpperArm
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -194,7 +194,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: ShoulderPart1_R
+    - boneName: Shoulder_R
       humanName: RightUpperArm
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -218,7 +218,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Wrist_L
+    - boneName: ElbowPart1_L
       humanName: LeftHand
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -226,7 +226,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Wrist_R
+    - boneName: ElbowPart1_R
       humanName: RightHand
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -290,7 +290,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: IndexFinger1_L
+    - boneName: IndexFinger2_L
       humanName: Left Index Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -298,7 +298,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: IndexFinger2_L
+    - boneName: IndexFinger3_L
       humanName: Left Index Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -306,7 +306,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: IndexFinger3_L
+    - boneName: IndexFinger4_L
       humanName: Left Index Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -314,7 +314,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: MiddleFinger1_L
+    - boneName: MiddleFinger2_L
       humanName: Left Middle Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -322,7 +322,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: MiddleFinger2_L
+    - boneName: MiddleFinger3_L
       humanName: Left Middle Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -330,7 +330,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: MiddleFinger3_L
+    - boneName: MiddleFinger4_L
       humanName: Left Middle Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -338,7 +338,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: RingFinger1_L
+    - boneName: RingFinger2_L
       humanName: Left Ring Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -346,7 +346,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: RingFinger2_L
+    - boneName: RingFinger3_L
       humanName: Left Ring Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -354,7 +354,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: RingFinger3_L
+    - boneName: RingFinger4_L
       humanName: Left Ring Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -362,7 +362,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: PinkyFinger1_L
+    - boneName: PinkyFinger2_L
       humanName: Left Little Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -370,7 +370,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: PinkyFinger2_L
+    - boneName: PinkyFinger3_L
       humanName: Left Little Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -378,7 +378,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: PinkyFinger3_L
+    - boneName: PinkyFinger4_L
       humanName: Left Little Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -386,7 +386,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: ThumbFinger1_R
+    - boneName: ThumbFinger2_R
       humanName: Right Thumb Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -394,7 +394,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: ThumbFinger2_R
+    - boneName: ThumbFinger3_R
       humanName: Right Thumb Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -402,7 +402,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: ThumbFinger3_R
+    - boneName: ThumbFinger4_R
       humanName: Right Thumb Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -410,7 +410,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: IndexFinger1_R
+    - boneName: IndexFinger2_R
       humanName: Right Index Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -418,7 +418,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: IndexFinger2_R
+    - boneName: IndexFinger3_R
       humanName: Right Index Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -426,7 +426,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: IndexFinger3_R
+    - boneName: IndexFinger4_R
       humanName: Right Index Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -434,7 +434,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: MiddleFinger1_R
+    - boneName: MiddleFinger2_R
       humanName: Right Middle Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -442,7 +442,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: MiddleFinger2_R
+    - boneName: MiddleFinger3_R
       humanName: Right Middle Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -450,7 +450,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: MiddleFinger3_R
+    - boneName: MiddleFinger4_R
       humanName: Right Middle Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -458,7 +458,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: RingFinger1_R
+    - boneName: RingFinger2_R
       humanName: Right Ring Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -466,7 +466,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: RingFinger2_R
+    - boneName: RingFinger3_R
       humanName: Right Ring Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -474,7 +474,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: RingFinger3_R
+    - boneName: RingFinger4_R
       humanName: Right Ring Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -482,7 +482,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: PinkyFinger1_R
+    - boneName: PinkyFinger2_R
       humanName: Right Little Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -490,7 +490,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: PinkyFinger2_R
+    - boneName: PinkyFinger3_R
       humanName: Right Little Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -498,7 +498,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: PinkyFinger3_R
+    - boneName: PinkyFinger4_R
       humanName: Right Little Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -1042,7 +1042,7 @@ ModelImporter:
       scale: {x: 1.0000001, y: 1.0000004, z: 1.0000001}
     - name: RingFinger4_R
       parentName: RingFinger3_R
-      position: {x: -0.027480304, y: -8.8817837e-17, z: 7.105427e-17}
+      position: {x: -0.0277, y: 0.0001, z: -0.0015}
       rotation: {x: -5.8207633e-10, y: -0, z: -0.0000000013969832, w: 1}
       scale: {x: 1.0000001, y: 1.0000004, z: 1}
     - name: ThumbFinger1_R
@@ -1058,7 +1058,7 @@ ModelImporter:
     - name: ThumbFinger3_R
       parentName: ThumbFinger2_R
       position: {x: -0.023244444, y: -7.105427e-17, z: -7.105427e-17}
-      rotation: {x: 0.008667894, y: 0.039452568, z: -0.0062777656, w: 0.9991641}
+      rotation: {x: 0.008667895, y: 0.039452568, z: -0.006277766, w: 0.9991641}
       scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
     - name: ThumbFinger4_R
       parentName: ThumbFinger3_R
