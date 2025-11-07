@@ -6,11 +6,12 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] CombatController    player;
+    [SerializeField] EnemySpawnManager  enemySpawnManager;
     [SerializeField] Vector2 timeRangeBetweenAttacks = new Vector2(1, 4);
     public List<EnemyController> enemiesInRange = new List<EnemyController>();
 
     public static EnemyManager instance { get; private set; }
-    float notAttackingTimer = 2f;
+    public float notAttackingTimer = 2f;
     float timer = 0;
     private void Awake()
     {
@@ -58,7 +59,7 @@ public class EnemyManager : MonoBehaviour
 
                 if (attackingEnemy != null)
                 {
-                   // attackingEnemy.ChangeState(EnemyStates.Attack);
+                    attackingEnemy.ChangeState(EnemyStates.Attack);
                     notAttackingTimer = Random.Range(timeRangeBetweenAttacks.x, timeRangeBetweenAttacks.y);
                 }
 
@@ -66,6 +67,11 @@ public class EnemyManager : MonoBehaviour
 
 
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            enemySpawnManager.SpawnEnemy();
+        }
+
         //if (timer > 0.1f)
         //{
 

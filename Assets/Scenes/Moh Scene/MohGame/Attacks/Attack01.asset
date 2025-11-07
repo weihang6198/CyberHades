@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AnimName>k__BackingField: attack01
   <HitBoxToUse>k__BackingField: 0
-  <ImpactStartTime>k__BackingField: 0.2
-  <ImpactEndTime>k__BackingField: 0.24
+  <ImpactStartTime>k__BackingField: 0.25
+  <ImpactEndTime>k__BackingField: 0.4
+  <VFXStartTime>k__BackingField: 0
+  <VFXEndTime>k__BackingField: 0
   <MoveToTarget>k__BackingField: 0
   <DistanceFromTarget>k__BackingField: 1
   <MaxMoveDistance>k__BackingField: 3

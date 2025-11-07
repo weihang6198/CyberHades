@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnProjectiles : MonoBehaviour
 {
-    public GameObject firePoint;
+    public Transform firePoint;
     public List<GameObject> vfx = new List<GameObject>();
     public RotateToMouse rotateToMouse;
 
@@ -20,33 +20,25 @@ public class SpawnProjectiles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(0) && Time.time >= timeToFire)
-        {
-            timeToFire = Time.time + 1 / effectToSpawn.GetComponent<ProjectileMove>().fireRate;
-            SpawnVFX();
-        }
+        //if(Input.GetMouseButton(0) && Time.time >= timeToFire)
+        //{
+        //    timeToFire = Time.time + 1 / effectToSpawn.GetComponent<ProjectileMove>().fireRate;
+        //    SpawnVFX();
+        //}
     }
 
-    void SpawnVFX()
+    public void SpawnVFX(Vector3 direction)
     {
-        GameObject vfx;
-
-        if(firePoint != null)
+        Vector3 pos = firePoint.transform.position;
+        pos.y = 1f;
+        firePoint.transform.position = pos;
+        if (firePoint == null)
         {
-            vfx = Instantiate(effectToSpawn, firePoint.transform.position, Quaternion.identity);
-            if (rotateToMouse != null)
-            {
-                vfx.transform.localRotation = rotateToMouse.GetRotation();
-            }
-            else
-            {
-                Debug.Log("rotateToMouse Null");
-
-            }
+            Debug.LogWarning("FirePoint is null");
+            return;
         }
-        else
-        {
-            Debug.Log("Firepoint Null");
-        }
+       
+        Quaternion rot = Quaternion.LookRotation(direction);
+        Instantiate(effectToSpawn, firePoint.position, rot);
     }
 }

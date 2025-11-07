@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GettingHitState : State<EnemyControllerTutorial>
+public class GettingHitStateTutorial : State<EnemyControllerTutorial>
 {
     [SerializeField] float stunTime = 0.5f;
     EnemyControllerTutorial enemy;
