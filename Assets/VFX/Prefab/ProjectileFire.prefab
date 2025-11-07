@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2909840770015877038}
   - component: {fileID: 6388414860508803082}
-  m_Layer: 0
+  - component: {fileID: 9024687821422576224}
+  m_Layer: 10
   m_Name: ProjectileFire
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,6 +51,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   fireRate: 4
+--- !u!135 &9024687821422576224
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497357653849295876}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1636157355132370012
 GameObject:
   m_ObjectHideFlags: 0

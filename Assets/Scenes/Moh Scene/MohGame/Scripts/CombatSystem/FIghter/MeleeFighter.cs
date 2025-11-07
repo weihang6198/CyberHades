@@ -7,27 +7,19 @@ using UnityEngine.InputSystem;
 
 using UnityEngine.Windows;
 
-public enum AttackStates {Idle,Windup,Impact,Cooldown};
 
-public class MeleeFighter : MonoBehaviour
+
+public class MeleeFighter : FighterBase
 {
 
-    public GameObject character; // assign in Inspector
-    [SerializeField] List<AttackData> attacks;
+   
+    
     [SerializeField] GameObject sword;
     [SerializeField] SlashEffect slashEffect;
-
     BoxCollider swordCollider;
-
-    Animator animator;
     Vector3 AttackDir;
-    public AttackStates attackState;
     bool doCombo;
     int comboCount = 0;
-
-    private StarterAssetsInputs input;
-   
-
     public Camera mainCamera;       // assign your main camera in Inspector
 
     public bool isDashing = false;
@@ -35,14 +27,12 @@ public class MeleeFighter : MonoBehaviour
     public float dashWaitPercent = 0.7f;
     public float dashCooldown = 1.5f;
 
-    
-    private void Awake()
+
+    protected override void Awake()
     {
-        if (character == null)
-            character = gameObject; // default to itself
-        animator = GetComponent<Animator>();
-        input = GetComponent<StarterAssetsInputs>();
+        base.Awake(); // runs FighterBase.Awake() 
     }
+
 
     private void Start()
     {
@@ -52,9 +42,14 @@ public class MeleeFighter : MonoBehaviour
             swordCollider.enabled = false;
         }
     }
-    public bool InAction { get; private set; } = false;
 
-    public void TryToAttack()
+    public override bool CanAttack(Vector3 targetPosition,float attackDistance)
+    {
+       return  Vector3.Distance(targetPosition, transform.position) <= attackDistance + 0.03f;
+      
+        
+    }
+    public override void TryToAttack(FighterBase target = null)
     {
         if (!InAction && !isDashing) 
         {
@@ -68,8 +63,8 @@ public class MeleeFighter : MonoBehaviour
             doCombo = true;
         }
     }
-
-    IEnumerator Attack()
+   
+    public override  IEnumerator Attack(FighterBase target = null)
     {
         
         attackState = AttackStates.Windup;
@@ -178,27 +173,6 @@ public class MeleeFighter : MonoBehaviour
     }
 
 
-    IEnumerator PlayHitReaction()
-    {
-        InAction = true;
-        animator.CrossFade("SwordImpact", 0.2f);
-        yield return null;
-
-        var animState = animator.GetCurrentAnimatorStateInfo(1);
-        yield return new WaitForSeconds(animState.length);
-
-        InAction= false;
-
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag=="HitBox" && !InAction)
-        {
-            Debug.Log("enemy character was hit");
-            StartCoroutine( PlayHitReaction());
-        }
-    }
-
     public void TryToDash()
     {
         if (canDash)
@@ -212,7 +186,6 @@ public class MeleeFighter : MonoBehaviour
     {
 
         //reset 
-        
         animator.applyRootMotion = true; // Enable root motion
         comboCount = 0;
         attackState = AttackStates.Idle;
@@ -237,13 +210,18 @@ public class MeleeFighter : MonoBehaviour
     Vector3 GetMouseDirection()
     {
         Ray ray = mainCamera.ScreenPointToRay(UnityEngine.Input.mousePosition);
-        Vector3 direction= ray.direction;
-        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+        Plane groundPlane = new Plane(Vector3.up, new Vector3(0, transform.position.y, 0));
+
+        if (groundPlane.Raycast(ray, out float distance))
         {
-            direction = hitInfo.point - transform.position;
+            Vector3 hitPoint = ray.GetPoint(distance);
+            Vector3 direction = hitPoint - transform.position;
             direction.y = 0f; // keep rotation flat
+            return direction.normalized;
         }
-        return direction;
+
+        // fallback (if something goes wrong)
+        return transform.forward;
     }
     public void RotateTowardMouse()
     {
@@ -256,8 +234,10 @@ public class MeleeFighter : MonoBehaviour
         
     }
 
-    public void TimerCooldown(float value)
+    public override bool ShouldEndRetreat(float distanceToTarget)
     {
-
+        // Melee: re-engage quickly
+        return distanceToTarget >= 3f;
     }
+
 }

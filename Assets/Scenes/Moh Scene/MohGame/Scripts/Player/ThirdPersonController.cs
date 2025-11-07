@@ -289,7 +289,8 @@ namespace StarterAssets
             // update animator if using character
             if (_hasAnimator)
             {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
+                float normalizedSpeed = _animationBlend / SprintSpeed; // normalize to 0–1
+                _animator.SetFloat(_animIDSpeed, normalizedSpeed);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
         }

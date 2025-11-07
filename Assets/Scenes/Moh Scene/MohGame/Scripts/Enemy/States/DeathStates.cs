@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeadStateTutorial : State<EnemyControllerTutorial>
+public class DeadState : State<EnemyController>
 {
-    public override void Enter(EnemyControllerTutorial owner)
+    public override void Enter(EnemyController owner)
     {
         owner.VisionSensor.gameObject.SetActive(false);
-        EnemyManagerTutorial.instance.RemoveEnemyInRange(owner);
+        EnemyManager.instance.RemoveEnemyInRange(owner);
 
         owner.NavAgent.enabled = false;
         owner.CharacterController.enabled = false;
