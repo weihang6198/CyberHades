@@ -24,7 +24,7 @@ public class CombatController : MonoBehaviour
         if (_input.attack)
         {
             _input.attack = false;
-            Debug.Log("attacking");
+          
             meleeFighter.TryToAttack();
 
         }

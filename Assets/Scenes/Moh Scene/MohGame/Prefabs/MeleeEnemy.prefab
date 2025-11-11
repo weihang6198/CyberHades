@@ -617,6 +617,7 @@ MonoBehaviour:
   attacks:
   - {fileID: 11400000, guid: b9dcb79523d9fa042ad7d34ed8107952, type: 2}
   - {fileID: 11400000, guid: 4c4286b125ee0b140bce2db88203c7e3, type: 2}
+  hitStopTime: 0.1
   attackState: 0
   sword: {fileID: 3336415258294443882}
   slashEffect: {fileID: 0}
@@ -665,6 +666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26539d325d7e82044b4d49afd3bfaa99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canAttack: 1
   <Fov>k__BackingField: 180
   enemyType: 0
 --- !u!195 &3877585896447010044

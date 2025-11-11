@@ -15,7 +15,9 @@ MonoBehaviour:
   <AnimName>k__BackingField: attack03
   <HitBoxToUse>k__BackingField: 0
   <ImpactStartTime>k__BackingField: 0.1
-  <ImpactEndTime>k__BackingField: 0.5
+  <ImpactEndTime>k__BackingField: 0.75
+  <VFXStartTime>k__BackingField: 0
+  <VFXEndTime>k__BackingField: 0
   <MoveToTarget>k__BackingField: 0
   <DistanceFromTarget>k__BackingField: 1
   <MaxMoveDistance>k__BackingField: 3

@@ -163,7 +163,8 @@ namespace StarterAssets
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             _hasAnimator = TryGetComponent(out _animator);
-            if (_meleeFighter.InAction && !_meleeFighter.isDashing)
+            //player does not move
+            if ((_meleeFighter.InAction && !_meleeFighter.isDashing) || _meleeFighter.health<=0)
             {
                 _animator.SetFloat("Speed", 0f);
                 //_animIDSpeed

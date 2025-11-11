@@ -12,8 +12,8 @@ using UnityEngine.Windows;
 public class MeleeFighter : FighterBase
 {
 
+
    
-    
     [SerializeField] GameObject sword;
     [SerializeField] SlashEffect slashEffect;
     BoxCollider swordCollider;
@@ -36,6 +36,7 @@ public class MeleeFighter : FighterBase
 
     private void Start()
     {
+       
         if (sword != null)
         {
             swordCollider=sword.GetComponent<BoxCollider>();
@@ -79,7 +80,7 @@ public class MeleeFighter : FighterBase
             // Capture the mouse direction once at attack start
             targetDirection = GetMouseDirection();
         }
-       
+        animator.applyRootMotion=true;
         targetDirection.y = 0f; // keep rotation horizontal
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
@@ -149,18 +150,22 @@ public class MeleeFighter : FighterBase
                     StartCoroutine(Attack());
                     yield break;
                 }
-                //has bug
-                //cannot force cancel animation directly
-                ////chara can move after cooldown state
-                //if (input.move != Vector2.zero)
+                
+                //if ((character.tag == "Player"))
                 //{
-                //    attackState = AttackStates.Idle;
-                //    comboCount = 0;
-                //    InAction = false;
-                //    //cancel the current animation and go back to locomotion
-                    
-                //    yield break;
+                //    Debug.Log("inside stop all courtine for play tag only");
+                //    //only for player
+                //    if (PlayerInput.move != Vector2.zero)
+                //    {
+                //        attackState = AttackStates.Idle;
+                //        comboCount = 0;
+                //        InAction = false;
+                //        //cancel the current animation and go back to locomotion
+                //       // StopAllCoroutines();
+                //        yield break;
+                //    }
                 //}
+             
 
             }
 
@@ -170,12 +175,13 @@ public class MeleeFighter : FighterBase
         attackState = AttackStates.Idle;
         comboCount = 0;
         InAction = false;
+        animator.applyRootMotion = false;
     }
 
 
     public void TryToDash()
     {
-        if (canDash)
+        if (canDash && !takingDamage)
         {
 
             StartCoroutine(Dash());

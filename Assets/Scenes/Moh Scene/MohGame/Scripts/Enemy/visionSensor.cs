@@ -7,7 +7,7 @@ public class visionSensor : MonoBehaviour
     [SerializeField] EnemyController enemy;
     private void Awake()
     {
-        //enemy.VisionSensor = this;
+        enemy.VisionSensor = this;
     }
     private void OnTriggerEnter(Collider other)
     {

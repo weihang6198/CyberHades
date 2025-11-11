@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public enum EnemyState { Idle,CombatMovement,Attack,RetreatAfterAttack,Dead,GettingHit}
 public class EnemyControllerTutorial : MonoBehaviour
 {
+  
     [field:SerializeField]public float Fov { get; private set; } = 180f;
     [field: SerializeField] public float AlertRange { get; private set; } = 20f;
     public List<MeleeFighterTutorial> TargetsInRange {  get; private set; }= new List<MeleeFighterTutorial>();

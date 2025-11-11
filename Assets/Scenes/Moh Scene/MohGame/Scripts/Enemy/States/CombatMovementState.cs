@@ -28,6 +28,7 @@ public class CombatMovementState : State<EnemyController>
 
     public override void Execute()
     {
+        if (!enemy.canAttack) return;
         if (enemy.Target == null)
         {
             //find target as soon as enter combat movement state
@@ -39,6 +40,13 @@ public class CombatMovementState : State<EnemyController>
                 enemy.ChangeState(EnemyStates.Idle);
                 return;
             }
+        }
+        if (enemy.Target.health <= 0)
+        {
+            enemy.Target = null;
+            enemy.ChangeState(EnemyStates.Idle);
+
+            return;
         }
         if (Vector3.Distance(enemy.Target.transform.position, enemy.transform.position) > distanceToStand + adjustDistanceThreshold)
             StartChase();
