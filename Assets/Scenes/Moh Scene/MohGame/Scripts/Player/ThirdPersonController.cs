@@ -166,6 +166,7 @@ namespace StarterAssets
             //player does not move
             if ((_meleeFighter.InAction && !_meleeFighter.isDashing) || _meleeFighter.health<=0)
             {
+               // _targetRotation = transform.rotation;
                 _animator.SetFloat("Speed", 0f);
                 //_animIDSpeed
                 return;

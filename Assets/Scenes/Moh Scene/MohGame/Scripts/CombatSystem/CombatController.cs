@@ -10,12 +10,13 @@ public class CombatController : MonoBehaviour
   
 
     MeleeFighter meleeFighter;
-   
+    Animator animator;
   
     private void Awake()
     {
         meleeFighter = GetComponent<MeleeFighter>();
         _input = GetComponent<StarterAssetsInputs>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -24,11 +25,42 @@ public class CombatController : MonoBehaviour
         if (_input.attack)
         {
             _input.attack = false;
-          
-            meleeFighter.TryToAttack();
+            var enemy = EnemyManager.instance.GetAttackingEnemy();
+            if ((enemy != null && enemy.Fighter.IsCounterable && (!meleeFighter.InAction || enemy.Fighter.isDashing)))
+            {
+                StartCoroutine(meleeFighter.PerformCounterAttack(enemy));
+            }
+            else
+            {
+                meleeFighter.TryToAttack();
+            }
+                
 
         }
+        //if (Input.GetButtonDown("Attack") && !meleeFighter.isTakingHit)
+        //{
+        //    var enemy = EnemyManagerTutorial.instance.GetAttackingEnemy();
+        //    if ((enemy != null && enemy.MeleeFighter.IsCounterable && !meleeFighter.InAction))
+        //    {
+        //        //test only
+        //        StartCoroutine(meleeFighter.PerformCounterAttack(enemy));
+        //        // meleeFighter.TryToAttack(PlayerControllerTutorial.instance.InputDir);
+        //    }
+        //    else
+        //    {
+        //        //rotate towards closest enemy and attack based on player input dir
+        //        var enemyToAttack = EnemyManagerTutorial.instance.GetClosestEnemyToDir(PlayerControllerTutorial.instance.GetIntentDirection());
 
+        //        if (enemyToAttack != null)
+        //            meleeFighter.TryToAttack(enemyToAttack?.MeleeFighter);
+        //        else
+        //            meleeFighter.TryToAttack(null);
+
+        //        CombatMode = true;
+
+        //    }
+
+        //}
         //player can animation cancel atk with dashing
         if (_input.dash)
         {
@@ -41,5 +73,17 @@ public class CombatController : MonoBehaviour
        // RotateTowardMouse();
     }
 
-   
+    private void OnAnimatorMove()
+    {
+        if (!meleeFighter.InCounter  || meleeFighter.isDashing)
+        {
+            //apply the position of root motion
+            transform.position += animator.deltaPosition;
+        }
+
+
+
+        //apply the rotation of root motion
+        transform.rotation *= animator.deltaRotation;
+    }
 }
