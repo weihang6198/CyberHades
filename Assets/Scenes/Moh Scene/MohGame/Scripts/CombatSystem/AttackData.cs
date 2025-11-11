@@ -27,8 +27,10 @@ public class AttackData : ScriptableObject
     [field: SerializeField] public float MoveStartTime { get; private set; } = 0f;
     [field: SerializeField] public float MoveEndTime { get; private set; } = 1f;
 
+    [field: Header("Slash Related")]
+    [field: SerializeField] public float SlashSpawnFrame { get; private set; } = 0.2f;
+    [field: SerializeField] public Vector3 SlashRotationOffset { get; private set; } = new Vector3(0.0f,0.0f,0.0f);
 
-   
 }
 
 public enum AttackHitbox { LeftHand,RightHand ,LeftFoot, RightFoot,Sword};

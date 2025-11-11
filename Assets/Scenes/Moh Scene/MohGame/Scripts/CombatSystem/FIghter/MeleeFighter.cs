@@ -2,12 +2,17 @@ using MagicaCloth2;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
-
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Windows;
+//using static System.IO.Enumeration.FileSystemEnumerable<TResult>;
+using System.IO;
+using System.IO.Enumeration;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+//using static System.IO.Enumeration.FileSystemEnumerable<TResult>;
 
 
 
@@ -22,6 +27,8 @@ public class MeleeFighter : FighterBase
     BoxCollider swordCollider;
     Vector3 AttackDir;
     bool doCombo;
+    bool isSlashSpawned = false;
+    Transform trans;
     
     public Camera mainCamera;       // assign your main camera in Inspector
 
@@ -91,6 +98,7 @@ public class MeleeFighter : FighterBase
 
         var animState = animator.GetCurrentAnimatorStateInfo(1);
         float timer = 0f;
+        isSlashSpawned = false;
         float currentPhaseAnimSpeed = attacks[comboCount].WindupSpeed;
         while (timer <= animState.length)
         {
@@ -131,27 +139,34 @@ public class MeleeFighter : FighterBase
             {
                 if (InCounter) break;
 
-                if (normalizedTime >= attacks[comboCount].ImpactEndTime )
+                if (normalizedTime >= attacks[comboCount].ImpactEndTime)
                 {
                     currentPhaseAnimSpeed = attacks[comboCount].CooldownSpeed;
                     animator.speed = currentPhaseAnimSpeed; // slow animationcurrentPhaseSpeed
                     attackState = AttackStates.Cooldown;
-                    
+
                     swordCollider.enabled = false;
 
 
+                }
+                Transform handTransform = animator.GetBoneTransform(HumanBodyBones.LeftHand);
+                handTransform.position = animator.GetBoneTransform(HumanBodyBones.Chest).position;
+                handTransform.rotation = handTransform.rotation * animator.GetBoneTransform(HumanBodyBones.LeftHand).rotation;
+                trans = handTransform;
+                
+                if (normalizedTime >= attacks[comboCount].SlashSpawnFrame && !isSlashSpawned)
+                {
                     //slashEffect.GetCalculatedSlashRotation(animator,);
                     //Spawn Slash VFX
                     if (slashEffect != null)
                     {
-                        Transform handTransform = animator.GetBoneTransform(HumanBodyBones.RightHand);
-                        handTransform.position = animator.GetBoneTransform(HumanBodyBones.Chest).position;
-
 
                         slashEffect.SpawnEffect(handTransform);
                     }
-                       
+
+                    isSlashSpawned = true;
                 }
+
             }
             else if (attackState == AttackStates.Cooldown)
             {

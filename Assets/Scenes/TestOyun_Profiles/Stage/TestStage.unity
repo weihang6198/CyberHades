@@ -1659,15 +1659,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <health>k__BackingField: 25
   attacks: []
+  hitStopTime: 0.05
   attackState: 0
+  isDashing: 0
+  dashWaitPercent: 0.7
+  dashCooldown: 1.5
   sword: {fileID: 0}
   slashEffect: {fileID: 0}
   meshTrailEffect: {fileID: 0}
   dashEffect: {fileID: 0}
   mainCamera: {fileID: 0}
-  isDashing: 0
-  dashWaitPercent: 0.7
-  dashCooldown: 1.5
 --- !u!136 &1029730487
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -17900,7 +17901,7 @@ MonoBehaviour:
   dash: 0
   analogMovement: 0
   cursorLocked: 1
-  cursorInputForLook: 1
+  cursorInputForLook: 0
 --- !u!4 &272993188152429408
 Transform:
   m_ObjectHideFlags: 0
@@ -20331,15 +20332,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b9dcb79523d9fa042ad7d34ed8107952, type: 2}
   - {fileID: 11400000, guid: 4c4286b125ee0b140bce2db88203c7e3, type: 2}
   - {fileID: 11400000, guid: efc24666a7ddceb42be7f58231bf8c38, type: 2}
+  hitStopTime: 0.05
   attackState: 0
+  isDashing: 0
+  dashWaitPercent: 0.7
+  dashCooldown: 1.5
   sword: {fileID: 1730841976}
   slashEffect: {fileID: 6982812147933622150}
   meshTrailEffect: {fileID: 6982812147933622151}
   dashEffect: {fileID: 6982812147933622152}
   mainCamera: {fileID: 8944336656349189699}
-  isDashing: 0
-  dashWaitPercent: 0.7
-  dashCooldown: 1.5
 --- !u!114 &6982812147933622150
 MonoBehaviour:
   m_ObjectHideFlags: 0
