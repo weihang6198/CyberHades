@@ -16,7 +16,10 @@ MonoBehaviour:
   <HitBoxToUse>k__BackingField: 0
   <ImpactStartTime>k__BackingField: 0.1
   <ImpactEndTime>k__BackingField: 0.75
-  <KnockBackDistance>k__BackingField: 3
+  <KnockBackDistance>k__BackingField: 2
+  <WindupSpeed>k__BackingField: 1
+  <ImpactSpeed>k__BackingField: 1
+  <CooldownSpeed>k__BackingField: 1
   <VFXStartTime>k__BackingField: 0
   <VFXEndTime>k__BackingField: 0
   <MoveToTarget>k__BackingField: 0
