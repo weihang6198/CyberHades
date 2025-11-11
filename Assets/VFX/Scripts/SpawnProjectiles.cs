@@ -9,7 +9,6 @@ public class SpawnProjectiles : MonoBehaviour
     public RotateToMouse rotateToMouse;
 
     private GameObject effectToSpawn;
-    private float timeToFire = 0;
 
     // Start is called before the first frame update
     void Start()

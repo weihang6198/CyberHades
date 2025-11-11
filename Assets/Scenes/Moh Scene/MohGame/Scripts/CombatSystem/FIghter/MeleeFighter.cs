@@ -12,10 +12,12 @@ using UnityEngine.Windows;
 public class MeleeFighter : FighterBase
 {
 
-   
+
     
     [SerializeField] GameObject sword;
     [SerializeField] SlashEffect slashEffect;
+    [SerializeField] MeshTrailEffect meshTrailEffect;
+    [SerializeField] DashEffect dashEffect;
     BoxCollider swordCollider;
     Vector3 AttackDir;
     bool doCombo;
@@ -194,10 +196,27 @@ public class MeleeFighter : FighterBase
         canDash = false;
 
         animator.CrossFade("Dash", 0.2f);
-        yield return null;
+        yield return null; //wait for 1 frame
 
         var animState = animator.GetCurrentAnimatorStateInfo(1);
-       
+
+        //spawn mesh trail here
+        if (meshTrailEffect != null)
+        {
+            meshTrailEffect.Execute();
+        }
+        else
+        {
+            Debug.Log("meshTrailEffect class has null");
+        }
+        //spawn dash
+        if (dashEffect != null)
+        {
+            dashEffect.Execute();
+        }
+        else
+            Debug.Log("dashEffect class has null");
+
         yield return new WaitForSeconds(animState.length * dashWaitPercent);
 
         animator.applyRootMotion = false; // Enable root motion
