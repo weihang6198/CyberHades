@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +24,9 @@ public class RetreatAfterAttackState : State<EnemyController>
             return;
         }
         Vector2 vecToTarget = enemy.Target.transform.position - enemy.transform.position;
+       
         enemy.NavAgent.Move(-vecToTarget.normalized * backwardWalkSpeed * Time.deltaTime);
+
 
         vecToTarget.y = 0f;
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(vecToTarget), 720 * Time.deltaTime);

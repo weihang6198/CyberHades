@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 99624b00ef928bf4197cb2e9a02d191f
+guid: 931ea6e1be74da94b9bb9f1466f79a04
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,9 +33,9 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Setmotion03_1P
-      takeName: Setmotion03_1P
-      internalID: -5836356819675358650
+      name: Setmotion01_2P
+      takeName: Setmotion01_2P
+      internalID: 3943906287688908854
       firstFrame: 0
       lastFrame: 120
       wrapMode: 0

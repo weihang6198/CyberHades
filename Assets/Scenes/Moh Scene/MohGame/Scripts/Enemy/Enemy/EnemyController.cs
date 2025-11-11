@@ -4,12 +4,15 @@ using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.TextCore.Text;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public enum EnemyStates { Idle, CombatMovement, Attack, RetreatAfterAttack, Dead, GettingHit }
 
 public enum EnemyType { Melee, Ranged, Boss }
 public class EnemyController     : MonoBehaviour
 {
+    [field: SerializeField] public bool canAttack = true;
     [field: SerializeField] public float Fov { get; private set; } = 180f;
     public StateMachine<EnemyController> stateMachine { get; private set; }
     public List<FighterBase> TargetsInRange { get; private set; } = new List<FighterBase>();
@@ -33,6 +36,7 @@ public class EnemyController     : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         NavAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         Fighter= GetComponent<FighterBase>();
@@ -49,24 +53,26 @@ public class EnemyController     : MonoBehaviour
         stateMachine = new StateMachine<EnemyController>(this);
         stateMachine.ChangeState(stateDict[EnemyStates.Idle]);
 
-        Fighter.OnGotHit += ReactToHit;
-        //Fighter.OnGotHit += (FighterBase attacker) =>
-        //{
+       // Fighter.OnGotHit += ReactToHit;
+        Fighter.OnGotHit += (FighterBase attacker) =>
+        {
 
-        //    if (Fighter.health > 0)
-        //    {
+            if (Fighter.health > 0)
+            {
 
-        //        Debug.Log("enemy getting hit");
-        //        ChangeState(EnemyStates.GettingHit); //advnced way 
-        //    }
+                Debug.Log("enemy getting hit");
+                ChangeState(EnemyStates.GettingHit); //advnced way 
+            }
 
-        //    else
-        //    {
-        //        Debug.Log("enemy dead");
-        //        ChangeState(EnemyStates.Dead);
-        //    }
+            else
+            {
+                Debug.Log("enemy dead");
+                ChangeState(EnemyStates.Dead);
+            }
 
-        //};
+        };
+    
+
     }
     public void ChangeState(EnemyStates state)
     {
@@ -76,6 +82,7 @@ public class EnemyController     : MonoBehaviour
     Vector3 prevPos;
     private void Update()
     {
+      
         //stateMachine.Execute();
 
 
@@ -106,16 +113,33 @@ public class EnemyController     : MonoBehaviour
         var velocity = deltaPos / Time.deltaTime;
 
         float forwardSpeed = Vector3.Dot(velocity, transform.forward);
+        float normalizedSpeed = forwardSpeed / NavAgent.speed;
+        if (float.IsNaN(normalizedSpeed) || float.IsInfinity(normalizedSpeed))
+            normalizedSpeed = 0f;
+
         //apply to all conditions
-        animator.SetFloat("Speed", forwardSpeed / NavAgent.speed, 0.2f, Time.deltaTime);
+        animator.SetFloat("Speed", normalizedSpeed, 0.2f, Time.deltaTime);
+
         animator.SetFloat("MotionSpeed", 1);
 
         float angle = Vector3.SignedAngle(transform.forward, velocity, Vector3.up);
+        if (float.IsNaN(angle) || float.IsInfinity(angle))
+            angle = 0f;
+
         float strafeSpeed = Mathf.Sin(angle * Mathf.Deg2Rad);
+        if (float.IsNaN(strafeSpeed) || float.IsInfinity(strafeSpeed))
+            strafeSpeed = 0f;
 
         animator.SetFloat("StrafeSpeed", strafeSpeed, 0.2f, Time.deltaTime);
 
-       
+      //  Debug.Log("StrafeSpeed is " + strafeSpeed);
+
+        if (Target?.health <= 0)
+        {
+            TargetsInRange.Remove(Target);
+            EnemyManager.instance.RemoveEnemyInRange(this);
+
+        }
         prevPos = transform.position;
     }
 
