@@ -15,11 +15,6 @@ public class MeleeFighter : FighterBase
 {
 
 
-<<<<<<< HEAD
-    
-=======
-   
->>>>>>> d1268c9699df32568fb2cd0060037ead75e34aa9
     [SerializeField] GameObject sword;
     [SerializeField] SlashEffect slashEffect;
     [SerializeField] MeshTrailEffect meshTrailEffect;
