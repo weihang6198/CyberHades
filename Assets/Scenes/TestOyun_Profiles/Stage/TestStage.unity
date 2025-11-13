@@ -12581,7 +12581,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1776709168
 Transform:
   m_ObjectHideFlags: 0
@@ -20502,7 +20502,7 @@ MonoBehaviour:
   attackState: 0
   isDashing: 0
   dashWaitPercent: 0.7
-  dashCooldown: 1.5
+  dashCooldown: 0.3
   sword: {fileID: 1730841976}
   slashEffect: {fileID: 6982812147933622150}
   meshTrailEffect: {fileID: 6982812147933622151}
@@ -21032,6 +21032,10 @@ PrefabInstance:
     - target: {fileID: 5538476520470168690, guid: 799154d3cfdfe1a48bb1ee674522a008, type: 3}
       propertyPath: m_Name
       value: AttackHintVFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 5538476520470168690, guid: 799154d3cfdfe1a48bb1ee674522a008, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
