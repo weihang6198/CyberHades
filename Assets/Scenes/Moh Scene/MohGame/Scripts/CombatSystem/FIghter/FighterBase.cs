@@ -12,6 +12,7 @@ public abstract class FighterBase : MonoBehaviour
 {
 
     [field:SerializeField] public float health { get; private set; } = 25f;
+    [field:SerializeField] public float maxHealth { get; private set; } = 25f;
 
     [SerializeField] public List<AttackData> attacks;
     protected int comboCount = 0;
@@ -43,6 +44,7 @@ public abstract class FighterBase : MonoBehaviour
         if (character == null)
             character = gameObject;
         PlayerInput = GetComponent<StarterAssetsInputs>();
+        maxHealth = health;
     }
 
     public abstract bool CanAttack(Vector3 targetPosition, float attackDistance=1.5f);
