@@ -19,22 +19,33 @@ public class AttackState: State<EnemyController>
     public override void Execute()
     {
         if (isAttacking) { return; }//prevent enemy from chasing player
-        if(enemy.enemyType==EnemyType.Melee)
+        if (enemy.enemyType == EnemyType.Melee)
         {
-           // Debug.Log("chasing player");
+            // Debug.Log("chasing player");
             enemy.NavAgent.SetDestination(enemy.Target.transform.position); //melee enemy chase player
         }
-        
+
 
         if (enemy.Fighter.CanAttack(enemy.Target.transform.position))
         {
-            if(enemy.canAttack)
+            if (enemy.canAttack) //for debug use
             {
                 //Debug.Log("enemy fighter attacking player");
                 StartCoroutine(Attack(Random.Range(0, enemy.Fighter.attacks.Count + 1)));
+
             }
-          
+            else
+            {
+                Debug.Log("enemy.canAttack is false");
+            }
+
         }
+        else
+        {
+            Debug.Log("attack state cannot attack");
+            enemy.NavAgent.SetDestination(enemy.Target.transform.position); //melee enemy chase player
+        }
+
 
 
       
