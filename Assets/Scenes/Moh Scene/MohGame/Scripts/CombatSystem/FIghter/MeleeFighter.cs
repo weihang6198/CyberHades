@@ -20,6 +20,7 @@ public class MeleeFighter : FighterBase
 {
 
 
+
     [SerializeField] GameObject sword;
     [SerializeField] SlashEffect slashEffect;
     [SerializeField] MeshTrailEffect meshTrailEffect;
