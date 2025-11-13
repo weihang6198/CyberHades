@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerHPBar : MonoBehaviour
 {
     public Material HPBarMat;
-
+    public MeleeFighter playerMeleeFighterClass;
     public float MaxHP = 100f;
     public float CurrentHP = 100f;
 
@@ -22,6 +22,11 @@ public class PlayerHPBar : MonoBehaviour
 
     void Update()
     {
+        if(playerMeleeFighterClass != null)
+        {
+            CurrentHP = playerMeleeFighterClass.health;
+        }
+
         float currentPercent = CurrentHP / MaxHP;
 
         HPBarMat.SetFloat("_HPPercent", currentPercent);
