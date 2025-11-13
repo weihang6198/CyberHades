@@ -613,18 +613,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0958414407e573e489563ad84bad18a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <health>k__BackingField: 25
+  <health>k__BackingField: 20
   attacks:
   - {fileID: 11400000, guid: b9dcb79523d9fa042ad7d34ed8107952, type: 2}
   - {fileID: 11400000, guid: 4c4286b125ee0b140bce2db88203c7e3, type: 2}
   hitStopTime: 0.1
   attackState: 0
-  sword: {fileID: 3336415258294443882}
-  slashEffect: {fileID: 0}
-  mainCamera: {fileID: 0}
   isDashing: 0
   dashWaitPercent: 0.7
   dashCooldown: 1.5
+  sword: {fileID: 3336415258294443882}
+  slashEffect: {fileID: 0}
+  meshTrailEffect: {fileID: 0}
+  dashEffect: {fileID: 0}
+  mainCamera: {fileID: 0}
 --- !u!114 &4575168007924458313
 MonoBehaviour:
   m_ObjectHideFlags: 0

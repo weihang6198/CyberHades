@@ -112,6 +112,8 @@ namespace StarterAssets
 
         private bool _hasAnimator;
 
+        public float gravity = -9.81f;
+        public Vector3 velocity;
         private bool IsCurrentDeviceMouse
         {
             get
@@ -174,7 +176,17 @@ namespace StarterAssets
             //JumpAndGravity();
             GroundedCheck();
             Move();
-           
+
+            velocity.y += gravity * Time.deltaTime;
+            transform.position += velocity * Time.deltaTime;
+
+            // Example: Stop when hitting ground (y = 0)
+            if (transform.position.y <= 0f)
+            {
+                transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+                velocity.y = 0f;
+            }
+
         }
 
         private void LateUpdate()

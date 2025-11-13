@@ -20,10 +20,7 @@ public class MeleeFighter : FighterBase
 {
 
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
     [SerializeField] GameObject sword;
     [SerializeField] SlashEffect slashEffect;
     [SerializeField] MeshTrailEffect meshTrailEffect;
