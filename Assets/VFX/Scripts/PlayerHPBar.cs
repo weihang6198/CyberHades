@@ -25,6 +25,7 @@ public class PlayerHPBar : MonoBehaviour
         if(playerMeleeFighterClass != null)
         {
             CurrentHP = playerMeleeFighterClass.health;
+            MaxHP = playerMeleeFighterClass.maxHealth;
         }
 
         float currentPercent = CurrentHP / MaxHP;
