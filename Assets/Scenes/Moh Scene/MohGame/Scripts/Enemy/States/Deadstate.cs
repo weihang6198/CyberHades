@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-
 using UnityEngine;
 
 public class DeadState : State<EnemyController>
@@ -14,8 +12,5 @@ public class DeadState : State<EnemyController>
 
         owner.NavAgent.enabled = false;
         owner.CharacterController.enabled = false;
-        
     }
 }
-
-

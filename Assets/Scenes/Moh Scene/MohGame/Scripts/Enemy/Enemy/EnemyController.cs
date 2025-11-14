@@ -16,13 +16,11 @@ public class EnemyController     : MonoBehaviour
     [field: SerializeField] public float Fov { get; private set; } = 180f;
     public StateMachine<EnemyController> stateMachine { get; private set; }
     public List<FighterBase> TargetsInRange { get; private set; } = new List<FighterBase>();
-     
+
     public FighterBase Target { get; set; }
     public FighterBase Fighter { get; set; }
 
-    public Dictionary<EnemyStates, State<EnemyController>> stateDict;
-
-    [SerializeField] private EnemyStates currentState;
+    Dictionary<EnemyStates, State<EnemyController>> stateDict;
 
     public NavMeshAgent NavAgent { get; private set; }
 
@@ -78,7 +76,6 @@ public class EnemyController     : MonoBehaviour
     }
     public void ChangeState(EnemyStates state)
     {
-        currentState = state;
         stateMachine.ChangeState(stateDict[state]);
     }
 
@@ -144,8 +141,6 @@ public class EnemyController     : MonoBehaviour
 
         }
         prevPos = transform.position;
-
-        GravityCustom();
     }
 
     public bool IsInState(EnemyStates state)
@@ -177,20 +172,5 @@ public class EnemyController     : MonoBehaviour
             }
         }
         return null;
-    }
-    public void GravityCustom()
-    {
-        Vector3 velocity = NavAgent.velocity;
-        float gravity = -9.81f;
-
-        velocity.y += gravity * Time.deltaTime;
-        transform.position += velocity * Time.deltaTime;
-
-        // Example: Stop when hitting ground (y = 0)
-        if (transform.position.y <= 0f)
-        {
-            transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
-            velocity.y = 0f;
-        }
     }
 }
