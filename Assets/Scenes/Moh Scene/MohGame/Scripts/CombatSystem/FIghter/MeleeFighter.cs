@@ -1,16 +1,17 @@
+using Cinemachine;
 using MagicaCloth2;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering.HighDefinition;
-using UnityEngine.Windows;
 //using static System.IO.Enumeration.FileSystemEnumerable<TResult>;
 using System.IO;
 using System.IO.Enumeration;
+using Unity.VisualScripting;
+
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.Windows;
 //using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 //using static System.IO.Enumeration.FileSystemEnumerable<TResult>;
 
@@ -20,11 +21,13 @@ public class MeleeFighter : FighterBase
 {
 
 
-
+     
     [SerializeField] GameObject sword;
     [SerializeField] SlashEffect slashEffect;
     [SerializeField] MeshTrailEffect meshTrailEffect;
     [SerializeField] DashEffect dashEffect;
+    [SerializeField] float dashDistance = 8f;
+    [SerializeField] float dashSpeed = 1.5f;
     BoxCollider swordCollider;
     Vector3 AttackDir;
     bool doCombo;
@@ -55,7 +58,11 @@ public class MeleeFighter : FighterBase
 
     public override bool CanAttack(Vector3 targetPosition,float attackDistance)
     {
-       return  Vector3.Distance(targetPosition, transform.position) <= attackDistance + 0.03f;
+        float distance = Vector3.Distance(targetPosition, transform.position);
+        Debug.Log("dist between enemy and player: " + distance);
+        Debug.Log("attack dist is " + attackDistance);
+        Debug.Log("distance <= attackDistance + 0.03f: " +( distance <= attackDistance + 0.03f));
+        return distance <= attackDistance + 0.03f;
       
         
     }
@@ -93,7 +100,10 @@ public class MeleeFighter : FighterBase
         targetDirection.y = 0f; // keep rotation horizontal
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
-        animator.CrossFade(attacks[comboCount].AnimName, 0.2f, 1);
+       
+        //animator.CrossFade(attacks[comboCount].AnimName, 0.05f, 1);
+        float blendTime = 0.05f; // real seconds
+        animator.CrossFadeInFixedTime(attacks[comboCount].AnimName, blendTime, 1);
         yield return null;
 
 
@@ -116,7 +126,7 @@ public class MeleeFighter : FighterBase
             );
 
             }
-
+             
             //modify the delta time based on current animation speed
             timer += Time.deltaTime* currentPhaseAnimSpeed;
             float normalizedTime = timer / animState.length;
@@ -126,7 +136,12 @@ public class MeleeFighter : FighterBase
             {
                 animator.speed = currentPhaseAnimSpeed; // slow animationcurrentPhaseSpeed
 
-                if (InCounter) break; //exit if player counter enemy attack
+                if (InCounter)
+                {
+                    swordCollider.enabled = false; 
+                    break; //exit if player counter enemy attack
+                }
+             
                 if (normalizedTime >= attacks[comboCount].ImpactStartTime)
                 {
                     currentPhaseAnimSpeed = attacks[comboCount].ImpactSpeed;
@@ -138,7 +153,12 @@ public class MeleeFighter : FighterBase
             //second phase impact 
             else if (attackState == AttackStates.Impact)
             {
-                if (InCounter) break;
+                if (InCounter)
+                {
+                    swordCollider.enabled = false;
+                    break;
+                }
+             
 
                 if (normalizedTime >= attacks[comboCount].ImpactEndTime)
                 {
@@ -214,11 +234,11 @@ public class MeleeFighter : FighterBase
         if (canDash && !takingDamage)
         {
 
-            StartCoroutine(Dash());
+            StartCoroutine(Dash(dashDistance));
 
         }
     }
-    IEnumerator Dash()
+    IEnumerator Dash(float dashDistance)
     {
 
         //reset 
@@ -228,38 +248,56 @@ public class MeleeFighter : FighterBase
         InAction = false;
         isDashing = true;
         canDash = false;
-
+        
         animator.CrossFade("Dash", 0.2f);
+        animator.speed = dashSpeed;
         yield return null; //wait for 1 frame
 
         var animState = animator.GetCurrentAnimatorStateInfo(1);
 
         //spawn mesh trail here
         if (meshTrailEffect != null)
-        {
             meshTrailEffect.Execute();
-        }
-        else
-        {
-            Debug.Log("meshTrailEffect class has null");
-        }
         //spawn dash
         if (dashEffect != null)
-        {
             dashEffect.Execute();
-        }
-        else
-            Debug.Log("dashEffect class has null");
 
-        yield return new WaitForSeconds(animState.length * dashWaitPercent);
+        //dash
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = startPos;
+
+
+        Vector3 dashDir = transform.forward;
+
+        targetPos = startPos + dashDir * dashDistance;
+
+        float timer = 0f;
+        float animEndPercentage = 0.7f;
+
+       
+        float animTime = animState.length * animEndPercentage;
+        while (timer <= animState.length)
+        {
+            timer += Time.deltaTime;
+            if (timer <= animTime)
+            {
+                float t = Mathf.Clamp01(timer / animTime);
+                transform.position = Vector3.Lerp(startPos, targetPos, t);
+            }
+
+            yield return null;
+        }
+
+       // yield return new WaitForSeconds(animState.length * dashWaitPercent);
 
         animator.applyRootMotion = false; //disable root motion
         isDashing = false;
-
+        animator.speed = 1f;
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
 
+ 
     Vector3 GetMouseDirection()
     {
         Ray ray = mainCamera.ScreenPointToRay(UnityEngine.Input.mousePosition);

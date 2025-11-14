@@ -38,9 +38,15 @@ Material:
     m_Ints: []
     m_Floats:
     - _EdgeIntesity: 96.86
+<<<<<<< HEAD
     - _HPDifPercent: 1
     - _HPOffset: 0.05
     - _HPPercent: 1
+=======
+    - _HPDifPercent: 0.9990007
+    - _HPOffset: 0.05
+    - _HPPercent: 0.999
+>>>>>>> 4b3da02c1b6dc9ba90a79537bc403d829eb49970
     - _HPPrevPercent: 0.1
     - _Intesity: 20.87
     - _NoiseIntesity: 10.07

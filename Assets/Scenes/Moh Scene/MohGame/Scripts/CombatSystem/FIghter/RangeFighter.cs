@@ -26,8 +26,7 @@ public class RangeFighter : FighterBase
     {
         if (!InAction)
         {
-            //Debug.Log("start couroutine atk function");
-            Debug.Log("inside range fighter TryToAttack");
+          
             StartCoroutine(Attack(target));
 
         }
@@ -36,7 +35,7 @@ public class RangeFighter : FighterBase
 
     public override IEnumerator Attack(FighterBase target = null)
     {
-        Debug.Log("inside range fighter attack func");
+       
         attackState = AttackStates.Windup;
 
 
@@ -92,7 +91,7 @@ public class RangeFighter : FighterBase
 
                     //slashEffect.GetCalculatedSlashRotation(animator,);
                     //Spawn projectile VFX
-                    spawnProjectiles.SpawnVFX(targetDirection);
+                    spawnProjectiles.SpawnVFX(targetDirection,this);
 
                 }
             }
