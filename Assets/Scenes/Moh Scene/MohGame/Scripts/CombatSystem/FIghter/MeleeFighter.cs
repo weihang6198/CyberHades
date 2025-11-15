@@ -33,6 +33,8 @@ public class MeleeFighter : FighterBase
     
     public Camera mainCamera;       // assign your main camera in Inspector
 
+    public bool canBlock = true;
+    public bool isBlocking = false;
  
 
    // public bool IsCounterable => attackState == AttackStates.Windup && comboCount == 0;
@@ -340,5 +342,93 @@ public class MeleeFighter : FighterBase
         InAction = false;
     }
 
+    public void TryToBlock()
+    {
+        if (canBlock && !takingDamage)
+        {
 
+            StartCoroutine(Block());
+
+        }
+    }
+
+    IEnumerator Block()
+    {
+
+        //reset 
+       
+        comboCount = 0;
+      
+        InAction = true;
+        canBlock = false;
+        isBlocking = true;
+
+        animator.SetLayerWeight(3, 1f);
+        animator.CrossFade("BlockStart", 0.2f);
+        yield return null; //wait for 1 frame
+
+        var animState = animator.GetCurrentAnimatorStateInfo(4);
+
+
+
+        yield return new WaitForSeconds(animState.length );
+        animator.CrossFade("BlockLoop", 0.2f);
+
+        yield return new WaitWhile(() => isBlocking);
+        animator.CrossFade("BlockEnd", 0.15f);
+
+        yield return null;
+        animState = animator.GetCurrentAnimatorStateInfo(4);
+        yield return new WaitForSeconds(animState.length);
+        canBlock = true;
+        isBlocking = false;
+        InAction = false;
+        Debug.Log("block anim done");
+
+        //yield return new WaitForSeconds(dashCooldown);
+        //canDash = true;
+
+
+    }
+
+    public void TryToEndBlock()
+    {
+       
+            StartCoroutine(EndBlock());
+
+        
+    }
+
+
+    IEnumerator EndBlock()
+    {
+
+        //reset 
+
+        comboCount = 0;
+
+        InAction = true;
+        canBlock = false;
+        isBlocking = true;
+
+        animator.SetLayerWeight(3, 1f);
+        animator.CrossFade("BlockEnd", 0.2f);
+        yield return null; //wait for 1 frame
+
+        var animState = animator.GetCurrentAnimatorStateInfo(4);
+
+
+
+        yield return new WaitForSeconds(animState.length);
+       
+        canBlock = true;
+        isBlocking = false;
+        InAction = false;
+        Debug.Log("block anim done");
+
+        //yield return new WaitForSeconds(dashCooldown);
+        //canDash = true;
+
+
+    }
 }

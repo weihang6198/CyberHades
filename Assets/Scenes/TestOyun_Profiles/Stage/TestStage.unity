@@ -18163,6 +18163,7 @@ MonoBehaviour:
   sprint: 0
   attack: 0
   dash: 0
+  block: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 0
@@ -18616,7 +18617,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 8338988565591873055}
   m_Lens:
-    FieldOfView: 20
+    FieldOfView: 25
     OrthographicSize: 5.5
     NearClipPlane: 0.2
     FarClipPlane: 500
@@ -21574,7 +21575,7 @@ Camera:
     height: 1
   near clip plane: 0.2
   far clip plane: 500
-  field of view: 20
+  field of view: 25
   orthographic: 0
   orthographic size: 5.5
   m_Depth: -1

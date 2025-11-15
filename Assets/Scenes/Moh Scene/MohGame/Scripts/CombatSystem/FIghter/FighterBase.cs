@@ -8,6 +8,13 @@ using UnityEngine;
 using UnityEngine.Windows;
 
 public enum AttackStates { Idle, Windup, Impact, Cooldown };
+public enum BlockStates
+{
+    Idle,
+    BlockStart, // pressed
+    Blocking,   // hold
+    BlockEnd    // released
+ };
 public abstract class FighterBase : MonoBehaviour
 {
 
