@@ -18,8 +18,8 @@ public enum BlockStates
 public abstract class FighterBase : MonoBehaviour
 {
 
-    [field:SerializeField] public float health { get; private set; } = 25f;
-    [field:SerializeField] public float maxHealth { get; private set; } = 25f;
+    [field:SerializeField] public float health { get;  set; } = 25f;
+    [field:SerializeField] public float maxHealth { get; set; } = 25f;
 
     [SerializeField] public List<AttackData> attacks;
     protected int comboCount = 0;
