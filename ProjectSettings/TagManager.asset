@@ -7,7 +7,6 @@ TagManager:
   - HitBox
   - CinemachineTarget
   - Enemy
-  - ProjectileHitBox
   layers:
   - Default
   - TransparentFX

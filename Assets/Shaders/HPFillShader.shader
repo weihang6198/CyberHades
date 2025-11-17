@@ -114,7 +114,8 @@ Shader "Unlit/HPFillShader"
 
                 float2 BloodUV = i.uv * _EdgeTextureTiling.rg;
                 float BloodCol = tex2D(_NoiseTexture, BloodUV).r ;
-                float BloodDissolve = (1 - step(BloodCol,smoothstep(_HPPercent,_HPPercent + _HPDifPercent,i.uv.r))) * 1- dissolveAlpha;
+                float BloodDissolve = (1 - step(BloodCol,smoothstep(_HPDifPercent,_HPDifPercent + 0.25,i.uv.r))) * 1- dissolveAlpha;
+                //float BloodDissolve = (1 - step(BloodCol,smoothstep(_HPPercent, _HPPercent,i.uv.r))) * 1- dissolveAlpha;
 
                 fixed4 HPCol = 0;
                 noise * dissolveAlpha;

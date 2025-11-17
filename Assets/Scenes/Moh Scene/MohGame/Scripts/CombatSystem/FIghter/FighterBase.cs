@@ -8,11 +8,18 @@ using UnityEngine;
 using UnityEngine.Windows;
 
 public enum AttackStates { Idle, Windup, Impact, Cooldown };
+public enum BlockStates
+{
+    Idle,
+    BlockStart, // pressed
+    Blocking,   // hold
+    BlockEnd    // released
+ };
 public abstract class FighterBase : MonoBehaviour
 {
 
-    [field:SerializeField] public float health { get; private set; } = 25f;
-     public float maxHealth { get; private set; } = 25f;
+    [field:SerializeField] public float health { get;  set; } = 25f;
+    [field:SerializeField] public float maxHealth { get; set; } = 25f;
 
     [SerializeField] public List<AttackData> attacks;
     protected int comboCount = 0;
@@ -111,29 +118,18 @@ public abstract class FighterBase : MonoBehaviour
         FighterBase attacker = other.GetComponentInParent<FighterBase>();
         if (attacker == null)
         {
-            // Maybe it’s a projectile instead of melee
-            Projectile proj = other.GetComponentInParent<Projectile>();
-            if (proj != null)
-                attacker = proj.owner;
-            Debug.Log("projectile owner");
-        }
-
-        if (attacker == null)
-        {
-            Debug.Log("attack is null");
-            return;
-        }
-            
+            var attacker = other.GetComponentInParent<FighterBase>();
         
-      
+            TakeDamage(5f);
+            OnGotHit?.Invoke(attacker);
+           
+            if (health > 0)
+                //StartCoroutine(PlayHitReaction(other.GetComponentInParent<MeleeFighter>().transform));
+                StartCoroutine(PlayHitReaction(attacker));
+            else
+                PlayDeathAnimation(attacker);
 
-        TakeDamage(5f);
-        OnGotHit?.Invoke(attacker);
-
-        if (health > 0)
-            StartCoroutine(PlayHitReaction(attacker));
-        else
-            PlayDeathAnimation(attacker);
+        }
     }
 
     public virtual bool ShouldEndRetreat(float distanceToTarget)

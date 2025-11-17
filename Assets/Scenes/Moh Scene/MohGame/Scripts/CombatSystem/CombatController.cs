@@ -1,5 +1,6 @@
 using StarterAssets;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -68,9 +69,23 @@ public class CombatController : MonoBehaviour
 
             meleeFighter.TryToDash();
         }
+        if (_input.blockStart)
+        {
+            _input.blockStart = false;
 
+            meleeFighter.isBlocking = !meleeFighter.isBlocking;
+            Debug.Log("block pressed");
+            meleeFighter.TryToBlock();
+        }
+
+        if (_input.blockEnd )
+        {
+            _input.blockEnd = false;
+            Debug.Log("block released");
+            meleeFighter.isBlocking = false;
+        }
         //meleeFighter.RotateTowardMouse();
-       // RotateTowardMouse();
+        // RotateTowardMouse();
     }
 
     private void OnAnimatorMove()
