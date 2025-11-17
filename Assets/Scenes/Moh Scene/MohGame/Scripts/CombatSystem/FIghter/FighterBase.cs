@@ -107,7 +107,7 @@ public abstract class FighterBase : MonoBehaviour
     {
         if (!other.CompareTag("HitBox"))
             return;
-
+        Debug.Log("test for git");
         FighterBase attacker = other.GetComponentInParent<FighterBase>();
         if (attacker == null)
         {
