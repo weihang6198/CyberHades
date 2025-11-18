@@ -176,16 +176,8 @@ namespace StarterAssets
             //JumpAndGravity();
             GroundedCheck();
             Move();
-
-            velocity.y += gravity * Time.deltaTime;
-            transform.position += velocity * Time.deltaTime;
-
-            // Example: Stop when hitting ground (y = 0)
-            if (transform.position.y <= 0f)
-            {
-                transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
-                velocity.y = 0f;
-            }
+            GravityCustom();
+           
 
         }
 
@@ -403,6 +395,18 @@ namespace StarterAssets
                 GroundedRadius);
         }
 
+        public void GravityCustom()
+        {
+            velocity.y += gravity * Time.deltaTime;
+            transform.position += velocity * Time.deltaTime;
+
+            // Example: Stop when hitting ground (y = 0)
+            if (transform.position.y <= 0f)
+            {
+                transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+                velocity.y = 0f;
+            }
+        }
         private void OnFootstep(AnimationEvent animationEvent)
         {
          

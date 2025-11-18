@@ -1,6 +1,5 @@
 using StarterAssets;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -69,10 +68,8 @@ public class CombatController : MonoBehaviour
 
             meleeFighter.TryToDash();
         }
-        if (_input.blockStart)
-        {
-            _input.blockStart = false;
 
+<<<<<<< HEAD
             meleeFighter.isBlocking = !meleeFighter.isBlocking;
             Debug.Log("block pressed");
             meleeFighter.TryToBlock();
@@ -89,8 +86,10 @@ public class CombatController : MonoBehaviour
         {
             meleeFighter.RotateTowardMouse(); 
         }
+=======
+>>>>>>> parent of f8dd312 (Merge branch 'main' of https://github.com/weihang6198/CyberHades)
         //meleeFighter.RotateTowardMouse();
-        // RotateTowardMouse();
+       // RotateTowardMouse();
     }
 
     private void OnAnimatorMove()

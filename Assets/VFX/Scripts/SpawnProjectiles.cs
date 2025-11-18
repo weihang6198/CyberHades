@@ -11,7 +11,7 @@ public class SpawnProjectiles : MonoBehaviour
     private GameObject effectToSpawn;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         effectToSpawn = vfx[0];
     }
@@ -26,7 +26,7 @@ public class SpawnProjectiles : MonoBehaviour
         //}
     }
 
-    public void SpawnVFX(Vector3 direction)
+    public void SpawnVFX(Vector3 direction,FighterBase owner)
     {
         Vector3 pos = firePoint.transform.position;
         pos.y = 1f;
@@ -38,6 +38,11 @@ public class SpawnProjectiles : MonoBehaviour
         }
        
         Quaternion rot = Quaternion.LookRotation(direction);
-        Instantiate(effectToSpawn, firePoint.position, rot);
+        GameObject projectileObj = Instantiate(effectToSpawn, firePoint.position, rot);
+        Projectile projectile = projectileObj.GetComponent<Projectile>();
+        if (projectile != null)
+        {
+            projectile.owner = owner;
+        }
     }
 }

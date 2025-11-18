@@ -6,19 +6,18 @@ public class PlayerHPBar : MonoBehaviour
 {
     public Material HPBarMat;
     public MeleeFighter playerMeleeFighterClass;
-    float MaxHP = 100f;
-    float CurrentHP = 100f;
+    public float MaxHP = 100f;
+    public float CurrentHP = 100f;
 
-    private float currentPercent;
+    private float prevPercent;
     private float diffPercent;
-    private float target;
 
-    public float reduceSpeed = 2f;
-    public float backgroundreduceSpeed = 0.2f;
+    public float lerpSpeed = 2f;
 
     void Start()
     {
-        target = CurrentHP / MaxHP;
+        prevPercent = CurrentHP / MaxHP;
+        diffPercent = prevPercent;
     }
 
     void Update()
@@ -29,12 +28,13 @@ public class PlayerHPBar : MonoBehaviour
             MaxHP = playerMeleeFighterClass.maxHealth;
         }
 
-        target = CurrentHP / MaxHP;
-        currentPercent = Mathf.MoveTowards(currentPercent, target, Time.deltaTime * reduceSpeed);
+        float currentPercent = CurrentHP / MaxHP;
 
         HPBarMat.SetFloat("_HPPercent", currentPercent);
 
-        diffPercent = Mathf.MoveTowards(diffPercent, target, Time.deltaTime * backgroundreduceSpeed);
+        diffPercent = Mathf.Lerp(diffPercent, currentPercent, Time.deltaTime * lerpSpeed);
         HPBarMat.SetFloat("_HPDifPercent", diffPercent);
+
+        prevPercent = currentPercent;
     }
 }

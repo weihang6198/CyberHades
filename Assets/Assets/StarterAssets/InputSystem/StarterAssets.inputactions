@@ -58,24 +58,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "BlockStart",
-                    "type": "Button",
-                    "id": "a02e5092-5f4b-4d25-a6f2-d00625c113fe",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "BlockEnd",
-                    "type": "Button",
-                    "id": "a8f2949f-b8fd-4637-8561-19ec425f8a9d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -274,28 +256,6 @@
                     "processors": "",
                     "groups": ";KeyboardMouse",
                     "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "416dc11c-4a7a-48a0-944d-19c9af70d3a3",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": ";KeyboardMouse",
-                    "action": "BlockStart",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6de31a15-d859-40c6-a27d-059ca59bed7b",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": ";KeyboardMouse",
-                    "action": "BlockEnd",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

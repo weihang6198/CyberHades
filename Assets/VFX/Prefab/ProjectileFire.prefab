@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   fireRate: 4
+  owner: {fileID: 7737046086735737713, guid: b9c3a765300a3764a9f8dcc60a843f1d, type: 3}
 --- !u!135 &9024687821422576224
 SphereCollider:
   m_ObjectHideFlags: 0

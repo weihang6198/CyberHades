@@ -14,8 +14,6 @@ namespace StarterAssets
 		public bool sprint;
 		public bool attack;
 		public bool dash;
-		public bool blockStart;
-		public bool blockEnd;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -47,24 +45,6 @@ namespace StarterAssets
         {
             DashInput(value.isPressed);
         }
-
-        public void OnBlockStart(InputValue value)
-        {
-            BlockPressedInput(value.isPressed);
-        }
-
-        //public void OnBlockEnd(InputAction.CallbackContext context)
-        //{
-        //    // The 'canceled' phase means the button was just released
-        //    if (context.canceled)
-        //    {
-        //        BlockReleasedInput(true); // Set blockEnd to true for one frame
-        //    }
-        //    else
-        //    {
-        //        BlockReleasedInput(false);
-        //    }
-        //}
         public void OnSprint(InputValue value)
 		{
 			SprintInput(value.isPressed);
@@ -95,15 +75,6 @@ namespace StarterAssets
         public void DashInput(bool newDashState)
         {
             dash = newDashState;
-        }
-        public void BlockPressedInput(bool newBlockState)
-        {
-            blockStart = newBlockState;
-        }
-
-        public void BlockReleasedInput(bool newBlockState)
-        {
-            blockEnd = newBlockState;
         }
         public void SprintInput(bool newSprintState)
 		{
