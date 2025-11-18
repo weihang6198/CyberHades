@@ -218,8 +218,11 @@ public abstract class FighterBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //if (other.tag == "HitBox" && !InAction)
-        if (other.tag == "HitBox" )
+        if (!other.CompareTag("HitBox"))
+            return;
+        Debug.Log("test for git");
+        FighterBase attacker = other.GetComponentInParent<FighterBase>();
+        if (attacker == null)
         {
             var attacker = other.GetComponentInParent<FighterBase>();
 
