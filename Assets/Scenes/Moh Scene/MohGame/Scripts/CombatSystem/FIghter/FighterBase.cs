@@ -224,7 +224,7 @@ public abstract class FighterBase : MonoBehaviour
         FighterBase attacker = other.GetComponentInParent<FighterBase>();
         if (attacker == null)
         {
-            var attacker = other.GetComponentInParent<FighterBase>();
+            //var attacker = other.GetComponentInParent<FighterBase>();
 
             //do block logic here
             if(CanPerformBlock(attacker))
