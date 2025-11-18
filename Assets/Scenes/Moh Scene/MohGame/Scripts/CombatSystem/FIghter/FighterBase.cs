@@ -118,7 +118,7 @@ public abstract class FighterBase : MonoBehaviour
         FighterBase attacker = other.GetComponentInParent<FighterBase>();
         if (attacker == null)
         {
-            var attacker = other.GetComponentInParent<FighterBase>();
+            
         
             TakeDamage(5f);
             OnGotHit?.Invoke(attacker);
