@@ -32,4 +32,14 @@ public class WizardFIghter : FighterBase
         yield return null;
 
     }
+
+    public override bool CanPerformBlock(FighterBase opponent)
+    {
+        return false;
+    }
+
+    public override bool CanPerformParry(FighterBase opponent)
+    {
+        return false;
+    }
 }

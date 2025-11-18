@@ -84,6 +84,11 @@ public class CombatController : MonoBehaviour
             Debug.Log("block released");
             meleeFighter.isBlocking = false;
         }
+
+        if(meleeFighter.isBlocking && meleeFighter.blockStates==BlockStates.BlockLoop)
+        {
+            meleeFighter.RotateTowardMouse(); 
+        }
         //meleeFighter.RotateTowardMouse();
         // RotateTowardMouse();
     }

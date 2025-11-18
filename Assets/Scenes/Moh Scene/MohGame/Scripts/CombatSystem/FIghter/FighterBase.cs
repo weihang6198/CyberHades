@@ -8,13 +8,7 @@ using UnityEngine;
 using UnityEngine.Windows;
 
 public enum AttackStates { Idle, Windup, Impact, Cooldown };
-public enum BlockStates
-{
-    Idle,
-    BlockStart, // pressed
-    Blocking,   // hold
-    BlockEnd    // released
- };
+
 public abstract class FighterBase : MonoBehaviour
 {
 
@@ -27,6 +21,8 @@ public abstract class FighterBase : MonoBehaviour
 
     //delegate
     public event Action<FighterBase> OnGotHit;
+    public event Action<FighterBase> OnGotBlocked; //enemy attack got block by player
+    public event Action<FighterBase> OnGotParried; //enemy attack got parry by player
     //public event Action  OnGotHit;
     public event Action OnHitComplete;
 
@@ -45,6 +41,10 @@ public abstract class FighterBase : MonoBehaviour
     public float dashWaitPercent = 0.7f;
     public float dashCooldown = 1.5f;
     public bool InCounter { get; set; } = false;
+
+    public bool canBlock = true;
+    public bool isBlocking = false;
+    public bool forceEndBlock = false;
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
@@ -110,21 +110,151 @@ public abstract class FighterBase : MonoBehaviour
         takingDamage = false;
         InAction = false;
     }
+
+    IEnumerator PlayBlockReaction(FighterBase attacker)
+    {
+        InAction = true;
+        takingDamage = true;
+
+        var displacementVector = attacker.transform.position - transform.position;
+        displacementVector.y = 0;
+        transform.rotation = Quaternion.LookRotation(displacementVector);
+
+        OnGotBlocked?.Invoke(attacker);
+
+        // Play hit reaction on override layer 1
+        animator.SetLayerWeight(3, 1f);
+        animator.CrossFadeInFixedTime("BlockReact", 0.05f, 1, 0f);
+        yield return null;
+
+        var animState = animator.GetCurrentAnimatorStateInfo(4);
+
+        FighterBase target = attacker;
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = startPos;
+
+        // blocking target  knockback
+        if (target != null)
+        {
+            var vecToTarget = target.transform.position - transform.position;
+            vecToTarget.y = 0;
+            Vector3 attackDir = -vecToTarget.normalized; // knock *away* from attacker
+            //float knockbackDist = attacker.attacks[attacker.comboCount].KnockBackDistance;
+            float knockbackDist = 3f;
+            targetPos = startPos + attackDir * knockbackDist;
+        }
+
+        //move the target current pos to knockback pos
+        float timer = 0f;
+        float animEndPercentage = 0.5f;
+        float animTime = animState.length * animEndPercentage;
+        while (timer <= animState.length)
+        {
+            timer += Time.deltaTime;
+            if (timer <= animTime)
+            {
+                float t = Mathf.Clamp01(timer / animTime);
+                transform.position = Vector3.Lerp(startPos, targetPos, t);
+            }
+
+            yield return null;
+        }
+
+        OnHitComplete?.Invoke();
+        takingDamage = false;
+        InAction = false;
+    }
+
+    IEnumerator PlayParryReaction(FighterBase attacker)
+    {
+        InAction = true;
+        takingDamage = true;
+
+        var displacementVector = attacker.transform.position - transform.position;
+        displacementVector.y = 0;
+        transform.rotation = Quaternion.LookRotation(displacementVector);
+
+        OnGotHit?.Invoke(attacker);
+
+        // Play hit reaction on override layer 1
+        animator.CrossFadeInFixedTime("SwordImpact", 0.05f, 1, 0f);
+        yield return null;
+
+        var animState = animator.GetCurrentAnimatorStateInfo(1);
+
+        FighterBase target = attacker;
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = startPos;
+
+        // enemy knockback
+        if (target != null)
+        {
+            var vecToTarget = target.transform.position - transform.position;
+            vecToTarget.y = 0;
+            Vector3 attackDir = -vecToTarget.normalized; // knock *away* from attacker
+            float knockbackDist = attacker.attacks[attacker.comboCount].KnockBackDistance;
+            targetPos = startPos + attackDir * knockbackDist;
+        }
+
+        float timer = 0f;
+        float animEndPercentage = 0.35f;
+        float animTime = animState.length * animEndPercentage;
+        while (timer <= animState.length)
+        {
+            timer += Time.deltaTime;
+            if (timer <= animTime)
+            {
+                float t = Mathf.Clamp01(timer / animTime);
+                transform.position = Vector3.Lerp(startPos, targetPos, t);
+            }
+
+            yield return null;
+        }
+
+        OnHitComplete?.Invoke();
+        takingDamage = false;
+        InAction = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         //if (other.tag == "HitBox" && !InAction)
         if (other.tag == "HitBox" )
         {
             var attacker = other.GetComponentInParent<FighterBase>();
-        
-            TakeDamage(5f);
-            OnGotHit?.Invoke(attacker);
+
+            //do block logic here
+            if(CanPerformBlock(attacker))
+            {
+                Debug.Log("bloc succ");
+                if (CanPerformParry(attacker))
+                {
+                    //false for now
+                }
+                forceEndBlock = true;
+                StartCoroutine(PlayBlockReaction(attacker));
+                return;
+            }
+            else
+            {
+                Debug.Log("taking dmg , block failed");
+                TakeDamage(5f);
+                OnGotHit?.Invoke(attacker);
+            }
+                
            
             if (health > 0)
+            {
+                forceEndBlock = true;
                 //StartCoroutine(PlayHitReaction(other.GetComponentInParent<MeleeFighter>().transform));
                 StartCoroutine(PlayHitReaction(attacker));
+            }
+                
             else
+            {
                 PlayDeathAnimation(attacker);
+            }
+                
 
         }
     }
@@ -153,4 +283,8 @@ public abstract class FighterBase : MonoBehaviour
         yield return new WaitForSecondsRealtime(duration);
         Time.timeScale = originalTimeScale;
     }
+
+    public abstract bool CanPerformBlock(FighterBase opponent);
+
+    public abstract bool CanPerformParry(FighterBase opponent);
 }

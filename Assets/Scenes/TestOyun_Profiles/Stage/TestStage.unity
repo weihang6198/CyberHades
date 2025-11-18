@@ -20550,9 +20550,15 @@ MonoBehaviour:
   slashEffect: {fileID: 6982812147933622150}
   meshTrailEffect: {fileID: 6982812147933622151}
   dashEffect: {fileID: 6982812147933622152}
+  blockStartSpeed: 2
+  blockEndSpeed: 2
   mainCamera: {fileID: 8944336656349189699}
   canBlock: 1
   isBlocking: 0
+<<<<<<< Updated upstream
+=======
+  blockStates: 0
+>>>>>>> Stashed changes
 --- !u!114 &6982812147933622150
 MonoBehaviour:
   m_ObjectHideFlags: 0

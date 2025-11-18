@@ -15,7 +15,13 @@ using System.IO.Enumeration;
 //using static System.IO.Enumeration.FileSystemEnumerable<TResult>;
 
 
-
+public enum BlockStates
+{
+    Idle,
+    BlockStart, // pressed
+    BlockLoop,   // hold
+    BlockEnd    // released
+};
 public class MeleeFighter : FighterBase
 {
 
@@ -25,20 +31,22 @@ public class MeleeFighter : FighterBase
     [SerializeField] SlashEffect slashEffect;
     [SerializeField] MeshTrailEffect meshTrailEffect;
     [SerializeField] DashEffect dashEffect;
+    [SerializeField] float blockStartSpeed = 1.5f;
+    [SerializeField] float blockEndSpeed = 1.5f;
+
     BoxCollider swordCollider;
     Vector3 AttackDir;
     bool doCombo;
     bool isSlashSpawned = false;
     Transform trans;
-    
+
     public Camera mainCamera;       // assign your main camera in Inspector
 
-    public bool canBlock = true;
-    public bool isBlocking = false;
- 
 
-   // public bool IsCounterable => attackState == AttackStates.Windup && comboCount == 0;
- 
+
+    public BlockStates blockStates = BlockStates.Idle;
+    // public bool IsCounterable => attackState == AttackStates.Windup && comboCount == 0;
+    private Coroutine blockCoroutine;
     protected override void Awake()
     {
         base.Awake(); // runs FighterBase.Awake() 
@@ -47,23 +55,23 @@ public class MeleeFighter : FighterBase
 
     private void Start()
     {
-       
+
         if (sword != null)
         {
-            swordCollider=sword.GetComponent<BoxCollider>();
+            swordCollider = sword.GetComponent<BoxCollider>();
             swordCollider.enabled = false;
         }
     }
 
-    public override bool CanAttack(Vector3 targetPosition,float attackDistance)
+    public override bool CanAttack(Vector3 targetPosition, float attackDistance)
     {
-       return  Vector3.Distance(targetPosition, transform.position) <= attackDistance + 0.03f;
-      
-        
+        return Vector3.Distance(targetPosition, transform.position) <= attackDistance + 0.03f;
+
+
     }
     public override void TryToAttack(FighterBase target = null)
     {
-        if (!InAction && !isDashing) 
+        if (!InAction && !isDashing)
         {
             //Debug.Log("start couroutine atk function");
 
@@ -75,23 +83,23 @@ public class MeleeFighter : FighterBase
             doCombo = true;
         }
     }
-   
-    public override  IEnumerator Attack(FighterBase target = null)
+
+    public override IEnumerator Attack(FighterBase target = null)
     {
-        
+
         attackState = AttackStates.Windup;
 
-        
+
         //default, for enemy
         Vector3 targetDirection = transform.forward;
 
         //only for player
-        if (character.tag=="Player")
+        if (character.tag == "Player")
         {
             // Capture the mouse direction once at attack start
             targetDirection = GetMouseDirection();
         }
-        animator.applyRootMotion=true;
+        animator.applyRootMotion = true;
         targetDirection.y = 0f; // keep rotation horizontal
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
@@ -120,7 +128,7 @@ public class MeleeFighter : FighterBase
             }
 
             //modify the delta time based on current animation speed
-            timer += Time.deltaTime* currentPhaseAnimSpeed;
+            timer += Time.deltaTime * currentPhaseAnimSpeed;
             float normalizedTime = timer / animState.length;
 
             //first phase windup
@@ -156,7 +164,7 @@ public class MeleeFighter : FighterBase
                 handTransform.position = animator.GetBoneTransform(HumanBodyBones.Chest).position;
                 handTransform.rotation = handTransform.rotation * animator.GetBoneTransform(HumanBodyBones.LeftHand).rotation;
                 trans = handTransform;
-                
+
                 if (normalizedTime >= attacks[comboCount].SlashSpawnFrame && !isSlashSpawned)
                 {
                     //slashEffect.GetCalculatedSlashRotation(animator,);
@@ -181,7 +189,7 @@ public class MeleeFighter : FighterBase
                     StartCoroutine(Attack());
                     yield break;
                 }
-                
+
                 //if ((character.tag == "Player"))
                 //{
                 //    Debug.Log("inside stop all courtine for play tag only");
@@ -196,7 +204,7 @@ public class MeleeFighter : FighterBase
                 //        yield break;
                 //    }
                 //}
-             
+
 
             }
 
@@ -204,7 +212,7 @@ public class MeleeFighter : FighterBase
         }
 
         animator.speed = 1;
-       attackState = AttackStates.Idle;
+        attackState = AttackStates.Idle;
         comboCount = 0;
         InAction = false;
         animator.applyRootMotion = false;
@@ -215,14 +223,23 @@ public class MeleeFighter : FighterBase
     {
         if (canDash && !takingDamage)
         {
-
+            if (isBlocking)
+            {
+                Debug.Log("stop block courtine and force end block is true");
+                forceEndBlock = true;
+                //StopCoroutine(blockCoroutine);
+                //blockCoroutine = null;
+                 
+            }
             StartCoroutine(Dash());
+           
+           
 
         }
     }
     IEnumerator Dash()
     {
-
+        Debug.Log("Inside dash");
         //reset 
         animator.applyRootMotion = true; // Enable root motion
         comboCount = 0;
@@ -230,7 +247,11 @@ public class MeleeFighter : FighterBase
         InAction = false;
         isDashing = true;
         canDash = false;
+        canBlock = false;
+        isBlocking = false;
 
+        animator.SetLayerWeight(1, 1f);
+        animator.speed = 1;
         animator.CrossFade("Dash", 0.2f);
         yield return null; //wait for 1 frame
 
@@ -260,6 +281,8 @@ public class MeleeFighter : FighterBase
 
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
+        canBlock = true;
+
     }
 
     Vector3 GetMouseDirection()
@@ -280,13 +303,13 @@ public class MeleeFighter : FighterBase
     }
     public void RotateTowardMouse()
     {
-   
-        Vector3 direction= GetMouseDirection();
+
+        Vector3 direction = GetMouseDirection();
         if (direction.sqrMagnitude > 0.01f)
         {
             transform.rotation = Quaternion.LookRotation(direction);
         }
-        
+
     }
 
     public override bool ShouldEndRetreat(float distanceToTarget)
@@ -315,25 +338,25 @@ public class MeleeFighter : FighterBase
         animator.SetLayerWeight(2, 1f);
         opponent.animator.SetLayerWeight(2, 1f);
         //play animations
-        animator.CrossFade("CounterAttack2", 0.2f,2);
-        opponent.animator.CrossFade("CounterAttackVictim2", 0.2f,2);
+        animator.CrossFade("CounterAttack2", 0.2f, 2);
+        opponent.animator.CrossFade("CounterAttackVictim2", 0.2f, 2);
         yield return null;//wait for a single frame
 
         //1 represent override layer
         var animState = animator.GetNextAnimatorStateInfo(2);
-     
+
         float timer = 0f;
 
         //make the player move to target position while performing counter attack
-        
+
         while (timer <= animState.length)
         {
-           // if (isTakingHit) break;
+            // if (isTakingHit) break;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, 5 * Time.deltaTime);
             yield return null;
             timer += Time.deltaTime;
         }
-   
+
 
         // yield return new WaitForSeconds(animState.length * animeEndPercentage);
 
@@ -347,7 +370,7 @@ public class MeleeFighter : FighterBase
         if (canBlock && !takingDamage)
         {
 
-            StartCoroutine(Block());
+            blockCoroutine = StartCoroutine(Block());
 
         }
     }
@@ -356,30 +379,46 @@ public class MeleeFighter : FighterBase
     {
 
         //reset 
-       
+
         comboCount = 0;
-      
         InAction = true;
         canBlock = false;
         isBlocking = true;
 
+        //Block Start
         animator.SetLayerWeight(3, 1f);
         animator.CrossFade("BlockStart", 0.2f);
+        animator.speed = blockStartSpeed;
+        blockStates = BlockStates.BlockStart;
         yield return null; //wait for 1 frame
-
         var animState = animator.GetCurrentAnimatorStateInfo(4);
+        float animDuration = animState.length / blockStartSpeed;
+        yield return new WaitForSeconds(animDuration);
 
+        //block loop
 
-
-        yield return new WaitForSeconds(animState.length );
         animator.CrossFade("BlockLoop", 0.2f);
-
-        yield return new WaitWhile(() => isBlocking);
-        animator.CrossFade("BlockEnd", 0.15f);
-
+        blockStates = BlockStates.BlockLoop;
+        yield return new WaitWhile(() => isBlocking || forceEndBlock);
+        Debug.Log("yield return new WaitWhile(() => isBlocking || forceEndBlock); passed");
+        if(forceEndBlock)
+        {
+            forceEndBlock = false;
+            Debug.Log("force end block is true, exiting block");
+            yield break;
+        }
+        //block end state
+        animator.speed = blockEndSpeed;
+        animator.CrossFade("Idle", 0.15f);
+        blockStates = BlockStates.BlockEnd;
         yield return null;
         animState = animator.GetCurrentAnimatorStateInfo(4);
-        yield return new WaitForSeconds(animState.length);
+        animDuration = animState.length / blockStartSpeed;
+        yield return new WaitForSeconds(animDuration * 0.5f);
+
+        //all finished
+        animator.speed = 1f;
+        blockStates = BlockStates.Idle;
         canBlock = true;
         isBlocking = false;
         InAction = false;
@@ -391,44 +430,20 @@ public class MeleeFighter : FighterBase
 
     }
 
-    public void TryToEndBlock()
-    {
-       
-            StartCoroutine(EndBlock());
 
-        
+    public override bool CanPerformBlock(FighterBase opponent)
+    {
+        //check dot product of opp and player
+        Vector3 dirToOpponent = (opponent.transform.position - transform.position).normalized;
+        float dot = Vector3.Dot(transform.forward, dirToOpponent);
+
+
+        // 180‹ in front = any positive dot
+        return dot >0;
     }
 
-
-    IEnumerator EndBlock()
+    public override bool CanPerformParry(FighterBase opponent)
     {
-
-        //reset 
-
-        comboCount = 0;
-
-        InAction = true;
-        canBlock = false;
-        isBlocking = true;
-
-        animator.SetLayerWeight(3, 1f);
-        animator.CrossFade("BlockEnd", 0.2f);
-        yield return null; //wait for 1 frame
-
-        var animState = animator.GetCurrentAnimatorStateInfo(4);
-
-
-
-        yield return new WaitForSeconds(animState.length);
-       
-        canBlock = true;
-        isBlocking = false;
-        InAction = false;
-        Debug.Log("block anim done");
-
-        //yield return new WaitForSeconds(dashCooldown);
-        //canDash = true;
-
-
+        return false;
     }
 }

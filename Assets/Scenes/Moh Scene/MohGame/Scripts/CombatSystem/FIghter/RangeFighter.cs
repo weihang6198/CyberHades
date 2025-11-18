@@ -130,4 +130,14 @@ public class RangeFighter : FighterBase
         return distanceToTarget >= 8f;
     }
 
+
+    public override bool CanPerformBlock(FighterBase opponent)
+    {
+        return false;
+    }
+
+    public override bool CanPerformParry(FighterBase opponent)
+    {
+        return false;
+    }
 }
