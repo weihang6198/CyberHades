@@ -13,8 +13,12 @@ public class DeadState : State<EnemyController>
         owner.NavAgent.enabled = false;
         owner.CharacterController.enabled = false;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         owner.Fighter.health = 0;
     }
+=======
+    }   
+>>>>>>> Stashed changes
 =======
     }   
 >>>>>>> Stashed changes
