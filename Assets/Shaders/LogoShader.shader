@@ -78,8 +78,8 @@ Shader "Unlit/LogoShader"
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
 
-                fixed4 finalColor =  col * _Color;
-           
+                fixed4 finalColor =  col * _Color ;
+                finalColor.a *= col.r;
                 float sineWave = sin(_Time.y *_ShineStrength) * 0.5 + 0.5;
                 float shineAlpha = sineWave * 0.6 + 0.4;
                 if(_IsShine >= 1.0f)

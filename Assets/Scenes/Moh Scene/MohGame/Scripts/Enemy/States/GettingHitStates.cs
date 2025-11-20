@@ -12,6 +12,7 @@ public class GettingHitState : State<EnemyController>
         enemy = owner;
         enemy.Fighter.OnHitComplete += () => StartCoroutine(GotToCombatMovement());
 
+        enemy.GetHitEffect();
     }
 
     IEnumerator GotToCombatMovement()

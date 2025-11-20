@@ -32,6 +32,11 @@ public class EnemyController     : MonoBehaviour
 
     public visionSensor VisionSensor { get; set; }
 
+    [SerializeField] public Renderer[] rends;
+     List<Material> materials = new List<Material>();
+    [SerializeField] public AnimationCurve HitFresnelCurve;
+
+    
     public CharacterController CharacterController { get; private set; }
     // Start is called before the first frame update
     void Start()
@@ -71,7 +76,7 @@ public class EnemyController     : MonoBehaviour
             }
 
         };
-    
+        RegisterMaterialsFromRenderer();
 
     }
     public void ChangeState(EnemyStates state)
@@ -172,6 +177,73 @@ public class EnemyController     : MonoBehaviour
             }
         }
         return null;
+    }
+
+    void RegisterMaterialsFromRenderer()
+    {
+        foreach (Renderer r in rends)
+        {
+            foreach (var m in r.materials)
+            {
+                materials.Add(m);
+            }
+        }
+    }
+
+    public void GetHitEffect()
+    {
+        foreach (var mat in materials)
+        {
+            mat.SetColor("_FresnelColor", new Color(4, 0, 0));
+            StartCoroutine(FadeFilterByColor(mat, new Color(4, 0, 0), new Color(0, 0, 0), 0.3f));
+        }
+    }
+
+    private IEnumerator FadeFilterByColor(Material mat, Color from, Color to, float duration)
+    {
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / duration;
+            float curveT = HitFresnelCurve.Evaluate(t);
+
+            mat.SetColor("_FresnelColor", Color.Lerp(from, to, curveT));
+            yield return null;
+        }
+
+        mat.SetColor("_FresnelColor", to);
+    }
+
+    public void DeadEffect()
+    {
+        foreach (var mat in materials)
+        {
+            mat.SetFloat("_VerticalClipOffset", 0);
+            StartCoroutine(FadeFilterByfloat(mat, 0,1,2f));
+        }
+    }
+
+    private IEnumerator FadeFilterByfloat(Material mat, float from, float to, float duration)
+    {
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / duration;
+            float curveT = HitFresnelCurve.Evaluate(t);
+
+            mat.SetFloat("_VerticalClipOffset", Mathf.Lerp(from, to, curveT));
+            mat.SetFloat("_AlphaClipThresholdOffset", Mathf.Lerp(to, from, curveT));
+
+            yield return null;
+        }
+
+        mat.SetFloat("_VerticalClipOffset", from);
+        mat.SetFloat("_AlphaClipThresholdOffset", to);
+
+        Destroy(gameObject);
+
     }
 
     private void OnEnable()

@@ -5,10 +5,11 @@ using UnityEngine;
 public class SlashEffect : MonoBehaviour
 {
     public ParticleSystem Slash;
+    public GameObject SlashVFX;
     
     public void SpawnEffect(Transform SlashSpawnTransform)
     {
-        var slash = Instantiate(Slash, SlashSpawnTransform.position, SlashSpawnTransform.rotation);
+        var slash = Instantiate(SlashVFX.GetComponentInChildren<ParticleSystem>(), SlashSpawnTransform.position, SlashSpawnTransform.rotation);
         slash.Play();
         //Debug.DrawLine(SlashSpawnTransform.position, new Vector3(0, 0, 0));
         float SlashLifeTime = slash.main.duration + slash.main.startLifetime.constantMax;
