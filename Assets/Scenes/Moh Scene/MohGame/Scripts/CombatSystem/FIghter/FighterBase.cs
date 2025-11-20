@@ -35,6 +35,7 @@ public abstract class FighterBase : MonoBehaviour
     protected Animator animator;
     public bool InAction { get; protected set; }
     public bool takingDamage { get; protected set; }
+    public bool isDead { get; private set; }
 
     public AttackStates attackState;
 
@@ -138,6 +139,14 @@ public abstract class FighterBase : MonoBehaviour
     void TakeDamage(float damage)
     {
         health = Mathf.Clamp(health - damage, 0, health);
+        if (health <= 0f)
+        {
+            isDead = true;
+        }
+        else
+        {
+            isDead = false;
+        }
     }
 
     void PlayDeathAnimation(FighterBase fighter)

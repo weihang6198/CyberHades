@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
@@ -59,9 +59,27 @@ public class PauseMenu : MonoBehaviour
             LoadScene(0);
 
         }
+    } 
+
+    public void OnRestartStage()
+    {
+        if (PauseVolume.TryGet(out colorAdjustments))
+        {
+            StartCoroutine(FadeOutAndLoadScene(GetCurrentSceneID(), 0.5f));
+        
+        }
+        else
+        {
+            Debug.LogError("ColorAdjustments component not found on the Volume Profile!");
+            LoadScene(GetCurrentSceneID());
+
+        }
     }
 
-
+    static int GetCurrentSceneID()
+    {
+        return UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+    }
 
     public void LoadScene(int SceneID)
     {
