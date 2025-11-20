@@ -24,10 +24,10 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: b0e714b10a50c8b4e81a7c4f03851baa, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - _ALPHAPREMULTIPLY_ON
   - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -70,12 +70,12 @@ Material:
     - _CastShadows: 0
     - _Cull: 2
     - _DstBlend: 10
-    - _Metallic: 9.2
-    - _Power: 12.8
+    - _Metallic: 0.25
+    - _Power: 20.61
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Specular: 15.81
+    - _Specular: 1
     - _SrcBlend: 1
     - _Surface: 1
     - _WorkflowMode: 1
@@ -83,5 +83,5 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 0.26415092, g: 0, b: 0, a: 1}
+    - _Color: {r: 0.8490566, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

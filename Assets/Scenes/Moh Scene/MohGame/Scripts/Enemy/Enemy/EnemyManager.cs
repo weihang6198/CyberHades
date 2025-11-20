@@ -12,7 +12,8 @@ public class EnemyManager : MonoBehaviour
 
     public static EnemyManager instance { get; private set; }
     public float notAttackingTimer = 2f;
-    float timer = 0;
+
+    public int registredEnemiesCount = 0;
     private void Awake()
     {
         instance = this;
@@ -104,4 +105,12 @@ public class EnemyManager : MonoBehaviour
         return enemiesInRange.FirstOrDefault(e => e.IsInState(EnemyStates.Attack));
     }
 
+    public void RegisterEnemy()
+    {
+        registredEnemiesCount++;
+    }
+    public void UnregisterEnemy()
+    {
+        registredEnemiesCount--;
+    }
 }

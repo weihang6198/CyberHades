@@ -173,4 +173,13 @@ public class EnemyController     : MonoBehaviour
         }
         return null;
     }
+
+    private void OnEnable()
+    {
+        EnemyManager.instance.RegisterEnemy();
+    }
+    private void OnDisable()
+    {
+        EnemyManager.instance.UnregisterEnemy();
+    }
 }
