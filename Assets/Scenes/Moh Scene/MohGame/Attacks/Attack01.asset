@@ -27,5 +27,5 @@ MonoBehaviour:
   <MaxMoveDistance>k__BackingField: 3
   <MoveStartTime>k__BackingField: 0
   <MoveEndTime>k__BackingField: 1
-  <SlashSpawnFrame>k__BackingField: 0.133
-  <SlashRotationOffset>k__BackingField: {x: 180, y: 180, z: 0}
+  <SlashSpawnFrame>k__BackingField: 0.15
+  <SlashRotationOffset>k__BackingField: {x: 0, y: 0, z: 0}

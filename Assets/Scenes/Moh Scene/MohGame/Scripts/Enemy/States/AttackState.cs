@@ -6,6 +6,7 @@ public class AttackState: State<EnemyController>
 {
 
     [SerializeField] float attackDistance = 1.2f;
+    [SerializeField] public GameObject attackHintVFX;
     bool isAttacking;
     EnemyController enemy;
     public override void Enter(EnemyController owner)
@@ -46,6 +47,15 @@ public class AttackState: State<EnemyController>
         isAttacking = true;
         enemy.animator.applyRootMotion = true;
         enemy.Fighter.TryToAttack(enemy.Target);
+
+        GameObject attackHintVFXInstance = Instantiate(attackHintVFX, enemy.animator.GetBoneTransform(HumanBodyBones.Head).position, Quaternion.identity); ;
+
+        ParticleSystem ps = attackHintVFXInstance.GetComponentInChildren<ParticleSystem>();
+        if (ps != null)
+        {
+            Destroy(attackHintVFXInstance, ps.main.duration);
+        }
+
         for (int i = 1; i < comboCount; i++)
         {
             //combo mechanic, make enemy attack more than 1 times 

@@ -3,10 +3,13 @@ using StarterAssets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using Unity.VisualScripting;
+
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Windows;
-
+using Random = UnityEngine.Random;
 public enum AttackStates { Idle, Windup, Impact, Cooldown };
 public enum BlockStates
 {
@@ -24,6 +27,8 @@ public abstract class FighterBase : MonoBehaviour
     [SerializeField] public List<AttackData> attacks;
     protected int comboCount = 0;
     [SerializeField] float hitStopTime = 0.05f;
+
+    [field:SerializeField] public GameObject hitLightVFX;
 
     //delegate
     public event Action<FighterBase> OnGotHit;
@@ -90,6 +95,14 @@ public abstract class FighterBase : MonoBehaviour
             Vector3 attackDir = -vecToTarget.normalized; // knock *away* from attacker
             float knockbackDist = attacker.attacks[attacker.comboCount].KnockBackDistance;
             targetPos = startPos + attackDir * knockbackDist;
+
+            GameObject hitLightVFXInstance = Instantiate(hitLightVFX, transform.localPosition += new Vector3(0, Random.Range(0.3f, 1.0f), 0), Quaternion.identity); ;
+
+            ParticleSystem ps = hitLightVFXInstance.GetComponentInChildren<ParticleSystem>();
+            if (ps != null)
+            {
+                Destroy(hitLightVFXInstance, ps.main.duration);
+            }
         }
 
         float timer = 0f;

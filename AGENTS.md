@@ -2,7 +2,7 @@
 - Project name: CyberHades
 - Unity version: Unity 2022.3.62f1
 - Active game object:
-  - Name: NextStageTrigger
+  - Name: MeleeEnemy (1)
   - Tag: Untagged
-  - Layer: Default
+  - Layer: Enemy
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

@@ -152,10 +152,8 @@ public class MeleeFighter : FighterBase
 
 
                 }
-                Transform handTransform = animator.GetBoneTransform(HumanBodyBones.LeftHand);
-                handTransform.position = animator.GetBoneTransform(HumanBodyBones.Chest).position;
-                handTransform.rotation = handTransform.rotation * animator.GetBoneTransform(HumanBodyBones.LeftHand).rotation;
-                trans = handTransform;
+                Transform SpawnTransform = animator.GetBoneTransform(HumanBodyBones.Chest);
+                SpawnTransform.rotation = sword.transform.rotation;
                 
                 if (normalizedTime >= attacks[comboCount].SlashSpawnFrame && !isSlashSpawned)
                 {
@@ -164,7 +162,7 @@ public class MeleeFighter : FighterBase
                     if (slashEffect != null)
                     {
 
-                        slashEffect.SpawnEffect(handTransform);
+                        slashEffect.SpawnEffect(SpawnTransform);
                     }
 
                     isSlashSpawned = true;

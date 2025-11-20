@@ -621,6 +621,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b9dcb79523d9fa042ad7d34ed8107952, type: 2}
   - {fileID: 11400000, guid: 4c4286b125ee0b140bce2db88203c7e3, type: 2}
   hitStopTime: 0.1
+  hitLightVFX: {fileID: 6253807965709964959, guid: 3a93d9fcf7da0244a8afb4fec0f86cbc, type: 3}
   attackState: 0
   isDashing: 0
   dashWaitPercent: 0.7
@@ -711,6 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDistance: 2
+  attackHintVFX: {fileID: 5538476520470168690, guid: 799154d3cfdfe1a48bb1ee674522a008, type: 3}
 --- !u!143 &6483858220839680368
 CharacterController:
   m_ObjectHideFlags: 0
