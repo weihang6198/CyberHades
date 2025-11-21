@@ -11,6 +11,7 @@ using UnityEngine.Windows;
 //using static System.IO.Enumeration.FileSystemEnumerable<TResult>;
 using System.IO;
 using System.IO.Enumeration;
+using System.Linq;
 //using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 //using static System.IO.Enumeration.FileSystemEnumerable<TResult>;
 
@@ -218,43 +219,94 @@ public class MeleeFighter : FighterBase
 
         }
     }
+    //IEnumerator Dash()
+    //{
+
+    //    //reset 
+    //    animator.applyRootMotion = true; // Enable root motion
+    //    comboCount = 0;
+    //    attackState = AttackStates.Idle;
+    //    InAction = false;
+    //    isDashing = true;
+    //    canDash = false;
+
+    //    animator.CrossFade("Dash", 0.2f);
+    //    yield return null; //wait for 1 frame
+
+    //    var animState = animator.GetCurrentAnimatorStateInfo(1);
+
+    //    //spawn mesh trail here
+    //    if (meshTrailEffect != null)
+    //    {
+    //        meshTrailEffect.Execute();
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("meshTrailEffect class has null");
+    //    }
+    //    //spawn dash
+    //    if (dashEffect != null)
+    //    {
+    //        dashEffect.Execute();
+    //    }
+    //    else
+    //        Debug.Log("dashEffect class has null");
+
+    //    yield return new WaitForSeconds(animState.length * dashWaitPercent);
+
+    //    animator.applyRootMotion = false; //disable root motion
+    //    isDashing = false;
+
+    //    yield return new WaitForSeconds(dashCooldown);
+    //    canDash = true;
+    //}
     IEnumerator Dash()
     {
-
-        //reset 
-        animator.applyRootMotion = true; // Enable root motion
+        animator.applyRootMotion = true;
         comboCount = 0;
         attackState = AttackStates.Idle;
         InAction = false;
         isDashing = true;
         canDash = false;
 
-        animator.CrossFade("Dash", 0.2f);
-        yield return null; //wait for 1 frame
+        // --- FRAME SETUP ---
+        AnimationClip dashClip = animator.runtimeAnimatorController.animationClips
+            .First(c => c.name == "DashFront");
 
-        var animState = animator.GetCurrentAnimatorStateInfo(1);
+        float totalFrames = dashClip.length * dashClip.frameRate;
+        float startNorm = 10f / totalFrames;
+        float endNorm = 29f / totalFrames;
 
-        //spawn mesh trail here
-        if (meshTrailEffect != null)
+        // Start at frame 10
+        animator.Play("Dash", 1, startNorm);
+
+        yield return null; // wait 1 frame so state updates
+
+        // --- SPAWN EFFECTS ---
+        if (meshTrailEffect != null) meshTrailEffect.Execute();
+        if (dashEffect != null) dashEffect.Execute(animator.GetBoneTransform(HumanBodyBones.Hips).position, new Vector3(0,0,0.3f));
+
+        // --- PLAY ONLY UNTIL FRAME 32 ---
+        while (true)
         {
-            meshTrailEffect.Execute();
-        }
-        else
-        {
-            Debug.Log("meshTrailEffect class has null");
-        }
-        //spawn dash
-        if (dashEffect != null)
-        {
-            dashEffect.Execute();
-        }
-        else
-            Debug.Log("dashEffect class has null");
+            var state = animator.GetCurrentAnimatorStateInfo(1);
 
-        yield return new WaitForSeconds(animState.length * dashWaitPercent);
+            // reached frame 32 
+            if (state.normalizedTime >= endNorm)
+            {
+                animator.speed = 0f; // freeze on frame 32
+                break;
+            }
 
-        animator.applyRootMotion = false; //disable root motion
+            yield return null;
+        }
+
+        // --- CLEANUP ---
+        animator.applyRootMotion = false;
         isDashing = false;
+
+        // allow animator to move again after dash
+        animator.speed = 1f;
 
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
@@ -284,8 +336,8 @@ public class MeleeFighter : FighterBase
         {
             transform.rotation = Quaternion.LookRotation(direction);
         }
-        
-    }
+    }  
+
 
     public override bool ShouldEndRetreat(float distanceToTarget)
     {

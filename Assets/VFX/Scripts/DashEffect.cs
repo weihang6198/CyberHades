@@ -7,17 +7,17 @@ public class DashEffect : MonoBehaviour
     public GameObject DashVFX;
     public float lifetime;
 
-    public void Execute()
+    public void Execute(Vector3 position, Vector3 positionOffset = new Vector3())
     {
         if (DashVFX != null)
         {
             GameObject dashFX = Instantiate(
                             DashVFX,
-                            transform.position,
+                            position,
                             transform.rotation
                         );
             dashFX.transform.parent = transform;
-            dashFX.transform.localPosition += new Vector3 ( 0, 1, 0 );
+            dashFX.transform.localPosition += new Vector3 ( 0, 0, 0.3f );
 
             dashFX.SetActive(true);
             ParticleSystem[] particles = dashFX.GetComponentsInChildren<ParticleSystem>();

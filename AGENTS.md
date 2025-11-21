@@ -2,7 +2,7 @@
 - Project name: CyberHades
 - Unity version: Unity 2022.3.62f1
 - Active game object:
-  - Name: Kaiju
+  - Name: PlayerAttackDirectionDecal
   - Tag: Untagged
-  - Layer: Default
+  - Layer: Player
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
