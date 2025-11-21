@@ -5,25 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class SceneManager : MonoBehaviour
 {
-    public Transform PlayerTransfrom;
-    public float Distance = 5;
-    public string SceneName;
-    public void LoadScreen(string newScene)
+    public LoadingScene loadSceneClass; 
+    public static SceneManager instance { get; private set; }
+
+    private void Awake()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(newScene);
+        instance = this;
+    }
+
+    public void LoadSceneByID(int newScene)
+    {
+        if (loadSceneClass != null)
+        {
+            loadSceneClass.OnLoadScene(newScene);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        float dist = Vector3.Distance(transform.position,PlayerTransfrom.position);
 
-        Debug.Log(dist);
-
-        if (dist < Distance)
-        {
-            LoadScreen(SceneName);
-        }
 
     }
 }

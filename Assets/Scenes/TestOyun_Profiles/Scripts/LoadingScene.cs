@@ -7,9 +7,11 @@ using UnityEngine.SceneManagement;
 public class LoadingScene : MonoBehaviour
 {
     public GameObject LoadingScreen;
+    public CanvasGroup LoadingSceneCanvasGroup;
+
     public Image LoadingBarFill;
 
-    public void LoadScene(int SceneID)
+    public void OnLoadScene(int SceneID)
     {
         StartCoroutine(LoadSceneAsync(SceneID));
     }
@@ -17,6 +19,7 @@ public class LoadingScene : MonoBehaviour
     IEnumerator LoadSceneAsync(int SceneID)
     {
         LoadingScreen.SetActive(true);
+        FadeFilterByCanvas(LoadingSceneCanvasGroup,0,1,0.5f);
 
         AsyncOperation operation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(SceneID);
 
@@ -28,5 +31,26 @@ public class LoadingScene : MonoBehaviour
             yield return null;
 
         }
+    }
+
+    private IEnumerator FadeFilterByCanvas(CanvasGroup adjust, float from, float to, float duration, float waitForSeconds = 0.0f)
+    {
+        float elapsedTime = 0f;
+
+        yield return new WaitForSecondsRealtime(waitForSeconds);
+
+        while (elapsedTime < duration)
+        {
+
+            elapsedTime += Time.unscaledDeltaTime;
+
+            float t = Mathf.Clamp01(elapsedTime / duration);
+
+            float newColor = Mathf.Lerp(from, to, t);
+            adjust.alpha = newColor;
+            yield return null;
+        }
+
+        adjust.alpha = to;
     }
 }
