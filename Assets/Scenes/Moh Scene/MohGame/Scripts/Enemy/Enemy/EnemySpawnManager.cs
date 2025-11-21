@@ -16,10 +16,7 @@ public class EnemySpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (EnemyManager.instance.registredEnemiesCount <= 0) 
-        {
-            Debug.Log("all Enemy Destroyed!");
-        }
+
     }
 
     public void SpawnEnemy(EnemyTypes type= EnemyTypes.Melee)

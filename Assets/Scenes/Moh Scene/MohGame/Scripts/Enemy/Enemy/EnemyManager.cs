@@ -14,6 +14,7 @@ public class EnemyManager : MonoBehaviour
     public float notAttackingTimer = 2f;
 
     public int registredEnemiesCount = 0;
+    public bool IsEnemiesAlive = false;
     private void Awake()
     {
         instance = this;
@@ -105,9 +106,20 @@ public class EnemyManager : MonoBehaviour
         return enemiesInRange.FirstOrDefault(e => e.IsInState(EnemyStates.Attack));
     }
 
+    public bool OnCheckAllEnemiesAlive()
+    {
+        if (registredEnemiesCount <= 0)
+        {
+            IsEnemiesAlive = false;
+        }
+
+        return IsEnemiesAlive;
+    }
+
     public void RegisterEnemy()
     {
         registredEnemiesCount++;
+        IsEnemiesAlive = true;
     }
     public void UnregisterEnemy()
     {

@@ -35,6 +35,8 @@ public class EnemyController     : MonoBehaviour
     [SerializeField] public Renderer[] rends;
      List<Material> materials = new List<Material>();
     [SerializeField] public AnimationCurve HitFresnelCurve;
+    [SerializeField] public Color HitFresnelColor;
+    [SerializeField] public float HitFresnelIntensity;
 
     
     public CharacterController CharacterController { get; private set; }
@@ -194,8 +196,8 @@ public class EnemyController     : MonoBehaviour
     {
         foreach (var mat in materials)
         {
-            mat.SetColor("_FresnelColor", new Color(4, 0, 0));
-            StartCoroutine(FadeFilterByColor(mat, new Color(4, 0, 0), new Color(0, 0, 0), 0.3f));
+            mat.SetColor("_FresnelColor", HitFresnelColor * HitFresnelIntensity);
+            StartCoroutine(FadeFilterByColor(mat, HitFresnelColor * HitFresnelIntensity, new Color(0, 0, 0), 0.3f));
         }
     }
 
