@@ -22368,9 +22368,9 @@ MonoBehaviour:
   <health>k__BackingField: 100
   <maxHealth>k__BackingField: 100
   attacks:
-  - {fileID: 11400000, guid: b9dcb79523d9fa042ad7d34ed8107952, type: 2}
-  - {fileID: 11400000, guid: 4c4286b125ee0b140bce2db88203c7e3, type: 2}
-  - {fileID: 11400000, guid: efc24666a7ddceb42be7f58231bf8c38, type: 2}
+  - {fileID: 11400000, guid: 802faddb7a17fcf478ea03df9a114c07, type: 2}
+  - {fileID: 11400000, guid: 188087fe6ec6d5044807940bbbf65f1a, type: 2}
+  - {fileID: 11400000, guid: dad41a5ecd6086c40a15ce5f3740c454, type: 2}
   hitStopTime: 0.05
   hitLightVFX: {fileID: 6253807965709964959, guid: 3a93d9fcf7da0244a8afb4fec0f86cbc, type: 3}
   attackState: 0
