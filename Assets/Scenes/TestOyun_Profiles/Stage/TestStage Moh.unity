@@ -2198,7 +2198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919645073525968473, guid: 9d01c0824e8b82f4c9614bf8d4da6663, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.16
+      value: 20.6
       objectReference: {fileID: 0}
     - target: {fileID: 919645073525968473, guid: 9d01c0824e8b82f4c9614bf8d4da6663, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2562,7 +2562,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 712502162787562885, guid: b9c3a765300a3764a9f8dcc60a843f1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.254
+      value: 29.98
       objectReference: {fileID: 0}
     - target: {fileID: 712502162787562885, guid: b9c3a765300a3764a9f8dcc60a843f1d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22365,8 +22365,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0958414407e573e489563ad84bad18a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <health>k__BackingField: 10
-  <maxHealth>k__BackingField: 10
+  <health>k__BackingField: 100
+  <maxHealth>k__BackingField: 100
   attacks:
   - {fileID: 11400000, guid: b9dcb79523d9fa042ad7d34ed8107952, type: 2}
   - {fileID: 11400000, guid: 4c4286b125ee0b140bce2db88203c7e3, type: 2}
@@ -22381,6 +22381,8 @@ MonoBehaviour:
   slashEffect: {fileID: 6982812147933622150}
   meshTrailEffect: {fileID: 6982812147933622151}
   dashEffect: {fileID: 6982812147933622152}
+  dashDistance: 3.5
+  dashTime: {x: 10, y: 32}
   mainCamera: {fileID: 8944336656349189699}
   canBlock: 0
   isBlocking: 0

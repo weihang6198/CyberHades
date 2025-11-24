@@ -1,4 +1,4 @@
-using MagicaCloth2;
+﻿using MagicaCloth2;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +26,11 @@ public class MeleeFighter : FighterBase
     [SerializeField] SlashEffect slashEffect;
     [SerializeField] MeshTrailEffect meshTrailEffect;
     [SerializeField] DashEffect dashEffect;
+    [SerializeField] float dashDistance = 4f;
+    [SerializeField] Vector2 dashTime = new Vector2(10f, 31f);
     BoxCollider swordCollider;
+    bool showDebugSphere = false;
+    Vector3 debugPos;
     Vector3 AttackDir;
     bool doCombo;
     bool isSlashSpawned = false;
@@ -130,8 +134,10 @@ public class MeleeFighter : FighterBase
                 animator.speed = currentPhaseAnimSpeed; // slow animationcurrentPhaseSpeed
 
                 if (InCounter) break; //exit if player counter enemy attack
-                if (normalizedTime >= attacks[comboCount].ImpactStartTime)
+                if (normalizedTime >= attacks[comboCount].ImpactStartTime) //enter attack
                 {
+                    showDebugSphere = true;
+                    debugPos = transform.position;     // capture position at this moment
                     currentPhaseAnimSpeed = attacks[comboCount].ImpactSpeed;
                     animator.speed = currentPhaseAnimSpeed; // slow animationcurrentPhaseSpeed
                     attackState = AttackStates.Impact;
@@ -143,8 +149,9 @@ public class MeleeFighter : FighterBase
             {
                 if (InCounter) break;
 
-                if (normalizedTime >= attacks[comboCount].ImpactEndTime)
+                if (normalizedTime >= attacks[comboCount].ImpactEndTime) //exit attack
                 {
+                    showDebugSphere = false;
                     currentPhaseAnimSpeed = attacks[comboCount].CooldownSpeed;
                     animator.speed = currentPhaseAnimSpeed; // slow animationcurrentPhaseSpeed
                     attackState = AttackStates.Cooldown;
@@ -172,6 +179,7 @@ public class MeleeFighter : FighterBase
             }
             else if (attackState == AttackStates.Cooldown)
             {
+                showDebugSphere = false;
                 if (doCombo)
                 {
                     doCombo = false;
@@ -269,43 +277,48 @@ public class MeleeFighter : FighterBase
         isDashing = true;
         canDash = false;
 
-        // --- FRAME SETUP ---
         AnimationClip dashClip = animator.runtimeAnimatorController.animationClips
             .First(c => c.name == "DashFront");
 
         float totalFrames = dashClip.length * dashClip.frameRate;
-        float startNorm = 10f / totalFrames;
-        float endNorm = 29f / totalFrames;
+        float startNorm = dashTime.x / totalFrames;
+        float endNorm = dashTime.y/ totalFrames;
 
-        // Start at frame 10
         animator.Play("Dash", 1, startNorm);
 
-        yield return null; // wait 1 frame so state updates
+        yield return null;
 
-        // --- SPAWN EFFECTS ---
         if (meshTrailEffect != null) meshTrailEffect.Execute();
-        if (dashEffect != null) dashEffect.Execute(animator.GetBoneTransform(HumanBodyBones.Hips).position, new Vector3(0,0,0.3f));
+        if (dashEffect != null) dashEffect.Execute(
+            animator.GetBoneTransform(HumanBodyBones.Hips).position,
+            new Vector3(0, 0, 0.3f)
+        );
 
-        // --- PLAY ONLY UNTIL FRAME 32 ---
+        // 👉 DASH MOVEMENT OCCURS DURING THE ACTIVE FRAMES
+        yield return StartCoroutine(MoveCharacter(
+            null,        // no target, use forward
+            dashDistance,          // dash distance
+            startNorm,   // start movement at animation frame 10
+            endNorm      // stop at frame 29
+        )); 
+
+        // 👉 MoveCharacter is finished here. Now we freeze at frame 32.
+
+        // Wait until frame 32
         while (true)
         {
             var state = animator.GetCurrentAnimatorStateInfo(1);
 
-            // reached frame 32 
             if (state.normalizedTime >= endNorm)
             {
-                animator.speed = 0f; // freeze on frame 32
+                animator.speed = 0f;
                 break;
             }
-
             yield return null;
         }
 
-        // --- CLEANUP ---
         animator.applyRootMotion = false;
         isDashing = false;
-
-        // allow animator to move again after dash
         animator.speed = 1f;
 
         yield return new WaitForSeconds(dashCooldown);
@@ -480,5 +493,15 @@ public class MeleeFighter : FighterBase
         //canDash = true;
 
 
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (showDebugSphere)
+        {
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(debugPos, 1f);
+        }
     }
 }

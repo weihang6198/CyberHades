@@ -182,4 +182,57 @@ public abstract class FighterBase : MonoBehaviour
         yield return new WaitForSecondsRealtime(duration);
         Time.timeScale = originalTimeScale;
     }
+
+    protected IEnumerator MoveCharacter(Transform target, float maxMoveDistance,
+                          float moveStartTime = 0f, float moveEndTime = 1f)
+    {
+        // Ensure valid range
+        moveStartTime = Mathf.Clamp01(moveStartTime);
+        moveEndTime = Mathf.Clamp01(moveEndTime);
+
+        // Read starting data
+        Vector3 startPos = transform.position;
+        Vector3 dir;
+
+      
+        // Fallback to forward direction
+        dir = transform.forward;
+        
+
+        // Calculate final position
+        Vector3 endPos = startPos + dir * maxMoveDistance;
+
+        float timer = 0f;
+
+        // You can later adjust this to animator state length
+        float duration = 0.2f; // dash is usually instant, short
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float normalizedTime = timer / duration;
+
+            // Only move during your movement window
+            if (normalizedTime > moveStartTime && normalizedTime < moveEndTime)
+            {
+                float t = (normalizedTime - moveStartTime) / (moveEndTime - moveStartTime);
+                t = Mathf.Clamp01(t);
+
+                transform.position = Vector3.Lerp(startPos, endPos, t);
+            }
+
+            // rotate toward movement direction
+            if (dir != Vector3.zero)
+            {
+                transform.rotation = Quaternion.RotateTowards(
+                    transform.rotation,
+                    Quaternion.LookRotation(dir),
+                    720 * Time.deltaTime // customize as needed
+                );
+            }
+
+            yield return null;
+        }
+    }
+
 }
