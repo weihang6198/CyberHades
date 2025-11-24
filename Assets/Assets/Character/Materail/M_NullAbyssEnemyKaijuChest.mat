@@ -70,10 +70,10 @@ Material:
     - _EdgeTickness: 0.105
     - _EmissiveOffset: 6
     - _FresnelPow: 1
-    - _MetallicOffset: -2.16
+    - _MetallicOffset: 0
     - _NormalFlipY: 1
     - _NormalPow: 8.55
-    - _NormalStrength: 0.5
+    - _NormalStrength: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SmoothnessOffset: 0.75
