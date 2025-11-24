@@ -71,11 +71,12 @@ Material:
     - _EmissiveOffset: 0
     - _FresnelPow: 1
     - _MetallicOffset: 1
+    - _NormalFlipY: 1
     - _NormalPow: 0
-    - _NormalStrength: 1.38
+    - _NormalStrength: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SmoothnessOffset: 0.5
+    - _SmoothnessOffset: 0.65
     - _VerticalClipOffset: 1
     m_Colors:
     - _EdgeColor: {r: 46.814137, g: 6.885409, b: 0, a: 0}

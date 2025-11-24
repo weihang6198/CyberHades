@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_NullAbyssEnemyKhanChest
+  m_Name: M_NullAbyssEnemyKaijuTail1
   m_Shader: {fileID: -6465566751694194690, guid: eb727b54122cb7b449cd3fbbde329383, type: 3}
-  m_Parent: {fileID: 2100000, guid: ea8cc6c088bce91489d180648c5cbadc, type: 2}
+  m_Parent: {fileID: 2100000, guid: 00eba5de5f478fb46b662b80101d6bce, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -24,25 +24,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTex:
-        m_Texture: {fileID: 2800000, guid: 7568304436c80334b9c332fb9ba4de25, type: 3}
+        m_Texture: {fileID: 2800000, guid: e624cb7c18a20e24c8666c2065388a2a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MetallicTex:
-        m_Texture: {fileID: 2800000, guid: 3903a1a6c31937548891c6da843d8304, type: 3}
+    - _EmissiveTex:
+        m_Texture: {fileID: 2800000, guid: 37c59556f3bda9846a1a0b96dedc11c1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
-        m_Texture: {fileID: 2800000, guid: 0b673b82c9bee05488697940858ebe5c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 84937b1799692ca41949d319c56d825c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats:
-    - _MetallicOffset: 1
-    - _NormalFlipY: 1
-    - _NormalPow: 0
-    - _NormalStrength: 0.5
-    - _SmoothnessOffset: 0.65
-    - _VerticalClipOffset: 1
+    m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
 --- !u!114 &95990838977711863

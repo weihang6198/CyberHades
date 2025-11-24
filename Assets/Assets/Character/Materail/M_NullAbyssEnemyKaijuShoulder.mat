@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_NullAbyssEnemyKhanArms
+  m_Name: M_NullAbyssEnemyKaijuShoulder
   m_Shader: {fileID: -6465566751694194690, guid: eb727b54122cb7b449cd3fbbde329383, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,11 +24,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTex:
-        m_Texture: {fileID: 2800000, guid: db89a0c6ab6858b44a3ac8c3ada7a4e9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 01fb9fd7d8eae4c4e9df023390a73de8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissiveTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 1551b624feab89f43a755e3f69d3e439, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FresnelNoiseTex:
@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicTex:
-        m_Texture: {fileID: 2800000, guid: 05f583bd8f176df48bce1a35809d9634, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTex:
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
-        m_Texture: {fileID: 2800000, guid: 4f1a13624e1a2f04db2dee180e48731b, type: 3}
+        m_Texture: {fileID: 2800000, guid: f46f588c2053f0e4db2a9f1b1e5cb877, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionTex:
@@ -68,18 +68,18 @@ Material:
     - _AlphaClipThresholdOffset: 0
     - _Disintegrate: 0
     - _EdgeTickness: 0.105
-    - _EmissiveOffset: 0
+    - _EmissiveOffset: 6
     - _FresnelPow: 1
-    - _MetallicOffset: 1
+    - _MetallicOffset: -2.16
     - _NormalFlipY: 1
     - _NormalPow: 8.55
     - _NormalStrength: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SmoothnessOffset: 0.81
+    - _SmoothnessOffset: 0.75
     - _VerticalClipOffset: 1
     m_Colors:
-    - _EdgeColor: {r: 46.814137, g: 6.885409, b: 0, a: 0}
+    - _EdgeColor: {r: 0, g: 0, b: 0, a: 0}
     - _FresnelColor: {r: 0, g: 0, b: 0, a: 1}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
