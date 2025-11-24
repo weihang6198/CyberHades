@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image healthBarImage;
-    [SerializeField] public MeleeFighter meleeFighterClass;
+    [SerializeField] public FighterBase meleeFighterClass;
     [SerializeField] public Transform canvasTransform;
     [SerializeField] public float reduceSpeed = 2.0f;
 
@@ -23,7 +23,7 @@ public class HealthBar : MonoBehaviour
         }
         else
         {
-            Debug.Log("meleeFighterClass missing!");
+           // Debug.Log("meleeFighterClass missing!");
         }
     }
     public void UpdateHealthBar(float maxHealth, float currentHealth)

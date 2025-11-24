@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Windows;
+using static UnityEngine.Rendering.DebugUI.Table;
 using Random = UnityEngine.Random;
 public enum AttackStates { Idle, Windup, Impact, Cooldown };
 public enum BlockStates
@@ -130,7 +131,13 @@ public abstract class FighterBase : MonoBehaviour
         if (other.tag == "HitBox" )
         {
             var attacker = other.GetComponentInParent<FighterBase>();
-        
+            if (attacker == null) //projectile detection
+            {
+              
+                Projectile proj = other.GetComponent<Projectile>();
+                attacker = proj.owner;
+               Debug.Log("attacer is:"+ attacker);
+            }
             TakeDamage(5f);
             OnGotHit?.Invoke(attacker);
            

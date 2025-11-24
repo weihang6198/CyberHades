@@ -15,7 +15,7 @@ public class RangeFighter : FighterBase
     {
         base.Awake(); // runs FighterBase.Awake()
         spawnProjectiles = GetComponent<SpawnProjectiles>();
-
+        spawnProjectiles.owner = this;
     }
 
     public override bool CanAttack(Vector3 targetPosition, float attackDistance = 1.5f)

@@ -9,7 +9,7 @@ public class SpawnProjectiles : MonoBehaviour
     public RotateToMouse rotateToMouse;
 
     private GameObject effectToSpawn;
-
+    public FighterBase owner;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +38,8 @@ public class SpawnProjectiles : MonoBehaviour
         }
        
         Quaternion rot = Quaternion.LookRotation(direction);
-        Instantiate(effectToSpawn, firePoint.position, rot);
+        GameObject obj = Instantiate(effectToSpawn, firePoint.position, rot);
+        Projectile proj = obj.GetComponent<Projectile>();
+        proj.Init(owner);
     }
 }
