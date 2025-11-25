@@ -245,7 +245,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1106563633393636324, guid: 2893d36e2e6ba9f40a899959a3880d63, type: 3}
+  - {fileID: 2100000, guid: 30f053316f20fc840885546de85a2097, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -573,7 +573,7 @@ Transform:
   m_GameObject: {fileID: 1543836446394723218}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.16, y: 0, z: 4.818099}
+  m_LocalPosition: {x: 4.74, y: 0, z: -2.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -630,6 +630,8 @@ MonoBehaviour:
   slashEffect: {fileID: 0}
   meshTrailEffect: {fileID: 0}
   dashEffect: {fileID: 0}
+  dashDistance: 4
+  dashTime: {x: 10, y: 31}
   mainCamera: {fileID: 0}
   canBlock: 1
   isBlocking: 0
@@ -677,6 +679,41 @@ MonoBehaviour:
   canAttack: 1
   <Fov>k__BackingField: 180
   enemyType: 0
+  canRunStateMachine: 1
+  rends:
+  - {fileID: 7032059209108991560}
+  - {fileID: 3566607795113742955}
+  - {fileID: 7921392198233193134}
+  HitFresnelCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.99765015
+      inSlope: -3.1748238
+      outSlope: -3.1748238
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.09583333
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.0050994395
+      outSlope: -0.0050994395
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.46249998
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  HitFresnelColor: {r: 1, g: 0, b: 0.10514355, a: 0}
+  HitFresnelIntensity: 6
+  wayPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!195 &3877585896447010044
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1195,7 +1232,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1106563633393636324, guid: 2893d36e2e6ba9f40a899959a3880d63, type: 3}
+  - {fileID: 2100000, guid: 30f053316f20fc840885546de85a2097, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3267,7 +3304,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1106563633393636324, guid: 2893d36e2e6ba9f40a899959a3880d63, type: 3}
+  - {fileID: 2100000, guid: 30f053316f20fc840885546de85a2097, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
