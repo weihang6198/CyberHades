@@ -69,7 +69,12 @@ public class AttackState: State<EnemyController>
         isAttacking = false;
 
         if (enemy.enemyType == EnemyType.Melee && enemy.IsInState(EnemyStates.Attack))
+        {
             enemy.ChangeState(EnemyStates.RetreatAfterAttack);
+            Debug.Log("transition from attack state to retreat after attack state");
+        }
+            
+            
         //if (enemy.enemyType == EnemyType.Ranged && enemy.IsInState(EnemyStates.Attack))
 
 

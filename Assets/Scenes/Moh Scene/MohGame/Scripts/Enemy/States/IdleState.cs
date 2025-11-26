@@ -14,32 +14,7 @@ public class IdleState : State<EnemyController>
 
     public override void Execute()
     {
-        //foreach (var target in enemy.TargetsInRange)
-        //{
-        //    var vecToTarget = target.transform.position - transform.position;
-        //    float angle = Vector3.Angle(transform.forward, vecToTarget);
-
-        //    if (angle <= enemy.Fov / 2)
-        //    {
-        //        enemy.Target = target;
-        //        Debug.Log("enemy.Target :" + enemy.Target);
-
-        //        if (enemy.enemyType == EnemyType.Ranged)
-        //        {
-        //            Debug.Log(" range enemy spotted");
-        //            enemy.ChangeState(EnemyStates.Attack);
-        //        }  
-        //        else if(enemy.enemyType==EnemyType.Melee)
-        //        {
-        //            Debug.Log(" going combat movement state");
-        //            enemy.ChangeState(EnemyStates.CombatMovement);
-        //        }
-                  
-              
-        //        break;
-        //    }
-        //}
-
+       
         enemy.Target = enemy.FindTarget();
         if (enemy.Target != null)
         {
@@ -53,8 +28,9 @@ public class IdleState : State<EnemyController>
                 Debug.Log(" going combat movement state");
                 enemy.ChangeState(EnemyStates.CombatMovement);
             }
-  
+
         }
+      
     }
 
     

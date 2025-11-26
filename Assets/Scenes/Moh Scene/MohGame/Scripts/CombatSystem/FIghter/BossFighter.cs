@@ -9,11 +9,13 @@ using UnityEngine.Windows;
 public class BossFighter : FighterBase
 {
 
-   
+    SpawnProjectiles spawnProjectiles;
+    public Vector2 attackRandomTimer = new Vector2(0.5f, 1.2f);
     protected override void Awake()
     {
         base.Awake(); // runs FighterBase.Awake()
-     
+        spawnProjectiles = GetComponent<SpawnProjectiles>();
+        spawnProjectiles.owner = this;
     }
 
     public override bool CanAttack(Vector3 targetPosition, float attackDistance = 1.5f)
@@ -90,7 +92,7 @@ public class BossFighter : FighterBase
 
                     //slashEffect.GetCalculatedSlashRotation(animator,);
                     //Spawn projectile VFX
-                  
+                    spawnProjectiles.SpawnVFX(targetDirection);
 
                 }
             }
@@ -114,12 +116,17 @@ public class BossFighter : FighterBase
 
             yield return null;
         }
-        float waitTimer = 0;
+        float waitTimer = Random.Range(attackRandomTimer.x, attackRandomTimer.y);
         yield return new WaitForSeconds(waitTimer);
         attackState = AttackStates.Idle;
 
         InAction = false;
 
+    }
+
+    public IEnumerator SpecialAttack(FighterBase attacker)
+    {
+        yield return null;
     }
 
     public override bool ShouldEndRetreat(float distanceToTarget)

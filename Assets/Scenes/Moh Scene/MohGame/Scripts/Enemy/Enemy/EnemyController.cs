@@ -43,17 +43,17 @@ public class EnemyController     : MonoBehaviour
 
 
     //behavior trees
-    BehaviorTree tree;
-    [SerializeField] List<Transform> wayPoints = new();
-    [SerializeField] float navAgentWalkSpeed = 8f;
+    //BehaviorTree tree;
+    //[SerializeField] List<Transform> wayPoints = new();
+    //[SerializeField] float navAgentWalkSpeed = 8f;
     public CharacterController CharacterController { get; private set; }
 
-    [SerializeField] GameObject treasureTest;
-    [SerializeField] GameObject treasureTest2;
+    //[SerializeField] GameObject treasureTest;
+    //[SerializeField] GameObject treasureTest2;
     // Start is called before the first frame update
     void Start()
     {
-        
+        EnemyManager.instance.RegisterEnemy();
         NavAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         Fighter= GetComponent<FighterBase>();
@@ -90,27 +90,28 @@ public class EnemyController     : MonoBehaviour
         };
         RegisterMaterialsFromRenderer();
 
-        //behavior tree
-        tree = new BehaviorTree("EnemyTest");
-      //  tree.AddChild(new leaf("Patrol", new PatrolS  trategy(transform, NavAgent, wayPoints, navAgentWalkSpeed)));
+        //ditch
+      //  //behavior tree
+      //  tree = new BehaviorTree("EnemyTest");
+      ////  tree.AddChild(new leaf("Patrol", new PatrolS  trategy(transform, NavAgent, wayPoints, navAgentWalkSpeed)));
         
-        leaf isTreasurePresent = new leaf("IsTreasurePresent", new Condition(() => treasureTest.activeSelf));
-        leaf moveToTreasure = new leaf("MoveToTreasure", new ActionStrategy(() => NavAgent.SetDestination(treasureTest.transform.position)));
-        
-        Sequence goToTreasure = new Sequence("GoToTreasure",20);
-        goToTreasure.AddChild(isTreasurePresent);
-        goToTreasure.AddChild(moveToTreasure);
+       
+      //  Sequence goToTreasure = new Sequence("GoToTreasure",20);
+      //  //goToTreasure.AddChild(new leaf("IsTreasurePresent", new Condition(() => treasureTest.activeSelf)));
+      //  goToTreasure.AddChild(new leaf("MoveToTreasure", new ActionStrategy(() => NavAgent.SetDestination(treasureTest.transform.position))));
+      //  goToTreasure.AddChild(new leaf("MoveToTreasure2", new ActionStrategy(() => NavAgent.SetDestination(treasureTest2.transform.position))));
 
-        Sequence goToTreasure2 = new Sequence("GoToTreasure2",10);
-        goToTreasure2.AddChild( new leaf("IsTreasurePresent2", new Condition(() => treasureTest2.activeSelf)));
-        goToTreasure2.AddChild(new leaf("MoveToTreasure2", new ActionStrategy(() => NavAgent.SetDestination(treasureTest2.transform.position))));
 
-        //Selector goToTreasuresSelector = new Selector("GoToTreasures");
-        PrioritySelector goToTreasuresSelector = new PrioritySelector("GoToTreasures");
-        goToTreasuresSelector.AddChild(goToTreasure2);
-        goToTreasuresSelector.AddChild(goToTreasure);
+      //  //Sequence goToTreasure2 = new Sequence("GoToTreasure2",10);
+      //  //goToTreasure2.AddChild( new leaf("IsTreasurePresent2", new Condition(() => treasureTest2.activeSelf)));
+      //  //goToTreasure2.AddChild(new leaf("MoveToTreasure2", new ActionStrategy(() => NavAgent.SetDestination(treasureTest2.transform.position))));
+
+      //  ////Selector goToTreasuresSelector = new Selector("GoToTreasures");
+      //  //PrioritySelector goToTreasuresSelector = new PrioritySelector("GoToTreasures");
+      //  //goToTreasuresSelector.AddChild(goToTreasure2);
+      //  //goToTreasuresSelector.AddChild(goToTreasure);
          
-        tree.AddChild(goToTreasuresSelector);
+      //  tree.AddChild(goToTreasure);
         
     }
     public void ChangeState(EnemyStates state)
@@ -146,8 +147,8 @@ public class EnemyController     : MonoBehaviour
 
         ///////////////////
         
-        if(false) stateMachine.Execute();
-        tree.Process(); 
+        if(canRunStateMachine) stateMachine.Execute();
+       // tree.Process(); 
 
         //v=dx/dt
         var deltaPos = animator.applyRootMotion ? Vector3.zero : transform.position - prevPos;
@@ -282,12 +283,12 @@ public class EnemyController     : MonoBehaviour
 
     }
 
-    private void OnEnable()
-    {
-        EnemyManager.instance.RegisterEnemy();
-    }
-    private void OnDisable()
-    {
-        EnemyManager.instance.UnregisterEnemy();
-    }
+    //private void OnEnable()
+    //{
+    //    EnemyManager.instance.RegisterEnemy();
+    //}
+    //private void OnDisable()
+    //{
+    //    EnemyManager.instance.UnregisterEnemy();
+    //}
 }

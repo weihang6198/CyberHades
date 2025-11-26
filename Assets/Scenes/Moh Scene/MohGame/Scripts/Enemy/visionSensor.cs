@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class visionSensor : MonoBehaviour
 {
-    [SerializeField] EnemyController enemy;
+    [SerializeField] EnemyController owner;
     private void Awake()
     {
-        enemy.VisionSensor = this;
+        owner.VisionSensor = this;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -16,9 +16,9 @@ public class visionSensor : MonoBehaviour
         var fighter = other.GetComponent<MeleeFighter>();
         if (fighter != null)
         {
-            enemy.TargetsInRange.Add(fighter);
-            //Debug.Log("add player to target in range");
-            EnemyManager.instance.AddEnemyRange(enemy);
+            owner.TargetsInRange.Add(fighter);
+            Debug.Log("add player to target in range");
+            EnemyManager.instance.AddEnemyRange(owner);
         }
     }
 
@@ -28,8 +28,8 @@ public class visionSensor : MonoBehaviour
         var fighter = other.GetComponent<MeleeFighter>();
         if (fighter != null)
         {
-            enemy.TargetsInRange.Remove(fighter);
-            EnemyManager.instance.RemoveEnemyInRange(enemy);
+            owner.TargetsInRange.Remove(fighter);
+            EnemyManager.instance.RemoveEnemyInRange(owner);
         }
     }
 }

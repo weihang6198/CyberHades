@@ -5,40 +5,7 @@ using UnityEngine.AI;
 
 namespace Pathfinding.BehaviorTree
 {
-    public interface IStrategy
-    {
-        Node.Status Process();
-        void Reset()
-        {
-            //Noop
-        }
-    }
-    public class ActionStrategy : IStrategy
-    {
-        readonly Action doSomething;
-        public ActionStrategy(Action doSomething)
-        {
-            this.doSomething = doSomething;
-        }
-
-        public Node.Status Process()
-        {
-            doSomething();
-            return Node.Status.Success;
-        }
-    }
-    public class Condition : IStrategy
-    {
-        readonly Func<bool> predicate;
-
-        public Condition(Func<bool> predicate)
-        {
-            this.predicate = predicate;
-        }
-
-        public Node.Status Process() => predicate() ? Node.Status.Success : Node.Status.Failure;
-    }
-    public class PatrolStrategy : IStrategy
+    public class IdleStrategy : IStrategy
     {
         readonly Transform entity;
         readonly NavMeshAgent agent;
@@ -49,7 +16,7 @@ namespace Pathfinding.BehaviorTree
         int currentIndex = 0;
         bool movingToPoint = false;
 
-        public PatrolStrategy(Transform entity, NavMeshAgent agent, List<Transform> patrolPoints, float patrolSpeed = 7f, float rotationSpeed = 7f)
+        public IdleStrategy(Transform entity, NavMeshAgent agent, List<Transform> patrolPoints, float patrolSpeed = 7f, float rotationSpeed = 7f)
         {
             this.entity = entity;
             this.agent = agent;
@@ -110,5 +77,4 @@ namespace Pathfinding.BehaviorTree
         }
     }
 
-   
 }
