@@ -124,7 +124,7 @@ public class BossFighter : FighterBase
 
     }
 
-    public IEnumerator SpecialAttack(FighterBase attacker)
+    public IEnumerator GroundLightingAttack(FighterBase attacker)
     {
         yield return null;
     }
