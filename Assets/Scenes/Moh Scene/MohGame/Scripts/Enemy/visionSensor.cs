@@ -7,25 +7,36 @@ public class visionSensor : MonoBehaviour
     [SerializeField] EnemyController owner;
     private void Awake()
     {
-        owner.VisionSensor = this;
+        if(owner == null)
+        {
+            Debug.Log("vision sensor owner is null");
+        }
+        else
+        {
+            owner.VisionSensor = this;
+        }
+          
     }
     private void OnTriggerEnter(Collider other)
     {
 
         Debug.Log("enter  vison sensor");
-        var fighter = other.GetComponent<MeleeFighter>();
+        var fighter = other.GetComponent<FighterBase>();
         if (fighter != null)
         {
             owner.TargetsInRange.Add(fighter);
             Debug.Log("add player to target in range");
             EnemyManager.instance.AddEnemyRange(owner);
+        }else
+        {
+
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         //Debug.Log("exit  vison sensor");
-        var fighter = other.GetComponent<MeleeFighter>();
+        var fighter = other.GetComponent<FighterBase>();
         if (fighter != null)
         {
             owner.TargetsInRange.Remove(fighter);

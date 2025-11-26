@@ -27,7 +27,7 @@ public class BossFighter : FighterBase
         if (!InAction)
         {
             //Debug.Log("start couroutine atk function");
-            Debug.Log("inside range fighter TryToAttack");
+            Debug.Log("inside boss fighter TryToAttack");
             StartCoroutine(Attack(target));
 
         }
@@ -36,50 +36,64 @@ public class BossFighter : FighterBase
 
     public override IEnumerator Attack(FighterBase target = null)
     {
-        Debug.Log("inside range fighter attack func");
+        Debug.Log("<color=yellow>---- ATTACK START ----</color>");
+
+        if (target == null)
+            Debug.LogError("<color=red>[ERROR] Target is NULL in Attack() !!!</color>");
+        else
+            Debug.Log("<color=green>[OK] Target is NOT null</color>");
+
         attackState = AttackStates.Windup;
+        Debug.Log($"AttackState → {attackState}");
 
 
 
-        //get direction to player from current enemy
-
+        // Direction
         Vector3 targetDirection = target.transform.position - transform.position;
-        targetDirection.y = 0f; // keep horizontal
-        targetDirection.Normalize(); // ✅ normalize after
+        targetDirection.y = 0f;
+        targetDirection.Normalize();
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
+        // Play animation
+        Debug.Log($"Playing animation: {attacks[0].AnimName}");
         animator.CrossFade(attacks[0].AnimName, 0.2f, 1);
         yield return null;
 
         var animState = animator.GetCurrentAnimatorStateInfo(1);
+        Debug.Log($"Animation length: {animState.length}");
+
         float timer = 0f;
 
         while (timer <= animState.length)
         {
-
             InAction = true;
+
+            // ■■■ Rotation Debug ■■■
             if (attackState != AttackStates.Cooldown)
             {
-                // Smoothly rotate toward the target direction every frame
                 transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                10f * Time.deltaTime // adjust rotation speed
-            );
-
+                    transform.rotation,
+                    targetRotation,
+                    10f * Time.deltaTime
+                );
+            }
+            else
+            {
+                Debug.Log("<color=cyan>[Cooldown] No rotation</color>");
             }
 
             timer += Time.deltaTime;
             float normalizedTime = timer / animState.length;
 
+            Debug.Log($"Timer: {timer:F2}, Normalized: {normalizedTime:F2}, State: {attackState}");
+
+            // ■■■ STATE MACHINE ■■■
             if (attackState == AttackStates.Windup)
             {
                 if (normalizedTime >= attacks[0].ImpactStartTime)
                 {
                     attackState = AttackStates.Impact;
-                    //swordCollider.enabled = true;
-
-
+                    Debug.Log("<color=orange>➡ WINDUP → IMPACT</color>");
                 }
             }
             else if (attackState == AttackStates.Impact)
@@ -87,48 +101,62 @@ public class BossFighter : FighterBase
                 if (normalizedTime >= attacks[0].ImpactEndTime)
                 {
                     attackState = AttackStates.Cooldown;
-                    //swordCollider.enabled = false;
-
-
-                    //slashEffect.GetCalculatedSlashRotation(animator,);
-                    //Spawn projectile VFX
-                    spawnProjectiles.SpawnVFX(targetDirection);
-
+                    Debug.Log("<color=cyan>➡ IMPACT → COOLDOWN</color>");
                 }
             }
             else if (attackState == AttackStates.Cooldown)
             {
+                // ADD A LOG TO CONFIRM THIS IS EXECUTING
+                Debug.Log("<color=cyan>[Cooldown phase running]</color>");
 
-                //has bug
-                //cannot force cancel animation directly
-                ////chara can move after cooldown state
-                //if (input.move != Vector2.zero)
-                //{
-                //    attackState = AttackStates.Idle;
-                //    comboCount = 0;
-                //    InAction = false;
-                //    //cancel the current animation and go back to locomotion
-
-                //    yield break;
-                //}
-
+                // If you want to debug cancel issues:
+                // Debug.Log($"Input move: {input.move}");
             }
 
             yield return null;
         }
-        float waitTimer = Random.Range(attackRandomTimer.x, attackRandomTimer.y);
-        yield return new WaitForSeconds(waitTimer);
-        attackState = AttackStates.Idle;
 
+        Debug.Log("<color=magenta>Animation finished</color>");
+
+        float waitTimer = Random.Range(attackRandomTimer.x, attackRandomTimer.y);
+        Debug.Log($"Waiting extra {waitTimer:F2} seconds before Idle");
+        yield return new WaitForSeconds(waitTimer);
+
+        attackState = AttackStates.Idle;
         InAction = false;
 
+        Debug.Log("<color=lime>➡ ATTACK COMPLETE → Idle</color>");
+        Debug.Log("<color=yellow>---- ATTACK END ----</color>");
     }
+
 
     public IEnumerator GroundLightingAttack(FighterBase attacker)
     {
-        yield return null;
+        Debug.Log("doing GroundLightingAttack");
+        yield return new WaitForSeconds(3);
+        attackState = AttackStates.Idle;
+       
     }
 
+    public IEnumerator LaserProjectileAttack(FighterBase attacker)
+    {
+        Debug.Log("doing LaserProjectileAttack");
+        yield return new WaitForSeconds(3);
+        attackState = AttackStates.Idle;
+    }
+
+    public IEnumerator ProjectileAttack(FighterBase attacker)
+    {
+        Debug.Log("doing ProjectileAttack");
+        yield return new WaitForSeconds(3);
+        attackState = AttackStates.Idle;
+    }
+
+    public IEnumerator Teleport(FighterBase attacker)
+    {
+         yield return new WaitForSeconds(3);
+        attackState = AttackStates.Idle;
+    }
     public override bool ShouldEndRetreat(float distanceToTarget)
     {
         // Ranged: keep more distance

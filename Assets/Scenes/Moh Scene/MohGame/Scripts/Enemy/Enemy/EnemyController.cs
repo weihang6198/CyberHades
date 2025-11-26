@@ -15,18 +15,18 @@ public class EnemyController     : MonoBehaviour
 {
 
     [field: SerializeField] public bool canAttack = true;
-    [field: SerializeField] public float Fov { get; private set; } = 180f;
-    public StateMachine<EnemyController> stateMachine { get; private set; }
-    public List<FighterBase> TargetsInRange { get; private set; } = new List<FighterBase>();
+    [field: SerializeField] public float Fov { get;  set; } = 180f;
+    public StateMachine<EnemyController> stateMachine { get;  set; }
+    public List<FighterBase> TargetsInRange { get;  set; } = new List<FighterBase>();
 
     public FighterBase Target { get; set; }
     public FighterBase Fighter { get; set; }
 
-    Dictionary<EnemyStates, State<EnemyController>> stateDict;
+    public Dictionary<EnemyStates, State<EnemyController>> stateDict;
 
-    public NavMeshAgent NavAgent { get; private set; }
+    public NavMeshAgent NavAgent { get;  set; }
 
-    public Animator animator { get; private set; }
+    public Animator animator { get;  set; }
 
     [SerializeField]  public  EnemyType enemyType;
     [SerializeField] public bool canRunStateMachine = true;
@@ -46,7 +46,7 @@ public class EnemyController     : MonoBehaviour
     //BehaviorTree tree;
     //[SerializeField] List<Transform> wayPoints = new();
     //[SerializeField] float navAgentWalkSpeed = 8f;
-    public CharacterController CharacterController { get; private set; }
+    public CharacterController CharacterController { get;  set; }
 
     //[SerializeField] GameObject treasureTest;
     //[SerializeField] GameObject treasureTest2;
@@ -120,7 +120,7 @@ public class EnemyController     : MonoBehaviour
     }
 
     Vector3 prevPos;
-    private void Update()
+    public void Update()
     {
       
         //stateMachine.Execute();
@@ -216,7 +216,7 @@ public class EnemyController     : MonoBehaviour
         return null;
     }
 
-    void RegisterMaterialsFromRenderer()
+    public void RegisterMaterialsFromRenderer()
     {
         foreach (Renderer r in rends)
         {

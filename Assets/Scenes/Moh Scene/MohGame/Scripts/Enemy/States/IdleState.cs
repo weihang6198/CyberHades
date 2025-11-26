@@ -29,6 +29,9 @@ public class IdleState : State<EnemyController>
                 enemy.ChangeState(EnemyStates.CombatMovement);
             }
 
+        }else
+        {
+          //  Debug.Log("no target found in idle state");
         }
       
     }
