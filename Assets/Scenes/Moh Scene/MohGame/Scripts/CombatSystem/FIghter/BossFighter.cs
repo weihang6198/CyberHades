@@ -153,7 +153,7 @@ public class BossFighter : FighterBase
         yield return null;
 
         var animState = animator.GetCurrentAnimatorStateInfo(1);
-   
+
 
         float timer = 0f;
 
@@ -170,12 +170,12 @@ public class BossFighter : FighterBase
                     10f * Time.deltaTime
                 );
             }
-          
+
 
             timer += Time.deltaTime;
             float normalizedTime = timer / animState.length;
 
-         
+
 
             // ■■■ STATE MACHINE ■■■
             if (attackState == AttackStates.Windup)
@@ -203,9 +203,9 @@ public class BossFighter : FighterBase
                 // Debug.Log($"Input move: {input.move}");
             }
             yield return new WaitForSeconds(3f);
-        attackState = AttackStates.Idle;
+            attackState = AttackStates.Idle;
+        }
     }
-
     public IEnumerator ProjectileAttack(FighterBase target)
     {
         attackState = AttackStates.Windup;
