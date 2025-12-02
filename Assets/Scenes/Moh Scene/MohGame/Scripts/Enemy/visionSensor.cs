@@ -35,12 +35,15 @@ public class visionSensor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        //Debug.Log("exit  vison sensor");
-        var fighter = other.GetComponent<FighterBase>();
-        if (fighter != null)
-        {
-            owner.TargetsInRange.Remove(fighter);
-            EnemyManager.instance.RemoveEnemyInRange(owner);
-        }
+        ////Debug.Log("exit  vison sensor");
+        //var fighter = other.GetComponent<FighterBase>();
+        //var bossFighter = other.GetComponent<BossFighter>();
+
+        //if (fighter != null)  //doesnt remove vision for boss fighter
+        //{
+        //    if (bossFighter != null) return;
+        //    owner.TargetsInRange.Remove(fighter);
+        //    EnemyManager.instance.RemoveEnemyInRange(owner);
+        //}
     }
 }

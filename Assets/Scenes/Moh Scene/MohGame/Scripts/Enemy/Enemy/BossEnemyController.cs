@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class BossEnemyController : EnemyController
 {
-    [SerializeField] public BossFighter bossFighter { get; set; }
+   // [SerializeField] public BossFighter bossFighter { get; set; }
     // Start is called before the first frame update
     void Start()
     {
@@ -14,8 +14,8 @@ public class BossEnemyController : EnemyController
 
         NavAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        bossFighter =GetComponent<BossFighter>();
-        if (bossFighter != null) Debug.Log("boss fighter exist");
+        Fighter = GetComponent<BossFighter>();
+        if (Fighter != null) Debug.Log("boss fighter exist");
         CharacterController = GetComponent<CharacterController>();
         stateDict = new Dictionary<EnemyStates, State<EnemyController>>();
 
@@ -30,7 +30,7 @@ public class BossEnemyController : EnemyController
         stateMachine.ChangeState(stateDict[EnemyStates.Idle]);
 
         // Fighter.OnGotHit += ReactToHit;
-        bossFighter.OnGotHit += (FighterBase attacker) =>
+        Fighter.OnGotHit += (FighterBase attacker) =>
         {
 
             if (Fighter.health > 0)

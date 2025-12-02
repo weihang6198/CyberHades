@@ -1,6 +1,7 @@
 ﻿using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.Windows;
@@ -11,6 +12,7 @@ public class BossFighter : FighterBase
 
     SpawnProjectiles spawnProjectiles;
     public Vector2 attackRandomTimer = new Vector2(0.5f, 1.2f);
+    [SerializeField] List<Transform> TeleportPosition=new List<Transform>();
     protected override void Awake()
     {
         base.Awake(); // runs FighterBase.Awake()
@@ -49,10 +51,7 @@ public class BossFighter : FighterBase
 
 
         // Direction
-        Vector3 targetDirection = target.transform.position - transform.position;
-        targetDirection.y = 0f;
-        targetDirection.Normalize();
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+        Quaternion targetRotation = CalculateTargetRotation(target);
 
         // Play animation
         Debug.Log($"Playing animation: {attacks[0].AnimName}");
@@ -130,37 +129,138 @@ public class BossFighter : FighterBase
     }
 
 
-    public IEnumerator GroundLightingAttack(FighterBase attacker)
+    public IEnumerator GroundLightingAttack(FighterBase target)
     {
+        attackState = AttackStates.Windup;
+        yield return StartCoroutine(Teleport());
         Debug.Log("doing GroundLightingAttack");
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3f);
         attackState = AttackStates.Idle;
        
     }
 
-    public IEnumerator LaserProjectileAttack(FighterBase attacker)
+    public IEnumerator LaserProjectileAttack(FighterBase target)
     {
-        Debug.Log("doing LaserProjectileAttack");
-        yield return new WaitForSeconds(3);
+        attackState = AttackStates.Windup;
+
+        //teleport first then do laser projectile
+        yield return StartCoroutine(Teleport());
+        // Direction
+        Quaternion targetRotation = CalculateTargetRotation(target);
+
+        // Play animation
+        animator.CrossFade("LaserProjectileAttack", 0.2f, 1);
+        yield return null;
+
+        var animState = animator.GetCurrentAnimatorStateInfo(1);
+   
+
+        float timer = 0f;
+
+        while (timer <= animState.length)
+        {
+            InAction = true;
+
+            // ■■■ Rotation Debug ■■■
+            if (attackState != AttackStates.Cooldown)
+            {
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
+                    10f * Time.deltaTime
+                );
+            }
+          
+
+            timer += Time.deltaTime;
+            float normalizedTime = timer / animState.length;
+
+         
+
+            // ■■■ STATE MACHINE ■■■
+            if (attackState == AttackStates.Windup)
+            {
+                if (normalizedTime >= attacks[0].ImpactStartTime)
+                {
+                    attackState = AttackStates.Impact;
+                    Debug.Log("<color=orange>➡ WINDUP → IMPACT</color>");
+                }
+            }
+            else if (attackState == AttackStates.Impact)
+            {
+                if (normalizedTime >= attacks[0].ImpactEndTime)
+                {
+                    attackState = AttackStates.Cooldown;
+                    Debug.Log("<color=cyan>➡ IMPACT → COOLDOWN</color>");
+                }
+            }
+            else if (attackState == AttackStates.Cooldown)
+            {
+                // ADD A LOG TO CONFIRM THIS IS EXECUTING
+                Debug.Log("<color=cyan>[Cooldown phase running]</color>");
+
+                // If you want to debug cancel issues:
+                // Debug.Log($"Input move: {input.move}");
+            }
+            yield return new WaitForSeconds(3f);
         attackState = AttackStates.Idle;
     }
 
-    public IEnumerator ProjectileAttack(FighterBase attacker)
+    public IEnumerator ProjectileAttack(FighterBase target)
     {
+        attackState = AttackStates.Windup;
+        yield return StartCoroutine(Teleport());
+
+
+
         Debug.Log("doing ProjectileAttack");
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3f);
         attackState = AttackStates.Idle;
     }
 
-    public IEnumerator Teleport(FighterBase attacker)
+    public IEnumerator Teleport()
     {
-         yield return new WaitForSeconds(3);
-        attackState = AttackStates.Idle;
+        if (TeleportPosition == null || TeleportPosition.Count == 0)
+        {
+            Debug.LogWarning("TeleportPosition list is empty!");
+           //yield return null;
+        }
+        animator.CrossFade("TeleportStart", 0.2f, 1);
+        animator.speed = 1f;
+        yield return null;
+
+        var animState = animator.GetCurrentAnimatorStateInfo(1);
+        Debug.Log("animState.length for teleport start:" + animState.length);
+
+      
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(1).length);
+        //teleport
+        int index = Random.Range(0, TeleportPosition.Count); // Random int
+        transform.position = new Vector3(TeleportPosition[index].position.x, 0, TeleportPosition[index].position.z);
+
+        //teleport end anim
+        animator.CrossFade("TeleportEnd", 0.2f, 1);
+        Debug.Log("animState.length for teleport end:" + animState.length);
+
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(1).length);
+        yield return new WaitForSeconds(1.5f);
+        Debug.Log("teleport done");
+
     }
     public override bool ShouldEndRetreat(float distanceToTarget)
     {
         // Ranged: keep more distance
         return distanceToTarget >= 8f;
+    }
+
+    public Quaternion CalculateTargetRotation(FighterBase target)
+    {
+        // Direction
+        Vector3 targetDirection = target.transform.position - transform.position;
+        targetDirection.y = 0f;
+        targetDirection.Normalize();
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+        return targetRotation;
     }
 
 }

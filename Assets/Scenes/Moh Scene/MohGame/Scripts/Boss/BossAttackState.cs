@@ -57,7 +57,7 @@ public class BossAttackState : State<EnemyController>
        
 
         StartCoroutine(ExecuteAttack(bossAttackType));
-       // StartCoroutine(Attack(Random.Range(0, enemy.bossFighter.attacks.Count + 1)));
+       // StartCoroutine(Attack(Random.Range(0, enemy.Fighter.attacks.Count + 1)));
     }
 
    
@@ -114,8 +114,8 @@ public class BossAttackState : State<EnemyController>
         isAttacking = true;
         enemy.animator.applyRootMotion = true;
        // enemy.Fighter.TryToAttack(enemy.Target);
-        enemy.bossFighter.TryToAttack(enemy.Target);
-        //StartCoroutine(enemy.bossFighter.Attack(enemy.Target));
+        enemy.Fighter.TryToAttack(enemy.Target);
+        //StartCoroutine(enemy.Fighter.Attack(enemy.Target));
         //GameObject attackHintVFXInstance = Instantiate(attackHintVFX, enemy.animator.GetBoneTransform(HumanBodyBones.Head).position, Quaternion.identity); ;
 
         //ParticleSystem ps = attackHintVFXInstance.GetComponentInChildren<ParticleSystem>();
@@ -131,7 +131,7 @@ public class BossAttackState : State<EnemyController>
         //    yield return new WaitUntil(() => enemy.Fighter.attackState == AttackStates.Cooldown);
         //    enemy.Fighter.TryToAttack();
         //}
-        yield return new WaitUntil(() => enemy.bossFighter.attackState == AttackStates.Idle);
+        yield return new WaitUntil(() => enemy.Fighter.attackState == AttackStates.Idle);
         Debug.Log("attack state is idle , atk done");
         enemy.animator.applyRootMotion = false;
         isAttacking = false;
@@ -156,30 +156,33 @@ public class BossAttackState : State<EnemyController>
     {
         Debug.Log("inside execute attack");
         isAttacking = true;
-        enemy.animator.applyRootMotion = true;
-        enemy.bossFighter.TryToAttack(enemy.Target);
-        //switch (attackType)
-        //{
-        //    case BossAttackType.NormalAttack:
-        //        StartCoroutine(enemy.bossFighter.Attack(enemy.Target));
-        //        Debug.Log("1");
-        //        break;
-        //    case BossAttackType.ProjectileAttack:
-        //        StartCoroutine(enemy.bossFighter.ProjectileAttack(enemy.Target));
-        //        Debug.Log("2");
-        //        break;
-        //    case BossAttackType.GroundLightingAttack:
-        //        StartCoroutine(enemy.bossFighter.GroundLightingAttack(enemy.Target));
-        //        Debug.Log("3");
-        //        break;
-        //    case BossAttackType.LaserProjectileAttack:
-        //        StartCoroutine(enemy.bossFighter.LaserProjectileAttack(enemy.Target));
-        //        Debug.Log("4");
-        //        break;
-        //    default:
-        //        Debug.Log("Inside default");
-        //        break;
-        //}
+        enemy.animator.applyRootMotion = false;
+        //enemy.Fighter.TryToAttack(enemy.Target);
+        //StartCoroutine(enemy.Fighter.Attack(enemy.Target));
+        BossFighter bossFighter =(BossFighter) enemy.Fighter;
+        attackType = BossAttackType.ProjectileAttack;
+        switch (attackType)
+        {
+            case BossAttackType.NormalAttack:
+                StartCoroutine(bossFighter.Attack(enemy.Target));
+                Debug.Log("NormalAttack");
+                break;
+            case BossAttackType.ProjectileAttack:
+                StartCoroutine(bossFighter.ProjectileAttack(enemy.Target));
+                Debug.Log("ProjectileAttack");
+                break;
+            case BossAttackType.GroundLightingAttack:
+                StartCoroutine(bossFighter.GroundLightingAttack(enemy.Target));
+                Debug.Log("GroundLightingAttack");
+                break;
+            case BossAttackType.LaserProjectileAttack:
+                StartCoroutine(bossFighter.LaserProjectileAttack(enemy.Target));
+                Debug.Log("LaserProjectileAttack");
+                break;
+            default:
+                Debug.Log("Inside default");
+                break;
+        }
 
         yield return new WaitUntil(() => enemy.Fighter.attackState == AttackStates.Idle);
         enemy.animator.applyRootMotion = false;
