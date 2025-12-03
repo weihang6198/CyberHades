@@ -30,16 +30,17 @@ public class SpawnBeamEffectObject : MonoBehaviour
 
         RaycastHit hit;
 
-        
+
         if (Physics.Raycast(ray, out hit, distance, layerMask))
         {
             //Debug.DrawRay(ray.origin, ray.direction * distance, Color.red, 5.0f);
 
             planeScale = Vector3.Distance(ray.origin, hit.point) / 10f;
+
+            HitSpawnTransform = new GameObject("HitSpawnPoint").transform;
+            HitSpawnTransform.position = hit.point;
+            HitSpawnTransform.rotation = Quaternion.LookRotation(SpawnTransform.forward, SpawnTransform.up);
         }
-        HitSpawnTransform = new GameObject("HitSpawnPoint").transform;
-        HitSpawnTransform.position = hit.point;
-        HitSpawnTransform.rotation = Quaternion.LookRotation(SpawnTransform.forward,SpawnTransform.up);
 
         SpawnTransform.rotation = Quaternion.Euler(0f, SpawnTransform.rotation.eulerAngles.y, 0f);
 

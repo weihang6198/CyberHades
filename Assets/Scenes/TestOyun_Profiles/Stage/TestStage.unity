@@ -32486,7 +32486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeamChargeVFX: {fileID: 5380081728960971065, guid: 7473f8d1ec91b944f8affcab7b143b72, type: 3}
   BeamLaserVFX: {fileID: 2464006557399068983, guid: fe2f77ce61bd2c547b9fa7110d171b77, type: 3}
-  BeamHitVFX: {fileID: 0}
+  BeamHitVFX: {fileID: 7727687943751420033, guid: ed00630efebd4bb40b51ea708b80f6fd, type: 3}
   SpawnTransform: {fileID: 505424501}
   layerMask:
     serializedVersion: 2
