@@ -1,29 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class BeamEffect : MonoBehaviour
+public class SpawnBeamEffectObject : MonoBehaviour
 {
     [SerializeField] public GameObject BeamChargeVFX;
     [SerializeField] public GameObject BeamLaserVFX;
-    Transform SpawnTransform;
-    Transform ChestTransform;
+    [SerializeField] public GameObject BeamHitVFX;
+    [SerializeField] public Transform SpawnTransform;
+    [SerializeField] public LayerMask layerMask;
+    Transform HitSpawnTransform;
     bool isSpawned = false;
-
+    
     public bool isEnd = true;
-    public float duration = 3.0f;
-    public float planeScale = 3.0f;
+    [SerializeField]  public float duration = 3.0f;
+    [SerializeField]  public float distance = 300.0f;
+    float planeScale = 3.0f;
 
     private void CatchSpawnPointTransform()
     {
-        ChestTransform = GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Chest);     
-
-
-        float yRotation = ChestTransform.rotation.eulerAngles.y;
-        ChestTransform.rotation = Quaternion.Euler(0f, yRotation, 0f);
-
-        SpawnTransform = transform;
 
         CalcRayLength();
     }    
@@ -36,11 +30,16 @@ public class BeamEffect : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 300.0f))
+        
+        if (Physics.Raycast(ray, out hit, distance, layerMask))
         {
+            //Debug.DrawRay(ray.origin, ray.direction * distance, Color.red, 5.0f);
 
             planeScale = Vector3.Distance(ray.origin, hit.point) / 10f;
         }
+        HitSpawnTransform = new GameObject("HitSpawnPoint").transform;
+        HitSpawnTransform.position = hit.point;
+        HitSpawnTransform.rotation = Quaternion.LookRotation(SpawnTransform.forward,SpawnTransform.up);
 
         SpawnTransform.rotation = Quaternion.Euler(0f, SpawnTransform.rotation.eulerAngles.y, 0f);
 
@@ -78,6 +77,7 @@ public class BeamEffect : MonoBehaviour
         yield return new WaitForSeconds(55f/60f);
 
         GameObject objLaser =Instantiate(BeamLaserVFX, SpawnTransform.position, SpawnTransform.rotation);
+        GameObject objHit =Instantiate(BeamHitVFX, HitSpawnTransform.position, HitSpawnTransform.rotation);
 
         MeshFilter[] meshes = objLaser.GetComponentsInChildren<MeshFilter>();
             
@@ -124,6 +124,7 @@ public class BeamEffect : MonoBehaviour
 
         Destroy(objCharge);
         Destroy(objLaser);
+        Destroy(objHit);
         isEnd = true;
     }
 
