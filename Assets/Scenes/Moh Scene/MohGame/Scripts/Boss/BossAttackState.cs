@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum BossAttackType { NormalAttack, GroundLightingAttack, LaserProjectileAttack, ProjectileAttack };
+public enum BossAttackType { LaserProjectileAttack, GroundLightingAttack, ProjectileAttack,NormalAttack };
 public class BossAttackState : State<EnemyController>
 {
     /*
@@ -160,7 +160,7 @@ public class BossAttackState : State<EnemyController>
         //enemy.Fighter.TryToAttack(enemy.Target);
         //StartCoroutine(enemy.Fighter.Attack(enemy.Target));
         BossFighter bossFighter =(BossFighter) enemy.Fighter;
-        attackType = BossAttackType.ProjectileAttack;
+        attackType = BossAttackType.LaserProjectileAttack;
         switch (attackType)
         {
             case BossAttackType.NormalAttack:

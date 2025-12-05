@@ -45,6 +45,7 @@ public class BossCombatMovementState : State<EnemyController>
                 return;
             }
         }
+
         if (enemy.Target.health <= 0)
         {
             enemy.Target = null;
@@ -52,8 +53,14 @@ public class BossCombatMovementState : State<EnemyController>
 
             return;
         }
+
+        //chase player 
         if (Vector3.Distance(enemy.Target.transform.position, enemy.transform.position) > distanceToStand + adjustDistanceThreshold)
+        {
             StartChase();
+           
+        }
+           
 
         if (state == AICombatStates.Idle)
         {
@@ -109,7 +116,7 @@ public class BossCombatMovementState : State<EnemyController>
     void StartChase()
     {
         state = AICombatStates.Chase;
-
+        Debug.Log("chasing player");
         //this is for tutorial, this game doesnt have combat mode
 
         enemy.animator.SetBool("CombatMode", false);

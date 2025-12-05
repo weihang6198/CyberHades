@@ -24,7 +24,7 @@ public abstract class FighterBase : MonoBehaviour
 
     [field:SerializeField] public float health { get;  set; } = 25f;
     [field:SerializeField] public float maxHealth { get; set; } = 25f;
-
+        
     [SerializeField] public List<AttackData> attacks;
     protected int comboCount = 0;
     [SerializeField] float hitStopTime = 0.05f;
@@ -97,13 +97,17 @@ public abstract class FighterBase : MonoBehaviour
             float knockbackDist = attacker.attacks[attacker.comboCount].KnockBackDistance;
             targetPos = startPos + attackDir * knockbackDist;
 
-            GameObject hitLightVFXInstance = Instantiate(hitLightVFX, transform.localPosition += new Vector3(0, Random.Range(0.3f, 1.0f), 0), Quaternion.identity); ;
-
-            ParticleSystem ps = hitLightVFXInstance.GetComponentInChildren<ParticleSystem>();
-            if (ps != null)
+            if(hitLightVFX!=null)
             {
-                Destroy(hitLightVFXInstance, ps.main.duration);
+                GameObject hitLightVFXInstance = Instantiate(hitLightVFX, transform.localPosition += new Vector3(0, Random.Range(0.3f, 1.0f), 0), Quaternion.identity); ;
+
+                ParticleSystem ps = hitLightVFXInstance.GetComponentInChildren<ParticleSystem>();
+                if (ps != null)
+                {
+                    Destroy(hitLightVFXInstance, ps.main.duration);
+                }
             }
+           
         }
 
         float timer = 0f;

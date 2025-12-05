@@ -6,6 +6,7 @@ public class StateMachine<T>
 { 
     public State<T> CurrentState { get; private set; }
 
+
     T _owner;
     public StateMachine(T owner)
     {
@@ -14,8 +15,10 @@ public class StateMachine<T>
 
     public void ChangeState(State<T> newState)
     {
+      
         CurrentState?.Exit(); 
         CurrentState=newState;
+        Debug.Log("current state is:" + newState.name);
         CurrentState.Enter(_owner);
     }
 

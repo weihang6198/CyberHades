@@ -3,21 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.TextCore.Text;
 using UnityEngine.Windows;
 
 
 public class BossFighter : FighterBase
 {
-
+    //enum are public enum BossAttackType { NormalAttack, GroundLightingAttack, LaserProjectileAttack, ProjectileAttack };
+    //ignore normalAttack, start 
+    [SerializeField] public List<AttackData> BossAttacks;
     SpawnProjectiles spawnProjectiles;
     public Vector2 attackRandomTimer = new Vector2(0.5f, 1.2f);
     [SerializeField] List<Transform> TeleportPosition=new List<Transform>();
+    public BossEnemyController boss;
     protected override void Awake()
     {
         base.Awake(); // runs FighterBase.Awake()
         spawnProjectiles = GetComponent<SpawnProjectiles>();
         spawnProjectiles.owner = this;
+        boss=GetComponent<BossEnemyController>();
     }
 
     public override bool CanAttack(Vector3 targetPosition, float attackDistance = 1.5f)
@@ -142,21 +147,25 @@ public class BossFighter : FighterBase
     public IEnumerator LaserProjectileAttack(FighterBase target)
     {
         attackState = AttackStates.Windup;
-
+        Debug.Log("LaserProjectileAttack func");
         //teleport first then do laser projectile
         yield return StartCoroutine(Teleport());
         // Direction
         Quaternion targetRotation = CalculateTargetRotation(target);
 
+        int index = (int)BossAttackType.LaserProjectileAttack;
         // Play animation
-        animator.CrossFade("LaserProjectileAttack", 0.2f, 1);
+        // animator.CrossFade(BossAttacks[index].AnimName, 0.2f, 1);
+        Debug.Log("BossAttacks[index].AnimName:" + BossAttacks[index].AnimName);
+        animator.CrossFade(BossAttacks[index].AnimName, 0.2f, 1);
+        //animator.CrossFade("LaserProjectile", 0.2f, 1);
         yield return null;
 
         var animState = animator.GetCurrentAnimatorStateInfo(1);
-   
+
 
         float timer = 0f;
-
+      
         while (timer <= animState.length)
         {
             InAction = true;
@@ -170,39 +179,40 @@ public class BossFighter : FighterBase
                     10f * Time.deltaTime
                 );
             }
-          
+
 
             timer += Time.deltaTime;
             float normalizedTime = timer / animState.length;
 
-         
-
             // ■■■ STATE MACHINE ■■■
             if (attackState == AttackStates.Windup)
             {
-                if (normalizedTime >= attacks[0].ImpactStartTime)
+                if (normalizedTime >= BossAttacks[index].ImpactStartTime)
                 {
                     attackState = AttackStates.Impact;
-                    Debug.Log("<color=orange>➡ WINDUP → IMPACT</color>");
+                    //emit projectile
+                    Debug.Log("emit proj");
                 }
             }
             else if (attackState == AttackStates.Impact)
             {
-                if (normalizedTime >= attacks[0].ImpactEndTime)
+                if (normalizedTime >= BossAttacks[index].ImpactEndTime)
                 {
                     attackState = AttackStates.Cooldown;
-                    Debug.Log("<color=cyan>➡ IMPACT → COOLDOWN</color>");
+                    //end projectile
+                    Debug.Log("end proj");
                 }
             }
             else if (attackState == AttackStates.Cooldown)
             {
-                // ADD A LOG TO CONFIRM THIS IS EXECUTING
-                Debug.Log("<color=cyan>[Cooldown phase running]</color>");
-
-                // If you want to debug cancel issues:
-                // Debug.Log($"Input move: {input.move}");
+                //do nothing
             }
-            yield return new WaitForSeconds(3f);
+            yield return null;
+            
+        }
+
+        yield return new WaitForSeconds(3f);
+        Debug.Log("laser proj atk done");
         attackState = AttackStates.Idle;
     }
 
@@ -220,6 +230,7 @@ public class BossFighter : FighterBase
 
     public IEnumerator Teleport()
     {
+        boss.NavAgent.ResetPath(); 
         if (TeleportPosition == null || TeleportPosition.Count == 0)
         {
             Debug.LogWarning("TeleportPosition list is empty!");

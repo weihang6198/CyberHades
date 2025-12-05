@@ -20,11 +20,22 @@ public class BossEnemyController : EnemyController
         stateDict = new Dictionary<EnemyStates, State<EnemyController>>();
 
         stateDict[EnemyStates.Idle] = GetComponent<IdleState>();
+        stateDict[EnemyStates.Idle].RegisterName("boss idle");
+
         stateDict[EnemyStates.CombatMovement] = GetComponent<BossCombatMovementState>();
+        stateDict[EnemyStates.CombatMovement].RegisterName("boss combat movement state");
+
         stateDict[EnemyStates.Attack] = GetComponent<BossAttackState>();
+        stateDict[EnemyStates.Attack].RegisterName("boss attack state");
+
         stateDict[EnemyStates.RetreatAfterAttack] = GetComponent<RetreatAfterAttackState>();
+        stateDict[EnemyStates.RetreatAfterAttack].RegisterName("boss RetreatAfterAttack state");
+
         stateDict[EnemyStates.Dead] = GetComponent<DeadState>();
+        stateDict[EnemyStates.Dead].RegisterName("boss dead state");
+
         stateDict[EnemyStates.GettingHit] = GetComponent<GettingHitState>();
+        stateDict[EnemyStates.GettingHit].RegisterName("boss getting hit state");
 
         stateMachine = new StateMachine<EnemyController>(this);
         stateMachine.ChangeState(stateDict[EnemyStates.Idle]);
@@ -42,7 +53,7 @@ public class BossEnemyController : EnemyController
 
             else
             {
-                Debug.Log("enemy dead");
+                Debug.Log("enemy boss is  dead");
                 ChangeState(EnemyStates.Dead);
             }
 

@@ -11,7 +11,7 @@ public class EnemyManager : MonoBehaviour
     public List<EnemyController> enemiesInRange = new List<EnemyController>();
 
     public static EnemyManager instance { get; private set; }
-    public float notAttackingTimer = 2f;
+    [SerializeField] public float notAttackingTimer = 2f;
 
     public int registredEnemiesCount = 0;
     public bool IsEnemiesAlive = false;
