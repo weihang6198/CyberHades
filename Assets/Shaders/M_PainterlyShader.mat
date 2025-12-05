@@ -36,8 +36,24 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: 7568304436c80334b9c332fb9ba4de25, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicNoiseTex:
+        m_Texture: {fileID: 2800000, guid: 1ce92dc8a0c17f14786e529631c772e5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OMRTex:
+        m_Texture: {fileID: 2800000, guid: 3903a1a6c31937548891c6da843d8304, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture2D:
-        m_Texture: {fileID: 2800000, guid: 1f1cbfe2818881e4687b24e5410110b4, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1ce92dc8a0c17f14786e529631c772e5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -56,9 +72,16 @@ Material:
     m_Floats:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
+    - _MetallicOffset: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    m_Colors: []
+    - _RimPower: 5
+    - _ShadowRamp: 0.229
+    - _ShadowRampSmoothness: -1.41
+    - _ShadowStep: 0.88
+    - _TextureScale: -2.03
+    m_Colors:
+    - _Vector2: {r: 0.83, g: 0.72, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &946608122751590221
 MonoBehaviour:
