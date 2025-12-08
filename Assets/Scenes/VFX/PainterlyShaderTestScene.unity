@@ -1102,9 +1102,17 @@ PrefabInstance:
       value: Khan
       objectReference: {fileID: 0}
     - target: {fileID: 2430031387926473750, guid: 9c6b97921140f7040af6dc3d52ef7a8a, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2430031387926473750, guid: 9c6b97921140f7040af6dc3d52ef7a8a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7458453c80d7bbf4683d609db451fb5c, type: 2}
+    - target: {fileID: 2430031387926473750, guid: 9c6b97921140f7040af6dc3d52ef7a8a, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: d0d07c3db7ba5764f92ef5247341e84f, type: 2}
     - target: {fileID: 7540739040213812498, guid: 9c6b97921140f7040af6dc3d52ef7a8a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

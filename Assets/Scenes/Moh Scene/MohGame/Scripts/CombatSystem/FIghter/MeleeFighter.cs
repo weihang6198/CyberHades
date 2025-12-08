@@ -177,7 +177,7 @@ public class MeleeFighter : FighterBase
                     isSlashSpawned = true;
 
                     //Camera shake
-                    cameraShake.ShakeByDuration(0.2f, 0.1f);
+                    cameraShake.ShakeByDuration(0.2f, 0.3f);
                 }
 
             }
