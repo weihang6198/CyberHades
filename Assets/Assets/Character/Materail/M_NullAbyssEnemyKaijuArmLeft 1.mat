@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_NullAbyssEnemyKaijuArmLeft
+  m_Name: M_NullAbyssEnemyKaijuArmLeft 1
   m_Shader: {fileID: -6465566751694194690, guid: eb727b54122cb7b449cd3fbbde329383, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
