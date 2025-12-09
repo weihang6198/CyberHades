@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-635931233026647005
+--- !u!114 &-3698503875840544537
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_LightningShockWave
-  m_Shader: {fileID: -6465566751694194690, guid: c925dd1d7da87894fb77e9949d98cafb, type: 3}
+  m_Name: M_Refraction
+  m_Shader: {fileID: -6465566751694194690, guid: 05dadab8628a5e6458890363bcbc05dc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -36,12 +36,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Texture2D:
-        m_Texture: {fileID: 2800000, guid: 22c3c61f80a18d647a60ac34134a1e6a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _noiseTex:
-        m_Texture: {fileID: 2800000, guid: 6d683dee600cd5243b9326da87fb4e98, type: 3}
+    - _NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: ba4abc991b9b45646879848ba5d8932e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -58,14 +54,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EdgeThickness: -0.005
-    - _EdgeThreshold: -0.16
-    - _EdgeThreshold_1: -0.06
-    - _EdgeThreshold_2: 0.39
-    - _Float: 0.545
-    - _Intensity: 33.09
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Threshold: -3.78
+    - _Strenght: 0.5
     m_Colors: []
   m_BuildTextureStacks: []
