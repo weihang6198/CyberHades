@@ -96,6 +96,8 @@ MonoBehaviour:
   dashEffect: {fileID: 0}
   dashDistance: 4
   dashTime: {x: 10, y: 31}
+  attackAsssitMaxAngle: 45
+  attackAsssitMaxDistance: 10
   mainCamera: {fileID: 0}
   cameraShake: {fileID: 0}
   canBlock: 1
@@ -141,6 +143,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26539d325d7e82044b4d49afd3bfaa99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentGettingHitCount: 0
+  maxGettingHitCount: 2
+  activateEnemy: 1
   canAttack: 1
   <Fov>k__BackingField: 180
   enemyType: 0
@@ -642,7 +647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd50f211be86b24383218eeb0b041ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 0}
+  owner: {fileID: 515303401244613104}
 --- !u!1 &4936943625138722792
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,15 +804,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8293462720397763194, guid: b4782dbc5a49c224791484eff16447cd, type: 3}
       propertyPath: serializeData2.selectionData.maxConnectionDistance
-      value: 0.2389129
+      value: 0.23891285
       objectReference: {fileID: 0}
     - target: {fileID: 8293462720397763194, guid: b4782dbc5a49c224791484eff16447cd, type: 3}
       propertyPath: serializeData2.selectionData.positions.Array.data[1].z
-      value: -0.20106316
+      value: -0.20106292
       objectReference: {fileID: 0}
     - target: {fileID: 8293462720397763194, guid: b4782dbc5a49c224791484eff16447cd, type: 3}
       propertyPath: serializeData2.selectionData.positions.Array.data[4].z
-      value: -0.27813244
+      value: -0.27813268
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7900697344565002998, guid: b4782dbc5a49c224791484eff16447cd, type: 3}
