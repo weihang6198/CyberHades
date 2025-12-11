@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 1976ce6e8b12281479a929f34e304150, type: 2}
     - target: {fileID: -8679921383154817045, guid: 2dcf28a1201d7a34b9953a209f5c9a7d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.6075103
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2dcf28a1201d7a34b9953a209f5c9a7d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000011920929
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2dcf28a1201d7a34b9953a209f5c9a7d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.8654883
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2dcf28a1201d7a34b9953a209f5c9a7d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -120,7 +120,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 1976ce6e8b12281479a929f34e304150, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: 2dcf28a1201d7a34b9953a209f5c9a7d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -504,28 +505,28 @@ MonoBehaviour:
       positions:
       - x: 0.27583313
         y: 1.3810863
-        z: -0.13661289
+        z: -0.13661292
       - x: 0.27583337
         y: 1.1983228
         z: -0.20326781
       - x: 0.27583313
         y: 0.957505
-        z: -0.220469
+        z: -0.22046903
       - x: 0.27583337
         y: 0.712387
-        z: -0.24197054
-      - x: -0.27583313
+        z: -0.24197051
+      - x: -0.27583325
         y: 1.3810863
-        z: -0.13661289
-      - x: -0.27583313
+        z: -0.13661292
+      - x: -0.27583325
         y: 1.1983228
-        z: -0.20326781
+        z: -0.20326778
       - x: -0.27583313
         y: 0.9575049
         z: -0.220469
       - x: -0.27583313
         y: 0.7123869
-        z: -0.2419703
+        z: -0.24197035
       attributes:
       - Value: 1
       - Value: 2
@@ -535,7 +536,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.24605924
+      maxConnectionDistance: 0.24605925
       userEdit: 0
     preBuildData:
       enabled: 0
