@@ -21,7 +21,16 @@ public class GettingHitState : State<EnemyController>
 
         if (!enemy.IsInState(EnemyStates.Dead))
         {
-            enemy.ChangeState(EnemyStates.CombatMovement);
+            if (!enemy.activateEnemy)
+            {
+                enemy.ChangeState(EnemyStates.Idle);
+
+            }
+            else
+            {
+                enemy.ChangeState(EnemyStates.CombatMovement);
+            }
+             
         }
 
     }

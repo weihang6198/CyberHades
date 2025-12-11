@@ -13,7 +13,11 @@ public enum EnemyStates { Idle, CombatMovement, Attack, RetreatAfterAttack,  Get
 public enum EnemyType { Melee, Ranged, Boss }
 public class EnemyController     : MonoBehaviour
 {
+    public int currentGettingHitCount = 0;
 
+    public int maxGettingHitCount = 2;
+
+    [SerializeField]public  bool activateEnemy = true;
     [field: SerializeField] public bool canAttack = true;
     [field: SerializeField] public float Fov { get;  set; } = 180f;
 
@@ -78,9 +82,19 @@ public class EnemyController     : MonoBehaviour
 
             if (Fighter.health > 0)
             {
-
                 Debug.Log("enemy getting hit");
-                ChangeState(EnemyStates.GettingHit); //advnced way 
+                currentGettingHitCount++;
+                if (currentGettingHitCount > maxGettingHitCount)
+                {
+                    currentGettingHitCount = 0;
+                    ChangeState(EnemyStates.Attack); //advnced way 
+                }
+                else
+                {
+                    ChangeState(EnemyStates.GettingHit); //advnced way 
+                }
+               
+               
             }
 
             else
