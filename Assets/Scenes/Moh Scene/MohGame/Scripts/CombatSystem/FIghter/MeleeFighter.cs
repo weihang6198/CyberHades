@@ -37,6 +37,7 @@ public class MeleeFighter : FighterBase
     Transform trans;
     
     public Camera mainCamera;       // assign your main camera in Inspector
+    public CameraShake cameraShake;      
 
     public bool canBlock = true;
     public bool isBlocking = false;
@@ -174,6 +175,9 @@ public class MeleeFighter : FighterBase
                     }
 
                     isSlashSpawned = true;
+
+                    //Camera shake
+                    cameraShake.ShakeByDuration(0.2f, 0.3f);
                 }
 
             }
