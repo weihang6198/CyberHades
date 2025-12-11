@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SpawnBeamEffectObject : MonoBehaviour
+public class SpawnLaserEffectObject : MonoBehaviour
 {
     [SerializeField] public GameObject BeamChargeVFX;
     [SerializeField] public GameObject BeamLaserVFX;
@@ -30,16 +30,23 @@ public class SpawnBeamEffectObject : MonoBehaviour
 
         RaycastHit hit;
 
-
+        int layerMask = 1 << LayerMask.NameToLayer("Player");
+        Debug.DrawRay(origin, forward * distance, Color.red, 3f);
         if (Physics.Raycast(ray, out hit, distance, layerMask))
         {
+            Debug.Log("HIT without mask: " + hit.collider.name);
             //Debug.DrawRay(ray.origin, ray.direction * distance, Color.red, 5.0f);
-
+            Debug.Log("ray cast complete");
             planeScale = Vector3.Distance(ray.origin, hit.point) / 10f;
 
             HitSpawnTransform = new GameObject("HitSpawnPoint").transform;
             HitSpawnTransform.position = hit.point;
             HitSpawnTransform.rotation = Quaternion.LookRotation(SpawnTransform.forward, SpawnTransform.up);
+        }
+        else
+        {
+            Debug.Log("NO HIT without mask");
+            Debug.Log("ray cast failed");
         }
 
         SpawnTransform.rotation = Quaternion.Euler(0f, SpawnTransform.rotation.eulerAngles.y, 0f);
@@ -64,7 +71,7 @@ public class SpawnBeamEffectObject : MonoBehaviour
     }
 
 
-    IEnumerator StartBeam()
+    public IEnumerator StartBeam()
     {
         CatchSpawnPointTransform();
 
@@ -77,8 +84,20 @@ public class SpawnBeamEffectObject : MonoBehaviour
 
         yield return new WaitForSeconds(55f/60f);
 
+        // Check references BEFORE instantiating
+        if (BeamLaserVFX == null) Debug.LogError("BeamLaserVFX is NULL!");
+        else Debug.Log("BeamLaserVFX OK: " + BeamLaserVFX.name);
+
+        if (BeamHitVFX == null) Debug.LogError("BeamHitVFX is NULL!");
+        else Debug.Log("BeamHitVFX OK: " + BeamHitVFX.name);
+
+        if (SpawnTransform == null) Debug.LogError("SpawnTransform is NULL!");
+        else Debug.Log("SpawnTransform OK at pos: " + SpawnTransform.position);
+
+        if (HitSpawnTransform == null) Debug.LogError("HitSpawnTransform is NULL!");
+        else Debug.Log("HitSpawnTransform OK at pos: " + HitSpawnTransform.position);
         GameObject objLaser =Instantiate(BeamLaserVFX, SpawnTransform.position, SpawnTransform.rotation);
-        GameObject objHit =Instantiate(BeamHitVFX, HitSpawnTransform.position, HitSpawnTransform.rotation);
+        GameObject objHit =  Instantiate(BeamHitVFX, HitSpawnTransform.position, HitSpawnTransform.rotation);
 
         MeshFilter[] meshes = objLaser.GetComponentsInChildren<MeshFilter>();
             

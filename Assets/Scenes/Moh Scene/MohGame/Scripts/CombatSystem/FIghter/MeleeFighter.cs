@@ -504,4 +504,9 @@ public class MeleeFighter : FighterBase
             Gizmos.DrawSphere(debugPos, 1f);
         }
     }
+
+    private void PlayerAttackAssit()
+    {
+        //rotate player to attacking enemy  
+    }
 }

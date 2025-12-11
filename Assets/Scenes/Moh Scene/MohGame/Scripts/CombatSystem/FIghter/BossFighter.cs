@@ -13,6 +13,8 @@ public class BossFighter : FighterBase
     //enum are public enum BossAttackType { NormalAttack, GroundLightingAttack, LaserProjectileAttack, ProjectileAttack };
     //ignore normalAttack, start 
     [SerializeField] public List<AttackData> BossAttacks;
+    [SerializeField] public SpawnLaserEffectObject spawnLaserEffectObject;
+
     SpawnProjectiles spawnProjectiles;
     public Vector2 attackRandomTimer = new Vector2(0.5f, 1.2f);
     [SerializeField] List<Transform> TeleportPosition=new List<Transform>();
@@ -23,6 +25,7 @@ public class BossFighter : FighterBase
         spawnProjectiles = GetComponent<SpawnProjectiles>();
         spawnProjectiles.owner = this;
         boss=GetComponent<BossEnemyController>();
+        spawnLaserEffectObject=GetComponent<SpawnLaserEffectObject>();
     }
 
     public override bool CanAttack(Vector3 targetPosition, float attackDistance = 1.5f)
@@ -158,7 +161,7 @@ public class BossFighter : FighterBase
         // animator.CrossFade(BossAttacks[index].AnimName, 0.2f, 1);
         Debug.Log("BossAttacks[index].AnimName:" + BossAttacks[index].AnimName);
         animator.CrossFade(BossAttacks[index].AnimName, 0.2f, 1);
-        //animator.CrossFade("LaserProjectile", 0.2f, 1);
+        
         yield return null;
 
         var animState = animator.GetCurrentAnimatorStateInfo(1);
@@ -191,6 +194,7 @@ public class BossFighter : FighterBase
                 {
                     attackState = AttackStates.Impact;
                     //emit projectile
+                    StartCoroutine(spawnLaserEffectObject.StartBeam());
                     Debug.Log("emit proj");
                 }
             }

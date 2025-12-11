@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.XR;
 using UnityEngine.TextCore.Text;
 using static UnityEngine.UI.GridLayoutGroup;
 
-public enum EnemyStates { Idle, CombatMovement, Attack, RetreatAfterAttack, Dead, GettingHit }
+public enum EnemyStates { Idle, CombatMovement, Attack, RetreatAfterAttack,  GettingHit, Dead }
 
 public enum EnemyType { Melee, Ranged, Boss }
 public class EnemyController     : MonoBehaviour
@@ -16,6 +16,8 @@ public class EnemyController     : MonoBehaviour
 
     [field: SerializeField] public bool canAttack = true;
     [field: SerializeField] public float Fov { get;  set; } = 180f;
+
+
     public StateMachine<EnemyController> stateMachine { get;  set; }
     public List<FighterBase> TargetsInRange { get;  set; } = new List<FighterBase>();
 

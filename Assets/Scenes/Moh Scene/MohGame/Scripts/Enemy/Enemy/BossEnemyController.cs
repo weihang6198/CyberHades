@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.VersionControl.Asset;
 
 
 public class BossEnemyController : EnemyController
 {
    // [SerializeField] public BossFighter bossFighter { get; set; }
     // Start is called before the first frame update
+
+    
     void Start()
     {
         EnemyManager.instance.RegisterEnemy();
@@ -31,11 +34,11 @@ public class BossEnemyController : EnemyController
         stateDict[EnemyStates.RetreatAfterAttack] = GetComponent<RetreatAfterAttackState>();
         stateDict[EnemyStates.RetreatAfterAttack].RegisterName("boss RetreatAfterAttack state");
 
-        stateDict[EnemyStates.Dead] = GetComponent<DeadState>();
-        stateDict[EnemyStates.Dead].RegisterName("boss dead state");
-
         stateDict[EnemyStates.GettingHit] = GetComponent<GettingHitState>();
         stateDict[EnemyStates.GettingHit].RegisterName("boss getting hit state");
+
+        stateDict[EnemyStates.Dead] = GetComponent<DeadState>();
+        stateDict[EnemyStates.Dead].RegisterName("boss dead state");
 
         stateMachine = new StateMachine<EnemyController>(this);
         stateMachine.ChangeState(stateDict[EnemyStates.Idle]);

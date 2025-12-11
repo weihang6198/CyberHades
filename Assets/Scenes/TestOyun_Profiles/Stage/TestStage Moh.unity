@@ -509,6 +509,10 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1746272145125666549, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
+      propertyPath: states.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5820574973512412440, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
       propertyPath: serializeData2.selectionData.maxConnectionDistance
       value: 0.3593377
@@ -684,11 +688,17 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -3694959939034915080, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6346286422698758619, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1317432301}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6005929761051265889, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
       insertIndex: -1
       addedObject: {fileID: 419942892}
+    - targetCorrespondingSourceObject: {fileID: 6005929761051265889, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 419942907}
   m_SourcePrefab: {fileID: 100100000, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
 --- !u!1 &364374879
 GameObject:
@@ -813,6 +823,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunTime: 2
+--- !u!4 &419942906 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6346286422698758619, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
+  m_PrefabInstance: {fileID: 328962827}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &419942907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419942876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f60c23e89b7989b4b9d91fd8a57419d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeamChargeVFX: {fileID: 5380081728960971065, guid: 7473f8d1ec91b944f8affcab7b143b72, type: 3}
+  BeamLaserVFX: {fileID: 2464006557399068983, guid: fe2f77ce61bd2c547b9fa7110d171b77, type: 3}
+  BeamHitVFX: {fileID: 7727687943751420033, guid: ed00630efebd4bb40b51ea708b80f6fd, type: 3}
+  SpawnTransform: {fileID: 1317432301}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8192
+  isEnd: 1
+  duration: 3
+  distance: 300
 --- !u!4 &432318350 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3e1a1aef740a13748bb8f8154650da35, type: 3}
@@ -3018,6 +3055,37 @@ Transform:
   - {fileID: 1005816405}
   - {fileID: 1370222446}
   m_Father: {fileID: 1957198618}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1317432300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1317432301}
+  m_Layer: 8
+  m_Name: SpawnLaserProjectilePosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1317432301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317432300}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -0.425}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 419942906}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1328369123
 GameObject:
