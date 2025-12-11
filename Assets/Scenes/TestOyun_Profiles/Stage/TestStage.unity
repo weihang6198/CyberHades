@@ -22801,6 +22801,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LightningVFX: {fileID: 6490081254691885353, guid: 238208815a4a6934d8c97d8d799ed106, type: 3}
+  decalWarning: {fileID: 4105601711736768808, guid: 55746228f9097164fb8b83e9d7aadb01, type: 3}
+  waitduration: 0.5
+  r: 3
 --- !u!4 &6983258930626336602
 Transform:
   m_ObjectHideFlags: 0
