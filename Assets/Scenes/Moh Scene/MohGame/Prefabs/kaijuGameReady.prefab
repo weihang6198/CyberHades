@@ -89,15 +89,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e825ad5182d179468ab1ab057b6d1ed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.49
+      value: 0.78385735
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e825ad5182d179468ab1ab057b6d1ed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0000014305115
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e825ad5182d179468ab1ab057b6d1ed, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.03
+      value: 9.62
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7e825ad5182d179468ab1ab057b6d1ed, type: 3}
       propertyPath: m_LocalRotation.w
@@ -218,7 +218,7 @@ PrefabInstance:
     - target: {fileID: 8280293676220204354, guid: 7e825ad5182d179468ab1ab057b6d1ed, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1664249a61643c54ab94494266e9cb39, type: 2}
+      objectReference: {fileID: 2100000, guid: 6edde2bd3b14bad44b7243be57ade533, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -629,31 +629,31 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: 0.0598979
+      - x: 0.05989796
         y: 0.9528165
-        z: 0.17609549
-      - x: 0.10628843
+        z: 0.17609501
+      - x: 0.10628849
         y: 0.7620913
         z: 0.31247997
-      - x: 0.18730831
+      - x: 0.18730855
         y: 0.5733951
-        z: 0.550673
-      - x: 0.2644081
+        z: 0.55067253
+      - x: 0.26440823
         y: 0.4577425
-        z: 0.7773404
-      - x: 0.35718918
+        z: 0.77733994
+      - x: 0.3571893
         y: 0.35832202
-        z: 1.0501094
-      - x: 0.4473567
+        z: 1.0501099
+      - x: 0.44735682
         y: 0.28933632
         z: 1.3151951
       - x: 0.5610461
         y: 0.22237957
         z: 1.6494331
-      - x: 0.6683383
+      - x: 0.6683384
         y: 0.20200229
         z: 1.9648647
-      - x: 0.7598171
+      - x: 0.7598169
         y: 0.20403123
         z: 2.2338047
       attributes:
@@ -666,7 +666,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.3593377
+      maxConnectionDistance: 0.35933763
       userEdit: 0
     preBuildData:
       enabled: 0
@@ -913,11 +913,14 @@ MonoBehaviour:
   isDashing: 0
   dashWaitPercent: 0.7
   dashCooldown: 1.5
+  BossAttacks: []
+  spawnLaserEffectObject: {fileID: 0}
   attackRandomTimer: {x: 0.5, y: 1.2}
   TeleportPosition:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  boss: {fileID: 0}
 --- !u!114 &7685114888833425569
 MonoBehaviour:
   m_ObjectHideFlags: 0
