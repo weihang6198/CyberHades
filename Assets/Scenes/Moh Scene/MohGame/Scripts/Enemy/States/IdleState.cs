@@ -5,6 +5,7 @@ using UnityEngine;
 public class IdleState : State<EnemyController>
 {
     EnemyController enemy;
+  
     public override void Enter(EnemyController owner)
     {
         enemy = owner;
@@ -26,6 +27,7 @@ public class IdleState : State<EnemyController>
             else if (enemy.enemyType == EnemyType.Melee)
             {
                 Debug.Log(" going combat movement state");
+                if (!enemy.activateEnemy) return;
                 enemy.ChangeState(EnemyStates.CombatMovement);
             }
 

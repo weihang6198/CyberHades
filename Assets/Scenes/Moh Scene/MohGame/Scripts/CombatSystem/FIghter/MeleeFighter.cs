@@ -28,6 +28,8 @@ public class MeleeFighter : FighterBase
     [SerializeField] DashEffect dashEffect;
     [SerializeField] float dashDistance = 4f;
     [SerializeField] Vector2 dashTime = new Vector2(10f, 31f);
+    [SerializeField] float attackAsssitMaxAngle = 45;
+    [SerializeField] float attackAsssitMaxDistance =10;
     BoxCollider swordCollider;
     bool showDebugSphere = false;
     Vector3 debugPos;
@@ -58,6 +60,11 @@ public class MeleeFighter : FighterBase
         {
             swordCollider=sword.GetComponent<BoxCollider>();
             swordCollider.enabled = false;
+            if(swordCollider )
+            {
+               
+                Debug.Log("owner : "+ gameObject.name +"sword collider exist");
+            }
         }
     }
 
@@ -86,19 +93,21 @@ public class MeleeFighter : FighterBase
     {
         
         attackState = AttackStates.Windup;
+        animator.applyRootMotion = true;
 
-        
         //default, for enemy
         Vector3 targetDirection = transform.forward;
+        targetDirection.y = 0f; // keep rotation horizontal
 
         //only for player
         if (character.tag=="Player")
         {
             // Capture the mouse direction once at attack start
-            targetDirection = GetMouseDirection();
+            //targetDirection = GetMouseDirection();
+            targetDirection = CalculatePlayerTargetRotation();
         }
-        animator.applyRootMotion=true;
-        targetDirection.y = 0f; // keep rotation horizontal
+        
+        
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
         animator.CrossFade(attacks[comboCount].AnimName, 0.2f, 1);
@@ -114,6 +123,8 @@ public class MeleeFighter : FighterBase
             if (isDashing)
                 yield break; // exit coroutine immediately if dash started
             InAction = true;
+
+            //rotate the attacker towards the target
             if (attackState != AttackStates.Cooldown)
             {
                 // Smoothly rotate toward the target direction every frame
@@ -177,7 +188,7 @@ public class MeleeFighter : FighterBase
                     isSlashSpawned = true;
 
                     //Camera shake
-                    cameraShake.ShakeByDuration(0.2f, 0.3f);
+                   // cameraShake.ShakeByDuration(0.2f, 0.3f);
                 }
 
             }
@@ -509,8 +520,20 @@ public class MeleeFighter : FighterBase
         }
     }
 
-    private void PlayerAttackAssit()
+
+    private Vector3 CalculatePlayerTargetRotation()
     {
-        //rotate player to attacking enemy  
+
+        Vector3 targetDirection = GetMouseDirection();
+        targetDirection.y = 0f;
+        //check if any enemy
+        var enemy = EnemyManager.instance.GetClosestEnemyForwardDir(targetDirection, attackAsssitMaxAngle,attackAsssitMaxDistance);
+        if (enemy != null)
+        {
+            targetDirection = enemy.transform.position - transform.position;
+            targetDirection.y = 0f;
+        }
+        Debug.Log("targetDirection in CalculatePlayerTargetRotation:" + targetDirection);
+        return targetDirection.normalized;
     }
 }

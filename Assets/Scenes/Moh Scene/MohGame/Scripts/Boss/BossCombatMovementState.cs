@@ -116,7 +116,7 @@ public class BossCombatMovementState : State<EnemyController>
     void StartChase()
     {
         state = AICombatStates.Chase;
-        Debug.Log("chasing player");
+       // Debug.Log("chasing player");
         //this is for tutorial, this game doesnt have combat mode
 
         enemy.animator.SetBool("CombatMode", false);

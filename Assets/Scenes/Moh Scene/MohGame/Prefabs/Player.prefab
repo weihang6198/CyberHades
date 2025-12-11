@@ -439,7 +439,7 @@ MonoBehaviour:
   isDashing: 0
   dashWaitPercent: 0.7
   dashCooldown: 0.3
-  sword: {fileID: 0}
+  sword: {fileID: 3901212663738680571}
   slashEffect: {fileID: 5426945484231071912}
   meshTrailEffect: {fileID: 2686284262189649832}
   dashEffect: {fileID: 396357456259213441}
@@ -736,5 +736,10 @@ PrefabInstance:
 --- !u!4 &1446657729491684779 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8233375580955197374, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
+  m_PrefabInstance: {fileID: 7372776309779952149}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3901212663738680571 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5796898814811911918, guid: 6a18a6203a030d141ba1e1ebcc80c413, type: 3}
   m_PrefabInstance: {fileID: 7372776309779952149}
   m_PrefabAsset: {fileID: 0}

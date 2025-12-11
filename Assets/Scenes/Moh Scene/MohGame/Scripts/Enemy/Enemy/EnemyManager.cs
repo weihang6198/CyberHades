@@ -1,4 +1,4 @@
-    using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -104,6 +104,42 @@ public class EnemyManager : MonoBehaviour
     {
         //return the first enemy that does not satify/satisfy the condition
         return enemiesInRange.FirstOrDefault(e => e.IsInState(EnemyStates.Attack));
+    }
+
+    public EnemyController GetClosestEnemyForwardDir(Vector3 forwardDir,float maxAngle = 45f,float maxDistance = 10f)
+    {
+        EnemyController closestEnemy = null;
+        float closestDist = Mathf.Infinity;
+
+        Vector3 playerPos = player.transform.position;
+        Vector3 forward = forwardDir; //this forward dir is when player about the atk, the expected rot to turn to
+
+        // Get list of all enemies — replace with your own enemy manager
+        EnemyController[] enemies = GameObject.FindObjectsOfType<EnemyController>();
+
+        foreach (var enemy in enemies)
+        {
+            Vector3 dirToEnemy = enemy.transform.position - playerPos;
+            float distance = dirToEnemy.magnitude;
+
+            // skip if too far
+            if (distance > maxDistance) continue;
+
+            dirToEnemy.Normalize();
+
+            // check forward angle
+            float angle = Vector3.Angle(forward, dirToEnemy);
+            if (angle > maxAngle) continue;
+
+            // pick closest
+            if (distance < closestDist)
+            {
+                closestDist = distance;
+                closestEnemy = enemy;
+            }
+        }
+
+        return closestEnemy;
     }
 
     public bool OnCheckAllEnemiesAlive()
