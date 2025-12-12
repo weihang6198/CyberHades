@@ -45,17 +45,18 @@ public class SpawnLightningBolt : MonoBehaviour
         decal.size = new Vector3(radius, radius, decal.size.y);
 
         yield return new WaitForSeconds(waitDuration);
-        Destroy(decal);
 
         GameObject objLightning = Instantiate(LightningVFX, spawnPosition, Quaternion.identity);
         ParticleSystem ps = objLightning.GetComponentInChildren<ParticleSystem>();
-        //var state = ps.GetPlaybackState();
         var main = ps.main;
-
         float lifetime = main.duration + main.startLifetime.constantMax;
 
-        yield return new WaitForSeconds(lifetime);
+        // destroy decal after 2 sec
+        yield return new WaitForSeconds(2f);
+        Destroy(decal);
 
+        // wait until lightning finishes
+        yield return new WaitForSeconds(lifetime);
         Destroy(objLightning);
     }
 
