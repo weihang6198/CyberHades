@@ -8,8 +8,11 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] public List<Transform> SpawnPosition;
     public EnemyController enemy;
     public int EnemyCount = 3;
+
+
     void Start()
     {
+        Debug.Log("Start: " + gameObject.GetInstanceID());
         SpawnEnemy();
     }
 

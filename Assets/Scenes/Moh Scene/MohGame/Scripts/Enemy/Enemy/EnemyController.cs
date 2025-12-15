@@ -275,6 +275,9 @@ public class EnemyController     : MonoBehaviour
             mat.SetFloat("_VerticalClipOffset", 0);
             StartCoroutine(FadeFilterByfloat(mat, 0,1,2f));
         }
+        EnemyManager.instance.UnregisterEnemy();
+
+
     }
 
     private IEnumerator FadeFilterByfloat(Material mat, float from, float to, float duration)
@@ -296,7 +299,6 @@ public class EnemyController     : MonoBehaviour
         mat.SetFloat("_AlphaClipThresholdOffset", to);
 
         Destroy(gameObject);
-
     }
 
     //private void OnEnable()
