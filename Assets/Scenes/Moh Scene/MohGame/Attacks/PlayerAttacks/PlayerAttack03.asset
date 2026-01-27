@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 683e81d3016067c4db01a8f9a6b5893b, type: 3}
   m_Name: PlayerAttack03
   m_EditorClassIdentifier: 
-  <AnimName>k__BackingField: attack03
-  <HitBoxToUse>k__BackingField: 0
+  <AnimName>k__BackingField: attack01
+  <HitBoxToUse>k__BackingField: 4
   <ImpactStartTime>k__BackingField: 0.1
   <ImpactEndTime>k__BackingField: 0.75
-  <KnockBackDistance>k__BackingField: 2
+  <KnockBackDistance>k__BackingField: 0
   <WindupSpeed>k__BackingField: 1.5
   <ImpactSpeed>k__BackingField: 1.5
-  <CooldownSpeed>k__BackingField: 1
+  <CooldownSpeed>k__BackingField: 1.5
   <VFXStartTime>k__BackingField: 0
   <VFXEndTime>k__BackingField: 0
   <MoveToTarget>k__BackingField: 0

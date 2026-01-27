@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class SpawnLaserEffectObject : MonoBehaviour
@@ -16,6 +16,7 @@ public class SpawnLaserEffectObject : MonoBehaviour
     [SerializeField]  public float distance = 300.0f;
     float planeScale = 3.0f;
 
+    public FighterBase owner;
     private void CatchSpawnPointTransform()
     {
 
@@ -32,21 +33,24 @@ public class SpawnLaserEffectObject : MonoBehaviour
 
         int layerMask = 1 << LayerMask.NameToLayer("Player");
         Debug.DrawRay(origin, forward * distance, Color.red, 3f);
+        planeScale = 100f;//determine the rnage of the laser
         if (Physics.Raycast(ray, out hit, distance, layerMask))
         {
-            Debug.Log("HIT without mask: " + hit.collider.name);
-            //Debug.DrawRay(ray.origin, ray.direction * distance, Color.red, 5.0f);
-            Debug.Log("ray cast complete");
-            planeScale = Vector3.Distance(ray.origin, hit.point) / 10f;
+           
+
+            Debug.Log("ray cast complete player detected");
+          
 
             HitSpawnTransform = new GameObject("HitSpawnPoint").transform;
+           
             HitSpawnTransform.position = hit.point;
             HitSpawnTransform.rotation = Quaternion.LookRotation(SpawnTransform.forward, SpawnTransform.up);
         }
         else
         {
-            Debug.Log("NO HIT without mask");
-            Debug.Log("ray cast failed");
+            HitSpawnTransform.position = origin + forward * planeScale;
+          
+            Debug.Log("ray cast failed no player detected");
         }
 
         SpawnTransform.rotation = Quaternion.Euler(0f, SpawnTransform.rotation.eulerAngles.y, 0f);
@@ -75,34 +79,48 @@ public class SpawnLaserEffectObject : MonoBehaviour
     {
         CatchSpawnPointTransform();
 
-        GameObject objCharge = Instantiate(BeamChargeVFX, SpawnTransform.position, SpawnTransform.rotation);
+        GameObject objCharge =
+            Instantiate(BeamChargeVFX, SpawnTransform.position, SpawnTransform.rotation);
 
         ParticleSystem ps = objCharge.GetComponentInChildren<ParticleSystem>();
-
         var main = ps.main;
-        float lifetime = main.startLifetime.constant; 
 
-        yield return new WaitForSeconds(55f/60f);
+        yield return new WaitForSeconds(55f / 60f);
 
-        // Check references BEFORE instantiating
         if (BeamLaserVFX == null) Debug.LogError("BeamLaserVFX is NULL!");
-        else Debug.Log("BeamLaserVFX OK: " + BeamLaserVFX.name);
-
         if (BeamHitVFX == null) Debug.LogError("BeamHitVFX is NULL!");
-        else Debug.Log("BeamHitVFX OK: " + BeamHitVFX.name);
-
         if (SpawnTransform == null) Debug.LogError("SpawnTransform is NULL!");
-        else Debug.Log("SpawnTransform OK at pos: " + SpawnTransform.position);
-
         if (HitSpawnTransform == null) Debug.LogError("HitSpawnTransform is NULL!");
-        else Debug.Log("HitSpawnTransform OK at pos: " + HitSpawnTransform.position);
-        GameObject objLaser =Instantiate(BeamLaserVFX, SpawnTransform.position, SpawnTransform.rotation);
-        GameObject objHit =  Instantiate(BeamHitVFX, HitSpawnTransform.position, HitSpawnTransform.rotation);
 
-        MeshFilter[] meshes = objLaser.GetComponentsInChildren<MeshFilter>();
-            
-    
+        // ===============================
+        // SPAWN LASER VFX
+        // ===============================
+        GameObject objLaser =
+            Instantiate(BeamLaserVFX, SpawnTransform.position, SpawnTransform.rotation);
 
+        // ===============================
+        // SPAWN HIT POINT + DAMAGE TRIGGER
+        // ===============================
+        GameObject objHit =
+            Instantiate(BeamHitVFX, HitSpawnTransform.position, HitSpawnTransform.rotation);
+
+        // 🔥 IMPORTANT: parent to this laser object
+        objHit.transform.SetParent(this.transform, true);
+
+        // Required for OnTriggerEnter
+        objHit.tag = "HitBox";
+
+        SphereCollider hitCol = objHit.AddComponent<SphereCollider>();
+        hitCol.isTrigger = true;
+        hitCol.radius = 0.5f;
+
+        Rigidbody hitRb = objHit.AddComponent<Rigidbody>();
+        hitRb.isKinematic = true;
+        hitRb.useGravity = false;
+
+        // ===============================
+        // LASER VISUAL SETUP
+        // ===============================
         Renderer[] renderers = objLaser.GetComponentsInChildren<Renderer>();
 
         foreach (Renderer renderer in renderers)
@@ -111,20 +129,20 @@ public class SpawnLaserEffectObject : MonoBehaviour
 
             if (mat.HasProperty("_LaserDissolve"))
             {
-                renderer.gameObject.transform.localScale = new Vector3(0.1f, 0.1f, planeScale);
-                renderer.gameObject.transform.localPosition = new Vector3(0,0, planeScale*5f);
+                renderer.transform.localScale =
+                    new Vector3(0.1f, 0.1f, planeScale);
 
-                renderer.material = mat; 
+                renderer.transform.localPosition =
+                    new Vector3(0, 0, planeScale * 5f);
+
+                renderer.material = mat;
                 StartCoroutine(Fade(mat, 1.103f, 1.0f, 0.2f, "_LaserDissolve"));
-            }
-            else
-            {
-                Debug.Log("Has not laserDis");
             }
         }
 
-
-
+        // ===============================
+        // BEAM ACTIVE DURATION
+        // ===============================
         yield return new WaitForSeconds(duration);
 
         foreach (Renderer renderer in renderers)
@@ -133,18 +151,14 @@ public class SpawnLaserEffectObject : MonoBehaviour
 
             if (mat.HasProperty("_LaserDissolve"))
             {
-                renderer.material = mat;
-                yield return Fade(mat, 1.0f ,1.103f, 0.4f, "_LaserDissolve");
-            }
-            else
-            {
-                Debug.Log("Has not laserDis");
+                yield return Fade(mat, 1.0f, 1.103f, 0.4f, "_LaserDissolve");
             }
         }
 
         Destroy(objCharge);
         Destroy(objLaser);
         Destroy(objHit);
+
         isEnd = true;
     }
 

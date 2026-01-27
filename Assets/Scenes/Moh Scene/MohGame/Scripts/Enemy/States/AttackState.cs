@@ -19,27 +19,51 @@ public class AttackState: State<EnemyController>
 
     public override void Execute()
     {
-        if (isAttacking) { return; }//prevent enemy from chasing player
-        if(enemy.enemyType==EnemyType.Melee)
-        {
-           // Debug.Log("chasing player");
-            enemy.NavAgent.SetDestination(enemy.Target.transform.position); //melee enemy chase player
-        }
-        
+        Debug.Log("Execute Combat | isAttacking: " + isAttacking);
 
-        if (enemy.Fighter.CanAttack(enemy.Target.transform.position))
+        if (isAttacking)
         {
-            if(enemy.canAttack)
+            Debug.Log("Return: already attacking");
+            return;
+        }
+
+        if (enemy.enemyType == EnemyType.Melee)
+        {
+            if (enemy.Target)
             {
-                //Debug.Log("enemy fighter attacking player");
-                StartCoroutine(Attack(Random.Range(0, enemy.Fighter.attacks.Count + 1)));
+                Debug.Log("Chasing target: " + enemy.Target.name);
+                enemy.NavAgent.SetDestination(enemy.Target.transform.position);
             }
-          
+            else
+            {
+                Debug.Log("No enemy target found");
+            }
         }
 
+        if (enemy.Target)
+        {
+            bool canAttackRange = enemy.Fighter.CanAttack(enemy.Target.transform.position);
+            Debug.Log("CanAttack range check: " + canAttackRange);
 
-      
+            if (canAttackRange)
+            {
+                Debug.Log("enemy.canAttack: " + enemy.canAttack);
+
+                if (enemy.canAttack)
+                {
+                    int attackIndex = Random.Range(0, enemy.Fighter.attacks.Count);
+                    Debug.Log("Start Attack, index: " + attackIndex);
+
+                    StartCoroutine(Attack(attackIndex));
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Skip attack: Target is null");
+        }
     }
+
 
     IEnumerator Attack(int comboCount = 1)
     {

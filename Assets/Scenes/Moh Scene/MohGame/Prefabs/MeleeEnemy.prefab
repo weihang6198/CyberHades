@@ -87,10 +87,13 @@ MonoBehaviour:
   hitStopTime: 0.1
   hitLightVFX: {fileID: 6253807965709964959, guid: 3a93d9fcf7da0244a8afb4fec0f86cbc, type: 3}
   attackState: 0
+  consecutiveHitsTaken: 0
+  maxConsecutiveHitsAllowed: 2
+  canCounter: 0
   isDashing: 0
   dashWaitPercent: 0.7
   dashCooldown: 1.5
-  sword: {fileID: 0}
+  sword: {fileID: 1548311085679223769}
   slashEffect: {fileID: 0}
   meshTrailEffect: {fileID: 0}
   dashEffect: {fileID: 0}
@@ -98,6 +101,10 @@ MonoBehaviour:
   dashTime: {x: 10, y: 31}
   attackAsssitMaxAngle: 45
   attackAsssitMaxDistance: 10
+  leftHand: {fileID: 0}
+  rightHand: {fileID: 0}
+  cameraShakeDuration: 0
+  cameraShakeStrength: 0
   mainCamera: {fileID: 0}
   cameraShake: {fileID: 0}
   canBlock: 1
@@ -143,13 +150,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26539d325d7e82044b4d49afd3bfaa99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGettingHitCount: 0
-  maxGettingHitCount: 2
   activateEnemy: 1
   canAttack: 1
   <Fov>k__BackingField: 180
   enemyType: 0
   canRunStateMachine: 1
+  currentState: 0
   rends:
   - {fileID: 343234195297054298}
   - {fileID: 5084938609062603457}
@@ -405,7 +411,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5, y: 1.5, z: 0.5}
+  m_Size: {x: 0.5, y: 2, z: 0.5}
   m_Center: {x: 0, y: 0.68, z: 0}
 --- !u!54 &1965214511869673798
 Rigidbody:

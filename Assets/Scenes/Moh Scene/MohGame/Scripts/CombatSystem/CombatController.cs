@@ -28,9 +28,12 @@ public class CombatController : MonoBehaviour
             _input.attack = false;
             var enemy = EnemyManager.instance.GetAttackingEnemy();
             //for parry 
-            if ((enemy != null && enemy.Fighter.IsCounterable && (!meleeFighter.InAction || enemy.Fighter.isDashing)))
+            if (meleeFighter.canCounter &&(enemy != null && enemy.Fighter.IsCounterable && (!meleeFighter.InAction || enemy.Fighter.isDashing)))
             {
-                StartCoroutine(meleeFighter.PerformCounterAttack(enemy));
+              
+                 StartCoroutine(meleeFighter.PerformCounterAttack(enemy));
+                
+               
             }
             else
             {

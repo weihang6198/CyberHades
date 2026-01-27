@@ -31,6 +31,11 @@ public class MeleeFighter : FighterBase
     [SerializeField] float attackAsssitMaxAngle = 45;
     [SerializeField] float attackAsssitMaxDistance =10;
     BoxCollider swordCollider;
+    [SerializeField] BoxCollider leftHand;
+     [SerializeField] BoxCollider rightHand;
+     [SerializeField] float cameraShakeDuration;
+    [SerializeField] float cameraShakeStrength;
+
     bool showDebugSphere = false;
     Vector3 debugPos;
     Vector3 AttackDir;
@@ -68,11 +73,28 @@ public class MeleeFighter : FighterBase
         }
     }
 
-    public override bool CanAttack(Vector3 targetPosition,float attackDistance)
+    //public override bool CanAttack(Vector3 targetPosition,float attackDistance)
+    //{
+    //   return  Vector3.Distance(targetPosition, transform.position) <= attackDistance + 0.03f;
+
+
+    //}
+
+    public override bool CanAttack(Vector3 targetPosition, float attackDistance=1.9f)
     {
-       return  Vector3.Distance(targetPosition, transform.position) <= attackDistance + 0.03f;
-      
-        
+        attackDistance = 1.9f;
+        Vector3 selfPos = transform.position;
+        Vector3 targetPos = targetPosition;
+
+        // Ignore height difference
+        selfPos.y = 0f;
+        targetPos.y = 0f;
+
+        float dist = Vector3.Distance(selfPos, targetPos);
+
+        Debug.Log("CanAttack | dist: " + dist + " | attackDistance: " + attackDistance);
+
+        return dist <= attackDistance;
     }
     public override void TryToAttack(FighterBase target = null)
     {
@@ -81,156 +103,145 @@ public class MeleeFighter : FighterBase
             //Debug.Log("start couroutine atk function");
 
             StartCoroutine(Attack());
-
+                
         }
-        else if (attackState == AttackStates.Impact || attackState == AttackStates.Cooldown)
+        //else if (attackState == AttackStates.Impact || attackState == AttackStates.Cooldown)
+        else if (attackState == AttackStates.Cooldown )
         {
+            Debug.Log("attackState == AttackStates.Cooldown is correct doing combo");
             doCombo = true;
         }
     }
-   
-    public override  IEnumerator Attack(FighterBase target = null)
+
+    public override IEnumerator Attack(FighterBase target = null)
     {
-        
+        Vector3 originalPos = transform.position;
         attackState = AttackStates.Windup;
+        InAction = true;
+
         animator.applyRootMotion = true;
+        animator.speed = 1f;
 
-        //default, for enemy
+        // ===== Target Direction (captured once) =====
         Vector3 targetDirection = transform.forward;
-        targetDirection.y = 0f; // keep rotation horizontal
+        targetDirection.y = 0f;
 
-        //only for player
-        if (character.tag=="Player")
-        {
-            // Capture the mouse direction once at attack start
-            //targetDirection = GetMouseDirection();
+        if (character.CompareTag("Player"))
             targetDirection = CalculatePlayerTargetRotation();
-        }
-        
-        
+
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
+        // ===== Play animation =====
         animator.CrossFade(attacks[comboCount].AnimName, 0.2f, 1);
         yield return null;
 
+        AnimatorStateInfo animState = animator.GetCurrentAnimatorStateInfo(1);
 
-        var animState = animator.GetCurrentAnimatorStateInfo(1);
         float timer = 0f;
+        float currentAnimSpeed = attacks[comboCount].WindupSpeed;
         isSlashSpawned = false;
-        float currentPhaseAnimSpeed = attacks[comboCount].WindupSpeed;
-        while (timer <= animState.length)
-        {
-            if (isDashing)
-                yield break; // exit coroutine immediately if dash started
-            InAction = true;
 
-            //rotate the attacker towards the target
-            if (attackState != AttackStates.Cooldown)
-            {
-                // Smoothly rotate toward the target direction every frame
-                transform.rotation = Quaternion.Slerp(
+        // ===== Main Loop =====
+        while (attackState != AttackStates.Idle)
+        {
+            //transform.position= originalPos; //fix the player in current position
+           // Debug.Log("[AttackState] " + attackState);
+
+            // ---- Forced exits ----
+            if (isDashing || InCounter)
+                break;
+
+            // ---- Rotate every frame ----
+            transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 targetRotation,
-                10f * Time.deltaTime // adjust rotation speed
+                50f * Time.deltaTime
             );
 
-            }
-
-            //modify the delta time based on current animation speed
-            timer += Time.deltaTime* currentPhaseAnimSpeed;
+            // ---- Timing ----
+            timer += Time.deltaTime * currentAnimSpeed;
             float normalizedTime = timer / animState.length;
 
-            //first phase windup
+            // =========================
+            //          WINDUP
+            // =========================
             if (attackState == AttackStates.Windup)
             {
-                animator.speed = currentPhaseAnimSpeed; // slow animationcurrentPhaseSpeed
+                showDebugSphere = true;
+                debugPos = transform.position;
+                currentAnimSpeed = attacks[comboCount].WindupSpeed;
 
-                if (InCounter) break; //exit if player counter enemy attack
-                if (normalizedTime >= attacks[comboCount].ImpactStartTime) //enter attack
-                {
-                    showDebugSphere = true;
-                    debugPos = transform.position;     // capture position at this moment
-                    currentPhaseAnimSpeed = attacks[comboCount].ImpactSpeed;
-                    animator.speed = currentPhaseAnimSpeed; // slow animationcurrentPhaseSpeed
-                    attackState = AttackStates.Impact;
-                    swordCollider.enabled = true;
-                }
+                animator.SetFloat("AttackAnimSpeed", currentAnimSpeed);
+              
+
+                currentAnimSpeed = attacks[comboCount].ImpactSpeed;
+               
             }
-            //second phase impact 
+
+            // =========================
+            //          IMPACT
+            // =========================
             else if (attackState == AttackStates.Impact)
             {
-                if (InCounter) break;
+                currentAnimSpeed = attacks[comboCount].ImpactSpeed;
 
-                if (normalizedTime >= attacks[comboCount].ImpactEndTime) //exit attack
+                animator.SetFloat("AttackAnimSpeed", currentAnimSpeed);
+                showDebugSphere = false;
+
+                SetDamageColliderEnabled(attacks[comboCount], true);
+
+                if (character.CompareTag("Player"))
+                    cameraShake.ShakeByDuration(cameraShakeDuration, cameraShakeStrength); 
+
+                // ---- Slash VFX ----
+                if (!isSlashSpawned && slashEffect != null)
                 {
-                    showDebugSphere = false;
-                    currentPhaseAnimSpeed = attacks[comboCount].CooldownSpeed;
-                    animator.speed = currentPhaseAnimSpeed; // slow animationcurrentPhaseSpeed
-                    attackState = AttackStates.Cooldown;
+                    Transform chest = animator.GetBoneTransform(HumanBodyBones.Chest);
+                    chest.rotation = sword.transform.rotation;
 
-                    swordCollider.enabled = false;
-
-
-                }
-                Transform SpawnTransform = animator.GetBoneTransform(HumanBodyBones.Chest);
-                SpawnTransform.rotation = sword.transform.rotation;
-                
-                if (normalizedTime >= attacks[comboCount].SlashSpawnFrame && !isSlashSpawned)
-                {
-                    //slashEffect.GetCalculatedSlashRotation(animator,);
-                    //Spawn Slash VFX
-                    if (slashEffect != null)
-                    {
-
-                        slashEffect.SpawnEffect(SpawnTransform);
-                    }
-
+                    slashEffect.SpawnEffect(chest);
                     isSlashSpawned = true;
-
-                    //Camera shake
-                   // cameraShake.ShakeByDuration(0.2f, 0.3f);
                 }
 
+                // attackState = AttackStates.Cooldown;
             }
+
+            // =========================
+            //         COOLDOWN
+            // =========================
             else if (attackState == AttackStates.Cooldown)
             {
+               
                 showDebugSphere = false;
+
+                currentAnimSpeed = attacks[comboCount].CooldownSpeed;
+                SetDamageColliderEnabled(attacks[comboCount], false); 
+                animator.SetFloat("AttackAnimSpeed", currentAnimSpeed);
                 if (doCombo)
                 {
+                  //  Debug.Log("inside do combo true after attack states .cooldown");
                     doCombo = false;
                     comboCount = (comboCount + 1) % attacks.Count;
 
                     StartCoroutine(Attack());
                     yield break;
                 }
-                
-                //if ((character.tag == "Player"))
-                //{
-                //    Debug.Log("inside stop all courtine for play tag only");
-                //    //only for player
-                //    if (PlayerInput.move != Vector2.zero)
-                //    {
-                //        attackState = AttackStates.Idle;
-                //        comboCount = 0;
-                //        InAction = false;
-                //        //cancel the current animation and go back to locomotion
-                //       // StopAllCoroutines();
-                //        yield break;
-                //    }
-                //}
-             
-
             }
+         
+
 
             yield return null;
         }
 
-        animator.speed = 1;
-       attackState = AttackStates.Idle;
-        comboCount = 0;
-        InAction = false;
-        animator.applyRootMotion = false;
+        // ===== Cleanup =====
+        if(consecutiveHitsTaken>maxConsecutiveHitsAllowed) 
+        {
+            consecutiveHitsTaken = 0;
+        }
+        ResetAttackParam();
+      
     }
+
 
 
     public void TryToDash()
@@ -536,4 +547,231 @@ public class MeleeFighter : FighterBase
         Debug.Log("targetDirection in CalculatePlayerTargetRotation:" + targetDirection);
         return targetDirection.normalized;
     }
+
+    private void SetDamageColliderEnabled(AttackData attack,bool enabled)
+    {
+        //{ LeftHand,RightHand ,LeftFoot, RightFoot,Sword};
+        switch (attack.HitBoxToUse)
+        {
+            case AttackHitbox.Sword:
+                swordCollider.enabled = enabled;
+               // Debug.Log($"<color=cyan>swordCollider hitbox: {enabled}</color>");
+                break;
+            case AttackHitbox.LeftHand:
+                leftHand.enabled = enabled;
+                break;
+            case AttackHitbox.RightHand:
+                rightHand.enabled  = enabled;
+                break;
+            case AttackHitbox.LeftFoot:
+                break;
+            case AttackHitbox.RightFoot:
+                break;
+           
+           
+        }
+    }
+
+    public void ResetAttackParam()
+    {
+        animator.speed = 1f;
+        animator.applyRootMotion = false;
+        SetDamageColliderEnabled(attacks[comboCount], false);
+        attackState = AttackStates.Idle;
+        comboCount = 0;
+        InAction = false;
+    }
+    void ChangeAttackState(string attackStates)
+    {
+        Debug.Log($"<color=cyan>[AttackState]</color> Event received: <b>{attackStates}</b>");
+
+        switch (attackStates)
+        {
+            case "Idle":
+                Debug.Log("<color=green>[AttackState]</color> → <b>Idle</b>");
+
+                attackState = AttackStates.Idle;
+                break;
+
+            case "Windup":
+                Debug.Log("<color=yellow>[AttackState]</color> → <b>Windup</b>");
+
+                //animator.speed = 0.1f;
+                attackState = AttackStates.Windup;
+                break;
+
+            case "Impact":
+                Debug.Log("<color=orange>[AttackState]</color> → <b>Impact</b>");
+
+                attackState = AttackStates.Impact;
+                break;
+
+            case "Cooldown":
+                Debug.Log("<color=blue>[AttackState]</color> → <b>Cooldown</b>");
+
+                attackState = AttackStates.Cooldown;
+                break;
+
+            default:
+                Debug.LogWarning($"<color=red>[AttackState]</color> Unknown state: <b>{attackStates}</b>");
+                break;
+        }
+    }
+
 }
+
+
+/*
+ * 
+ * 
+ *   public override  IEnumerator Attack(FighterBase target = null)
+    {
+        
+        attackState = AttackStates.Windup;
+        animator.applyRootMotion = true;
+
+        //default, for enemy
+        Vector3 targetDirection = transform.forward;
+        targetDirection.y = 0f; // keep rotation horizontal
+
+        //only for player
+        if (character.tag=="Player")
+        {
+            // Capture the mouse direction once at attack start
+            //targetDirection = GetMouseDirection();
+            targetDirection = CalculatePlayerTargetRotation();
+        }
+        
+        
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
+        animator.CrossFade(attacks[comboCount].AnimName, 0.2f, 1);
+        yield return null;
+
+
+        var animState = animator.GetCurrentAnimatorStateInfo(1);
+        float timer = 0f;
+        isSlashSpawned = false;
+        float currentPhaseAnimSpeed = attacks[comboCount].WindupSpeed;
+        //while (timer <= animState.length)
+        while (attackState != AttackStates.Idle)
+        {
+            Debug.Log("[current attack state ]is:" + attackState);
+            if (isDashing)
+                yield break; // exit coroutine immediately if dash started
+            InAction = true;
+
+            //rotate the attacker towards the target
+            if (attackState != AttackStates.Idle)
+            {
+                // Smoothly rotate toward the target direction every frame
+                transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                50f * Time.deltaTime // adjust rotation speed
+            );
+
+            }
+
+            //modify the delta time based on current animation speed
+            timer += Time.deltaTime* currentPhaseAnimSpeed;
+            float normalizedTime = timer / animState.length;
+
+            //first phase windup
+            if (attackState == AttackStates.Windup)
+            {
+               // animator.speed = currentPhaseAnimSpeed; // slow animationcurrentPhaseSpeed
+
+                if (InCounter) break; //exit if player counter enemy attack
+               // if (normalizedTime >= attacks[comboCount].ImpactStartTime) //enter attack
+                {
+                    showDebugSphere = true;
+                    debugPos = transform.position;     // capture position at this moment
+                    currentPhaseAnimSpeed = attacks[comboCount].ImpactSpeed;
+                    // animator.speed = currentPhaseAnimSpeed; // slow animationcurrentPhaseSpeed
+                    animator.SetFloat("AttackAnimSpeed", 0.5f);
+                    //attackState = AttackStates.Impact;
+                    SetDamageColliderEnabled(attacks[comboCount],true);
+                   // swordCollider.enabled = true;
+                }
+            }
+            //second phase impact 
+            else if (attackState == AttackStates.Impact)
+            {
+                if (InCounter) break;
+
+               // if (normalizedTime >= attacks[comboCount].ImpactEndTime) //exit attack
+                {
+                    showDebugSphere = false;
+                    currentPhaseAnimSpeed = attacks[comboCount].CooldownSpeed;
+                    //animator.speed = currentPhaseAnimSpeed; // slow animationcurrentPhaseSpeed
+                    //attackState = AttackStates.Cooldown;
+                    SetDamageColliderEnabled(attacks[comboCount], false);
+                    //swordCollider.enabled = false;
+
+                    if ((character.tag == "Player")) cameraShake.ShakeByDuration(0.2f, 0.3f);
+
+                }
+               // cameraShake.ShakeByDuration(1f, 3f);
+                Transform SpawnTransform = animator.GetBoneTransform(HumanBodyBones.Chest);
+                SpawnTransform.rotation = sword.transform.rotation;
+                
+                //if (normalizedTime >= attacks[comboCount].SlashSpawnFrame && !isSlashSpawned)
+                {
+                    //slashEffect.GetCalculatedSlashRotation(animator,);
+                    //Spawn Slash VFX
+                    if (slashEffect != null)
+                    {
+
+                        slashEffect.SpawnEffect(SpawnTransform);
+                    }
+
+                    isSlashSpawned = true;
+
+                    //Camera shake
+                 
+                }
+
+            }
+            else if (attackState == AttackStates.Cooldown)
+            {
+                showDebugSphere = false;
+                //if (doCombo)
+                //{
+                //    Debug.Log("inside do combo true after attack states .cooldown");
+                //    doCombo = false;
+                //    comboCount = (comboCount + 1) % attacks.Count;
+
+                //    StartCoroutine(Attack());
+                //    yield break;
+                //}
+                
+                //if ((character.tag == "Player"))
+                //{
+                //    Debug.Log("inside stop all courtine for play tag only");
+                //    //only for player
+                //    if (PlayerInput.move != Vector2.zero)
+                //    {
+                //        attackState = AttackStates.Idle;
+                //        comboCount = 0;
+                //        InAction = false;
+                //        //cancel the current animation and go back to locomotion
+                //       // StopAllCoroutines();
+                //        yield break;
+                //    }
+                //}
+             
+
+            }
+
+            yield return null;
+        }
+
+        animator.speed = 1;
+       attackState = AttackStates.Idle;
+        comboCount = 0;
+        InAction = false;
+        animator.applyRootMotion = false;
+    }
+
+*/
