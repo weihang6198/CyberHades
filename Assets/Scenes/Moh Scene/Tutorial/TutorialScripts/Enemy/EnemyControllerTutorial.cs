@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,7 +12,7 @@ public class EnemyControllerTutorial : MonoBehaviour
     public List<MeleeFighterTutorial> TargetsInRange {  get; private set; }= new List<MeleeFighterTutorial>();
     public MeleeFighterTutorial Target { get;  set; }
     public SkinMeshHighlighter MeshHighlighter { get; private set; }
-
+     
     //track how long the enemy is in this state
     public float CombatMovementTimer { get; set; } = 0f;
     public StateMachine<EnemyControllerTutorial> stateMachine {  get; private set; }

@@ -28,7 +28,8 @@ public class IdleState : State<EnemyController>
             {
                 Debug.Log(" going combat movement state");
                 if (!enemy.activateEnemy) return;
-                enemy.ChangeState(EnemyStates.CombatMovement);
+                enemy.ChangeState(EnemyStates.Attack);
+               // enemy.ChangeState(EnemyStates.CombatMovement);
             }
 
         }else

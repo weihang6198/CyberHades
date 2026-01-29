@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Attack02
   m_EditorClassIdentifier: 
   <AnimName>k__BackingField: attack02
-  <HitBoxToUse>k__BackingField: 0
+  <HitBoxToUse>k__BackingField: 4
   <ImpactStartTime>k__BackingField: 0.2
   <ImpactEndTime>k__BackingField: 0.35
   <KnockBackDistance>k__BackingField: 0.2
-  <WindupSpeed>k__BackingField: 1
-  <ImpactSpeed>k__BackingField: 1
+  <WindupSpeed>k__BackingField: 0.7
+  <ImpactSpeed>k__BackingField: 0.7
   <CooldownSpeed>k__BackingField: 1
   <VFXStartTime>k__BackingField: 0
   <VFXEndTime>k__BackingField: 0

@@ -10,9 +10,26 @@ public class GettingHitState : State<EnemyController>
     {
         StopAllCoroutines();
         enemy = owner;
-        enemy.Fighter.OnHitComplete += () => StartCoroutine(GotToCombatMovement());
+        MeleeFighter fighter = enemy.Fighter as MeleeFighter;
+        
+        if (fighter != null)
+        {
+            // safe to use fighter
+            fighter.ResetAttackParam();
+        }
+       // enemy.GetHitEffect();
 
-        enemy.GetHitEffect();
+        if (enemy.Fighter.consecutiveHitsTaken > enemy.Fighter.maxConsecutiveHitsAllowed)
+        {
+            enemy.ChangeState(EnemyStates.Attack);
+            Debug.Log("change to attack state from getting hit state");
+        }
+        else
+        {
+            enemy.Fighter.OnHitComplete += () => StartCoroutine(GotToCombatMovement());
+        }
+          
+
     }
 
     IEnumerator GotToCombatMovement()

@@ -44,14 +44,27 @@ public class BossEnemyController : EnemyController
         stateMachine.ChangeState(stateDict[EnemyStates.Idle]);
 
         // Fighter.OnGotHit += ReactToHit;
-        Fighter.OnGotHit += (FighterBase attacker) =>
+        Fighter.OnGotHit += (FighterBase attacker, bool canIgnoreHitStun) =>
         {
 
             if (Fighter.health > 0)
             {
 
-                Debug.Log("enemy getting hit");
-                ChangeState(EnemyStates.GettingHit); //advnced way 
+                //Debug.Log("enemy getting hit");
+                //if (canIgnoreHitStun)
+                //{
+                //    StopAllCoroutines();
+
+                //    ChangeState(EnemyStates.Attack);
+                //}
+                //else
+                {
+                    Target = attacker;
+                    Debug.Log("Boss getting hit inside invoke");
+                    GetHitEffect();
+                    ChangeState(EnemyStates.GettingHit); //advnced way 
+                }
+                   
             }
 
             else

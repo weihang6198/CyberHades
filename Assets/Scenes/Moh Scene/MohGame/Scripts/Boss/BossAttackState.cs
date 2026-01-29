@@ -160,7 +160,8 @@ public class BossAttackState : State<EnemyController>
         //enemy.Fighter.TryToAttack(enemy.Target);
         //StartCoroutine(enemy.Fighter.Attack(enemy.Target));
         BossFighter bossFighter =(BossFighter) enemy.Fighter;
-        attackType = BossAttackType.LaserProjectileAttack;
+       // attackType = BossAttackType.LaserProjectileAttack;
+        attackType = BossAttackType.NormalAttack;
         switch (attackType)
         {
             case BossAttackType.NormalAttack:
@@ -171,10 +172,10 @@ public class BossAttackState : State<EnemyController>
                 StartCoroutine(bossFighter.ProjectileAttack(enemy.Target));
                 Debug.Log("ProjectileAttack");
                 break;
-            case BossAttackType.GroundLightingAttack:
-                StartCoroutine(bossFighter.GroundLightingAttack(enemy.Target));
-                Debug.Log("GroundLightingAttack");
-                break;
+            //case BossAttackType.GroundLightingAttack:
+            //    StartCoroutine(bossFighter.GroundLightingAttack(enemy.Target));
+            //    Debug.Log("GroundLightingAttack");
+            //    break;
             case BossAttackType.LaserProjectileAttack:
                 StartCoroutine(bossFighter.LaserProjectileAttack(enemy.Target));
                 Debug.Log("LaserProjectileAttack");

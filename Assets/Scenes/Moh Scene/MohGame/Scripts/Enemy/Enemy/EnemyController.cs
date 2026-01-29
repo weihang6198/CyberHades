@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Pathfinding.BehaviorTree;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,9 +14,7 @@ public enum EnemyStates { Idle, CombatMovement, Attack, RetreatAfterAttack,  Get
 public enum EnemyType { Melee, Ranged, Boss }
 public class EnemyController     : MonoBehaviour
 {
-    public int currentGettingHitCount = 0;
-
-    public int maxGettingHitCount = 2;
+   
 
     [SerializeField]public  bool activateEnemy = true;
     [field: SerializeField] public bool canAttack = true;
@@ -36,7 +35,7 @@ public class EnemyController     : MonoBehaviour
 
     [SerializeField]  public  EnemyType enemyType;
     [SerializeField] public bool canRunStateMachine = true;
-
+    public EnemyStates currentState;
     public float CombatMovementTimer { get; set; } = 0f;
 
     public visionSensor VisionSensor { get; set; }
@@ -77,22 +76,34 @@ public class EnemyController     : MonoBehaviour
         stateMachine.ChangeState(stateDict[EnemyStates.Idle]);
 
        // Fighter.OnGotHit += ReactToHit;
-        Fighter.OnGotHit += (FighterBase attacker) =>
+        Fighter.OnGotHit += (FighterBase attacker,bool canIgnoreHitStun) =>
         {
-
+            Debug.Log("inside fighter got hit invoke enemyController");
             if (Fighter.health > 0)
             {
                 Debug.Log("enemy getting hit");
-                currentGettingHitCount++;
-                if (currentGettingHitCount > maxGettingHitCount)
+               // Fighter.consecutiveHitsTaken++;
+              
+                //if (Fighter.consecutiveHitsTaken > Fighter.maxConsecutiveHitsAllowed)
+                //{
+                 
+                //    ChangeState(EnemyStates.Attack); //advnced way 
+                //}
+                //else
+
+                //if(canIgnoreHitStun) 
+                //{
+                  
+                //    StopAllCoroutines();
+                //    Fighter.attackState = AttackStates.Idle;
+                //    ChangeState(EnemyStates.Attack);
+                //}
+                //else
                 {
-                    currentGettingHitCount = 0;
-                    ChangeState(EnemyStates.Attack); //advnced way 
-                }
-                else
-                {
+                   GetHitEffect();
                     ChangeState(EnemyStates.GettingHit); //advnced way 
                 }
+              
                
                
             }
@@ -138,7 +149,7 @@ public class EnemyController     : MonoBehaviour
     Vector3 prevPos;
     public void Update()
     {
-      
+
         //stateMachine.Execute();
 
 
@@ -158,13 +169,14 @@ public class EnemyController     : MonoBehaviour
         //float strafeSpeed = Mathf.Sin(angle * Mathf.Deg2Rad);
 
         //animator.SetFloat("StrafeSpeed", strafeSpeed, 0.2f, Time.deltaTime);
-
+         
         //prevPos = transform.position;
 
         ///////////////////
-        
-        if(canRunStateMachine) stateMachine.Execute();
-       // tree.Process(); 
+       
+        if (canRunStateMachine) stateMachine.Execute();
+       // Debug.Log("Enemy State: " + stateMachine.CurrentState);
+        // tree.Process(); 
 
         //v=dx/dt
         var deltaPos = animator.applyRootMotion ? Vector3.zero : transform.position - prevPos;

@@ -5,6 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.TerrainTools;
+
 
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -27,14 +30,16 @@ public abstract class FighterBase : MonoBehaviour
         
     [SerializeField] public List<AttackData> attacks;
     protected int comboCount = 0;
-    [SerializeField] float hitStopTime = 0.05f;
+    [SerializeField] float hitStopDuration = 0.05f;
 
     [field:SerializeField] public GameObject hitLightVFX;
 
     //delegate
-    public event Action<FighterBase> OnGotHit;
+    public event Action<FighterBase,bool > OnGotHit;
     //public event Action  OnGotHit;
     public event Action OnHitComplete;
+    
+    public event Action OnDead;
 
     protected StarterAssetsInputs PlayerInput;
     protected GameObject character; // assign in Inspector
@@ -45,8 +50,12 @@ public abstract class FighterBase : MonoBehaviour
 
     public AttackStates attackState;
 
+    public int consecutiveHitsTaken = 0; // Number of consecutive hits taken from the player
+    public int maxConsecutiveHitsAllowed = 2; // Enemy can still attack after this many consecutive hits
+
     //for melee Fighter
     public bool IsCounterable => attackState == AttackStates.Windup || attackState == AttackStates.Impact;
+    public bool canCounter = false; //debug usage 
     public bool isDashing = false;
     protected bool canDash = true;
     public float dashWaitPercent = 0.7f;
@@ -69,22 +78,37 @@ public abstract class FighterBase : MonoBehaviour
 
     IEnumerator PlayHitReaction(FighterBase attacker)
     {
+        
+        FighterBase target = attacker;
+       
+        if (consecutiveHitsTaken > maxConsecutiveHitsAllowed)
+        {
+            //if enemy consecutiveHitsTaken > maxConsecutiveHitsAllowed, enemy will not be stunned and change to attack state 
+            //while enemy is being attacked by player
+            OnGotHit?.Invoke(attacker, true);
+            yield break;
+        }
+        OnGotHit?.Invoke(attacker, false);
+
         InAction = true;
         takingDamage = true;
-
+       
         var displacementVector = attacker.transform.position - transform.position;
         displacementVector.y = 0;
         transform.rotation = Quaternion.LookRotation(displacementVector);
 
-        OnGotHit?.Invoke(attacker);
+        
 
-        // Play hit reaction on override layer 1
+            // Play hit reaction on override layer 1
         animator.CrossFadeInFixedTime("SwordImpact", 0.05f, 1, 0f);
+
+        yield return StartCoroutine(HitStopCoroutine(hitStopDuration));
+
         yield return null;
 
         var animState = animator.GetCurrentAnimatorStateInfo(1);
 
-        FighterBase target = attacker;
+       
         Vector3 startPos = transform.position;
         Vector3 targetPos = startPos;
 
@@ -110,6 +134,7 @@ public abstract class FighterBase : MonoBehaviour
            
         }
 
+        //decide when the sword impact anim finish
         float timer = 0f;
         float animEndPercentage = 0.35f;
         float animTime = animState.length * animEndPercentage;
@@ -131,28 +156,86 @@ public abstract class FighterBase : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //if (other.tag == "HitBox" && !InAction)
-        if (other.tag == "HitBox" )
+        Debug.Log($"[OnTriggerEnter] Hit by collider: {other.name}, tag: {other.tag}");
+
+        if (!other.CompareTag("HitBox"))
         {
-            var attacker = other.GetComponentInParent<FighterBase>();
-            if (attacker == null) //projectile detection
+            Debug.Log("[OnTriggerEnter] Ignored (not HitBox)");
+            return;
+        }
+
+        Debug.Log("[OnTriggerEnter] HitBox detected");
+
+        FighterBase attacker = other.GetComponentInParent<FighterBase>();
+
+        //for projectile
+        if (attacker != null)
+        {
+            Debug.Log($"[Attacker] FighterBase found: {attacker.name}");
+        }
+        else
+        {
+            Debug.Log("[Attacker] No FighterBase found, checking projectile / laser");
+
+            // Try projectile
+            Projectile proj = other.GetComponent<Projectile>();
+            if (proj != null)
             {
-              
-                Projectile proj = other.GetComponent<Projectile>();
                 attacker = proj.owner;
-               Debug.Log("attacer is:"+ attacker);
+                Debug.Log($"[Attacker] Projectile detected, owner: {attacker}");
             }
-            TakeDamage(5f);
-            OnGotHit?.Invoke(attacker);
-           
-            if (health > 0)
-                //StartCoroutine(PlayHitReaction(other.GetComponentInParent<MeleeFighter>().transform));
-                StartCoroutine(PlayHitReaction(attacker));
             else
-                PlayDeathAnimation(attacker);
+            {
+                Debug.Log("[Attacker] No FighterBase found → checking boss laser");
+
+                SpawnLaserEffectObject laser =
+                    other.GetComponentInParent<SpawnLaserEffectObject>();
+
+                
+                if (laser != null)
+                {
+                    Debug.Log("[Attacker] Boss laser component FOUND");
+                    attacker = laser.owner;
+
+                    Debug.Log($"[Attacker] Boss laser detected, owner: {attacker}");
+                }
+                else
+                {
+                    Debug.LogWarning(
+                        $"[Attacker] UNKNOWN attacker source\n" +
+                        $"Collider: {other.name}\n" +
+                        $"Root: {other.transform.root.name}"
+                    );
+                }
+            }
 
         }
+
+        Debug.Log($"[Damage] Taking damage from: {attacker}");
+
+        TakeDamage(5f);
+        consecutiveHitsTaken++;
+       // OnGotHit?.Invoke(attacker);
+
+
+
+        if (health > 0)
+        {
+          
+            {
+               
+                Debug.Log("[State] Health > 0 → Play hit reaction");
+                StartCoroutine(PlayHitReaction(attacker));
+            }
+               
+        }
+        else
+        {
+            Debug.Log("[State] Health <= 0 → Play death animation");
+            PlayDeathAnimation(attacker);
+        }
     }
+
 
     public virtual bool ShouldEndRetreat(float distanceToTarget)
     {
@@ -175,16 +258,16 @@ public abstract class FighterBase : MonoBehaviour
 
     void PlayDeathAnimation(FighterBase fighter)
     {
+        OnGotHit?.Invoke(fighter, true);
         Debug.Log("plying death anim");
         animator.CrossFade("Death", 0.2f);
     }
 
-    protected IEnumerator DoHitstop(float duration)
+    protected IEnumerator HitStopCoroutine(float duration)
     {
-        float originalTimeScale = Time.timeScale;
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(duration);
-        Time.timeScale = originalTimeScale;
+        Time.timeScale = 1f;
     }
 
     protected IEnumerator MoveCharacter(Transform target, float maxMoveDistance,
@@ -239,4 +322,9 @@ public abstract class FighterBase : MonoBehaviour
         }
     }
 
+    public void OnDeathAnimationFinished()
+    {
+        Debug.Log("trigger OnDeathAnimationFinished ");
+        OnDead?.Invoke();
+    }
 }

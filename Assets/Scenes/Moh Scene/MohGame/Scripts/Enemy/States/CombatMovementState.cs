@@ -28,79 +28,112 @@ public class CombatMovementState : State<EnemyController>
 
     public override void Execute()
     {
-        if (!enemy.canAttack) return;
+        Debug.Log("Execute | State: " + state);
+
+        if (!enemy.canAttack)
+        {
+            Debug.Log("Return: canAttack = false");
+            return;
+        }
+
         if (enemy.Target == null)
         {
-            //find target as soon as enter combat movement state
+            Debug.Log("Target is null, finding target...");
             enemy.Target = enemy.FindTarget();
 
-            //if no target, go back idle state
             if (enemy.Target == null)
             {
+                Debug.Log("No target found, switch to Idle");
                 enemy.ChangeState(EnemyStates.Idle);
                 return;
             }
+
+            Debug.Log("Target found: " + enemy.Target.name);
         }
+
         if (enemy.Target.health <= 0)
         {
+            Debug.Log("Target dead, switch to Idle");
             enemy.Target = null;
             enemy.ChangeState(EnemyStates.Idle);
-
             return;
         }
-        if (Vector3.Distance(enemy.Target.transform.position, enemy.transform.position) > distanceToStand + adjustDistanceThreshold)
+
+        float dist = Vector3.Distance(
+            enemy.Target.transform.position,
+            enemy.transform.position
+        );
+
+        Debug.Log("Distance to target: " + dist);
+
+        if (dist > distanceToStand + adjustDistanceThreshold)
+        {
+            Debug.Log("Too far, start Chase");
             StartChase();
+        }
 
         if (state == AICombatStates.Idle)
         {
             if (timer <= 0)
             {
-                // either return 0 or 1, no decimal will be return
-                if (Random.Range(0, 2) == 0)
-                {
+                int choice = Random.Range(0, 2);
+                Debug.Log("Idle decision: " + (choice == 0 ? "Idle" : "Circling"));
+
+                if (choice == 0)
                     StartIdle();
-                }
                 else
-                {
                     StartCircling();
-                }
             }
         }
         else if (state == AICombatStates.Chase)
         {
-            if (Vector3.Distance(enemy.Target.transform.position, enemy.transform.position) <= distanceToStand + 0.03f)
+            if (dist <= distanceToStand + 0.03f)
             {
+                Debug.Log("Reached stand distance, back to Idle");
                 StartIdle();
                 return;
             }
+
+            Debug.Log("Chasing target");
             enemy.NavAgent.SetDestination(enemy.Target.transform.position);
         }
         else if (state == AICombatStates.Circling)
         {
-            if(timer<=0)
+            if (timer <= 0)
             {
+                Debug.Log("Circling finished, back to Idle");
                 StartIdle();
                 return;
             }
-            transform.RotateAround(enemy.Target.transform.position, Vector3.up,
-               circlingSpeed * circlingDir * Time.deltaTime);
+
+            Debug.Log("Circling");
+
+            transform.RotateAround(
+                enemy.Target.transform.position,
+                Vector3.up,
+                circlingSpeed * circlingDir * Time.deltaTime
+            );
 
             var vectorToTarget = enemy.transform.position - enemy.Target.transform.position;
-            var rotatePos = Quaternion.Euler(0, circlingSpeed * circlingDir * Time.deltaTime, 0) * vectorToTarget;
+            var rotatePos = Quaternion.Euler(
+                0,
+                circlingSpeed * circlingDir * Time.deltaTime,
+                0
+            ) * vectorToTarget;
 
             enemy.NavAgent.Move(rotatePos - vectorToTarget);
             enemy.transform.rotation = Quaternion.LookRotation(-rotatePos);
-
-
         }
-        if(timer>0)
+
+        if (timer > 0)
         {
             timer -= Time.deltaTime;
+            Debug.Log("Timer: " + timer);
         }
 
         enemy.CombatMovementTimer += Time.deltaTime;
-       
     }
+
 
     void StartChase()
     {

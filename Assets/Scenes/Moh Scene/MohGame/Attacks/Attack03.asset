@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Attack03
   m_EditorClassIdentifier: 
   <AnimName>k__BackingField: attack03
-  <HitBoxToUse>k__BackingField: 0
+  <HitBoxToUse>k__BackingField: 4
   <ImpactStartTime>k__BackingField: 0.1
   <ImpactEndTime>k__BackingField: 0.75
   <KnockBackDistance>k__BackingField: 2
