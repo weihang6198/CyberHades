@@ -76,7 +76,7 @@ public class EnemyController     : MonoBehaviour
         stateMachine.ChangeState(stateDict[EnemyStates.Idle]);
 
        // Fighter.OnGotHit += ReactToHit;
-        Fighter.OnGotHit += (FighterBase attacker,bool canIgnoreHitStun) =>
+        Fighter.OnGotHit += (FighterBase attacker,bool fill) =>
         {
             Debug.Log("inside fighter got hit invoke enemyController");
             if (Fighter.health > 0)
@@ -100,8 +100,21 @@ public class EnemyController     : MonoBehaviour
                 //}
                 //else
                 {
-                   GetHitEffect();
-                    ChangeState(EnemyStates.GettingHit); //advnced way 
+                    Fighter.PlayVFXEffect(Fighter.hitBloodVFX, transform.localPosition += new Vector3(0, Random.Range(0.3f, 1.0f), 0));
+                    GetHitEffect();
+                    Target = attacker;
+                    if ( Fighter.canIgnoreHitStun)
+                    {
+                        Debug.Log("Fighter.consecutiveHitsTaken is setting to 0");
+                        //continue with whatever doing
+                        Fighter.consecutiveHitsTaken = 0;
+                    }
+                    else
+                    {
+
+                        ChangeState(EnemyStates.GettingHit); //advnced way 
+                    }
+                       
                 }
               
                
@@ -117,28 +130,7 @@ public class EnemyController     : MonoBehaviour
         };
         RegisterMaterialsFromRenderer();
 
-        //ditch
-      //  //behavior tree
-      //  tree = new BehaviorTree("EnemyTest");
-      ////  tree.AddChild(new leaf("Patrol", new PatrolS  trategy(transform, NavAgent, wayPoints, navAgentWalkSpeed)));
-        
-       
-      //  Sequence goToTreasure = new Sequence("GoToTreasure",20);
-      //  //goToTreasure.AddChild(new leaf("IsTreasurePresent", new Condition(() => treasureTest.activeSelf)));
-      //  goToTreasure.AddChild(new leaf("MoveToTreasure", new ActionStrategy(() => NavAgent.SetDestination(treasureTest.transform.position))));
-      //  goToTreasure.AddChild(new leaf("MoveToTreasure2", new ActionStrategy(() => NavAgent.SetDestination(treasureTest2.transform.position))));
-
-
-      //  //Sequence goToTreasure2 = new Sequence("GoToTreasure2",10);
-      //  //goToTreasure2.AddChild( new leaf("IsTreasurePresent2", new Condition(() => treasureTest2.activeSelf)));
-      //  //goToTreasure2.AddChild(new leaf("MoveToTreasure2", new ActionStrategy(() => NavAgent.SetDestination(treasureTest2.transform.position))));
-
-      //  ////Selector goToTreasuresSelector = new Selector("GoToTreasures");
-      //  //PrioritySelector goToTreasuresSelector = new PrioritySelector("GoToTreasures");
-      //  //goToTreasuresSelector.AddChild(goToTreasure2);
-      //  //goToTreasuresSelector.AddChild(goToTreasure);
-         
-      //  tree.AddChild(goToTreasure);
+        OnSummonEffect();
         
     }
     public void ChangeState(EnemyStates state)
@@ -292,7 +284,32 @@ public class EnemyController     : MonoBehaviour
 
     }
 
-    private IEnumerator FadeFilterByfloat(Material mat, float from, float to, float duration)
+    public void OnSummonEffect()
+    {
+       // return; //ToFix
+        foreach (var mat in materials)
+        {
+            mat.SetFloat("_VerticalClipOffset", 0);
+            StartCoroutine(FadeFilterByfloat(mat, 1, 0, 2f,true));
+        }
+        
+
+
+    }
+
+    public void SummonEnemy()
+    {
+        foreach (var mat in materials)
+        {
+            mat.SetFloat("_VerticalClipOffset", 0);
+            StartCoroutine(FadeFilterByfloat(mat, 1, 0, 2f,false));
+        }
+        //EnemyManager.instance.RegisterEnemy();
+
+
+    }
+
+    private IEnumerator FadeFilterByfloat(Material mat, float from, float to, float duration, bool destroyObj=true)
     {
         float t = 0f;
 
@@ -309,8 +326,8 @@ public class EnemyController     : MonoBehaviour
 
         mat.SetFloat("_VerticalClipOffset", from);
         mat.SetFloat("_AlphaClipThresholdOffset", to);
-
-        Destroy(gameObject);
+        if(destroyObj)
+            Destroy(gameObject);
     }
 
     //private void OnEnable()

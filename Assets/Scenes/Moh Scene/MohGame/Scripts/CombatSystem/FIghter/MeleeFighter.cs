@@ -1,17 +1,7 @@
-﻿using MagicaCloth2;
-using StarterAssets;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering.HighDefinition;
-using UnityEngine.Windows;
+﻿using System.Collections;
 //using static System.IO.Enumeration.FileSystemEnumerable<TResult>;
-using System.IO;
-using System.IO.Enumeration;
 using System.Linq;
+using UnityEngine;
 //using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 //using static System.IO.Enumeration.FileSystemEnumerable<TResult>;
 
@@ -538,7 +528,7 @@ public class MeleeFighter : FighterBase
         Vector3 targetDirection = GetMouseDirection();
         targetDirection.y = 0f;
         //check if any enemy
-        var enemy = EnemyManager.instance.GetClosestEnemyForwardDir(targetDirection, attackAsssitMaxAngle,attackAsssitMaxDistance);
+        var enemy = EnemyManager.instance.GetClosestEnemyForwardDir(targetDirection, attackAsssitMaxAngle, attackAsssitMaxDistance);
         if (enemy != null)
         {
             targetDirection = enemy.transform.position - transform.position;
@@ -555,7 +545,7 @@ public class MeleeFighter : FighterBase
         {
             case AttackHitbox.Sword:
                 swordCollider.enabled = enabled;
-               // Debug.Log($"<color=cyan>swordCollider hitbox: {enabled}</color>");
+                Debug.Log($"<color=cyan>swordCollider hitbox: {enabled}</color>");
                 break;
             case AttackHitbox.LeftHand:
                 leftHand.enabled = enabled;
@@ -581,42 +571,7 @@ public class MeleeFighter : FighterBase
         comboCount = 0;
         InAction = false;
     }
-    void ChangeAttackState(string attackStates)
-    {
-        Debug.Log($"<color=cyan>[AttackState]</color> Event received: <b>{attackStates}</b>");
-
-        switch (attackStates)
-        {
-            case "Idle":
-                Debug.Log("<color=green>[AttackState]</color> → <b>Idle</b>");
-
-                attackState = AttackStates.Idle;
-                break;
-
-            case "Windup":
-                Debug.Log("<color=yellow>[AttackState]</color> → <b>Windup</b>");
-
-                //animator.speed = 0.1f;
-                attackState = AttackStates.Windup;
-                break;
-
-            case "Impact":
-                Debug.Log("<color=orange>[AttackState]</color> → <b>Impact</b>");
-
-                attackState = AttackStates.Impact;
-                break;
-
-            case "Cooldown":
-                Debug.Log("<color=blue>[AttackState]</color> → <b>Cooldown</b>");
-
-                attackState = AttackStates.Cooldown;
-                break;
-
-            default:
-                Debug.LogWarning($"<color=red>[AttackState]</color> Unknown state: <b>{attackStates}</b>");
-                break;
-        }
-    }
+    
 
 }
 

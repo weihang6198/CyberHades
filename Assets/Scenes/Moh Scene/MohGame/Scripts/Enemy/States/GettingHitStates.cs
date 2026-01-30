@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GettingHitState : State<EnemyController>
 {
-    [SerializeField] float stunTime = 1.0f;
+    [SerializeField] float stunTime = 0.5f;
     EnemyController enemy;
     public override void Enter(EnemyController owner)
     {

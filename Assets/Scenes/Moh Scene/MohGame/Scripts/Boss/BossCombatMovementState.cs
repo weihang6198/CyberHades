@@ -69,10 +69,12 @@ public class BossCombatMovementState : State<EnemyController>
                 // either return 0 or 1, no decimal will be return
                 if (Random.Range(0, 2) == 0)
                 {
-                    StartIdle();
+                    Debug.Log("changing to atk state from boss combatmovement state");
+                    enemy.ChangeState(EnemyStates.Attack);
                 }
                 else
                 {
+                    Debug.Log("changing to circling from boss combatmovement state"); 
                     StartCircling();
                 }
             }

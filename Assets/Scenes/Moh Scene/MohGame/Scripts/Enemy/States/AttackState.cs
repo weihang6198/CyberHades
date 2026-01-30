@@ -19,11 +19,11 @@ public class AttackState: State<EnemyController>
 
     public override void Execute()
     {
-        Debug.Log("Execute Combat | isAttacking: " + isAttacking);
+       // Debug.Log("Execute Combat | isAttacking: " + isAttacking);
 
         if (isAttacking)
         {
-            Debug.Log("Return: already attacking");
+            //Debug.Log("Return: already attacking");
             return;
         }
 

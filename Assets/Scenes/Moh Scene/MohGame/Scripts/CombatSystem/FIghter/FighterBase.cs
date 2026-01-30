@@ -24,7 +24,7 @@ public enum BlockStates
  };
 public abstract class FighterBase : MonoBehaviour
 {
-
+    [SerializeField] public LayerMask layerMaskRayCastTest;
     [field:SerializeField] public float health { get;  set; } = 25f;
     [field:SerializeField] public float maxHealth { get; set; } = 25f;
         
@@ -32,7 +32,8 @@ public abstract class FighterBase : MonoBehaviour
     protected int comboCount = 0;
     [SerializeField] float hitStopDuration = 0.05f;
 
-    [field:SerializeField] public GameObject hitLightVFX;
+    [field:SerializeField] public GameObject hitBloodVFX;
+    [field:SerializeField] public GameObject thunderVFX;
 
     //delegate
     public event Action<FighterBase,bool > OnGotHit;
@@ -52,7 +53,7 @@ public abstract class FighterBase : MonoBehaviour
 
     public int consecutiveHitsTaken = 0; // Number of consecutive hits taken from the player
     public int maxConsecutiveHitsAllowed = 2; // Enemy can still attack after this many consecutive hits
-
+    public bool canIgnoreHitStun = false;
     //for melee Fighter
     public bool IsCounterable => attackState == AttackStates.Windup || attackState == AttackStates.Impact;
     public bool canCounter = false; //debug usage 
@@ -80,9 +81,10 @@ public abstract class FighterBase : MonoBehaviour
     {
         
         FighterBase target = attacker;
-       
-        if (consecutiveHitsTaken > maxConsecutiveHitsAllowed)
+        
+        if (consecutiveHitsTaken > maxConsecutiveHitsAllowed || canIgnoreHitStun )
         {
+            Debug.Log("inside consecutiveHitsTaken > maxConsecutiveHitsAllowed) is true");
             //if enemy consecutiveHitsTaken > maxConsecutiveHitsAllowed, enemy will not be stunned and change to attack state 
             //while enemy is being attacked by player
             OnGotHit?.Invoke(attacker, true);
@@ -121,17 +123,9 @@ public abstract class FighterBase : MonoBehaviour
             float knockbackDist = attacker.attacks[attacker.comboCount].KnockBackDistance;
             targetPos = startPos + attackDir * knockbackDist;
 
-            if(hitLightVFX!=null)
-            {
-                GameObject hitLightVFXInstance = Instantiate(hitLightVFX, transform.localPosition += new Vector3(0, Random.Range(0.3f, 1.0f), 0), Quaternion.identity); ;
+            PlayVFXEffect(hitBloodVFX, transform.localPosition += new Vector3(0, Random.Range(0.3f, 1.0f), 0));
 
-                ParticleSystem ps = hitLightVFXInstance.GetComponentInChildren<ParticleSystem>();
-                if (ps != null)
-                {
-                    Destroy(hitLightVFXInstance, ps.main.duration);
-                }
-            }
-           
+
         }
 
         //decide when the sword impact anim finish
@@ -322,9 +316,82 @@ public abstract class FighterBase : MonoBehaviour
         }
     }
 
+    
     public void OnDeathAnimationFinished()
     {
         Debug.Log("trigger OnDeathAnimationFinished ");
         OnDead?.Invoke();
     }
+
+    public void PlayVFXEffect(GameObject VFX,Vector3 position)
+    {
+        if (VFX != null)
+        {
+            // transform.localPosition += new Vector3(0, Random.Range(0.3f, 1.0f), 0)
+            GameObject hitLightVFXInstance = Instantiate(VFX,position, Quaternion.identity); ;
+
+            ParticleSystem ps = hitLightVFXInstance.GetComponentInChildren<ParticleSystem>();
+            if (ps != null)
+            {
+                Destroy(hitLightVFXInstance, ps.main.duration);
+            }
+        }
+    }
+
+    public void rayCast()
+    {
+        return;
+        Vector3 origin = transform.position;
+        origin.y += 1.2f;
+        // Vector3 forward = new Vector3(SpawnTransform.forward.x, 0f, SpawnTransform.forward.z).normalized;
+        Vector3 forward = transform.forward;
+
+        //if (Physics.Raycast(origin, forward, out RaycastHit hitInfo, 100f, layerMaskRayCastTest))
+        if (Physics.Raycast(origin, forward, out RaycastHit hitInfo, 100f, layerMaskRayCastTest))
+        {
+            Debug.DrawRay(origin, forward * 100f, Color.red, 3f);
+        }
+        else
+        {
+            Debug.DrawRay(origin, forward * 100f, Color.blue, 3f);
+        }
+    }
+
+    void ChangeAttackState(string attackStates)
+    {
+        Debug.Log($"<color=cyan>[AttackState]</color> Event received: <b>{attackStates}</b>");
+
+        switch (attackStates)
+        {
+            case "Idle":
+                Debug.Log("<color=green>[AttackState]</color> → <b>Idle</b>");
+
+                attackState = AttackStates.Idle;
+                break;
+
+            case "Windup":
+                Debug.Log("<color=yellow>[AttackState]</color> → <b>Windup</b>");
+
+                //animator.speed = 0.1f;
+                attackState = AttackStates.Windup;
+                break;
+
+            case "Impact":
+                Debug.Log("<color=orange>[AttackState]</color> → <b>Impact</b>");
+
+                attackState = AttackStates.Impact;
+                break;
+
+            case "Cooldown":
+                Debug.Log("<color=blue>[AttackState]</color> → <b>Cooldown</b>");
+
+                attackState = AttackStates.Cooldown;
+                break;
+
+            default:
+                Debug.LogWarning($"<color=red>[AttackState]</color> Unknown state: <b>{attackStates}</b>");
+                break;
+        }
+    }
+
 }

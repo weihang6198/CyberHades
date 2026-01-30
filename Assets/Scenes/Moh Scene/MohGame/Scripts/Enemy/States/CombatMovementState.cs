@@ -14,7 +14,7 @@ public class CombatMovementState : State<EnemyController>
     [SerializeField] Vector2 CirclingTimeRange = new Vector2(5, 7);
     int circlingDir = 1;
 
-    EnemyController enemy;
+    EnemyController enemy; 
     AICombatStates state;
 
     float timer = 0f;
@@ -28,7 +28,7 @@ public class CombatMovementState : State<EnemyController>
 
     public override void Execute()
     {
-        Debug.Log("Execute | State: " + state);
+      //  Debug.Log("Execute | State: " + state);
 
         if (!enemy.canAttack)
         {
@@ -64,7 +64,7 @@ public class CombatMovementState : State<EnemyController>
             enemy.transform.position
         );
 
-        Debug.Log("Distance to target: " + dist);
+       // Debug.Log("Distance to target: " + dist);
 
         if (dist > distanceToStand + adjustDistanceThreshold)
         {
@@ -94,7 +94,7 @@ public class CombatMovementState : State<EnemyController>
                 return;
             }
 
-            Debug.Log("Chasing target");
+           // Debug.Log("Chasing target");
             enemy.NavAgent.SetDestination(enemy.Target.transform.position);
         }
         else if (state == AICombatStates.Circling)
@@ -106,7 +106,7 @@ public class CombatMovementState : State<EnemyController>
                 return;
             }
 
-            Debug.Log("Circling");
+           // Debug.Log("Circling");
 
             transform.RotateAround(
                 enemy.Target.transform.position,
@@ -128,7 +128,7 @@ public class CombatMovementState : State<EnemyController>
         if (timer > 0)
         {
             timer -= Time.deltaTime;
-            Debug.Log("Timer: " + timer);
+           // Debug.Log("Timer: " + timer);
         }
 
         enemy.CombatMovementTimer += Time.deltaTime;

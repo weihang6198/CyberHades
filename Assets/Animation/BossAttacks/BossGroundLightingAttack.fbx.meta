@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: debb2eedab1e42a8ba8cb5b25e7e702a
+guid: d6a6497af161e83439e8eeaf60176e4e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
   - first:
-      74: -7655582441093322929
-    second: atk_front03
+      74: 8476445091729096694
+    second: atk_ground
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,11 +36,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: atk_front03
-      takeName: atk_front03
+      name: atk_ground
+      takeName: atk_ground
       internalID: 0
       firstFrame: 0
-      lastFrame: 111
+      lastFrame: 143
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -60,28 +60,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.010291087
-        functionName: ChangeAttackState
-        data: Windup
+      - time: 0.4713521
+        functionName: SummonGroundLighting
+        data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.29942182
-        functionName: ChangeAttackState
-        data: Impact
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.6743295
-        functionName: ChangeAttackState
-        data: Cooldown
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 1
+      - time: 0.99380285
         functionName: ChangeAttackState
         data: Idle
         objectReferenceParameter: {instanceID: 0}

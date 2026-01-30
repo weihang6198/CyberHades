@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum BossAttackType { LaserProjectileAttack, GroundLightingAttack, ProjectileAttack,NormalAttack };
+public enum BossAttackType { LaserProjectileAttack, GroundLightingAttack, ProjectileAttack,NormalAttack,SummonEnemy };
 public class BossAttackState : State<EnemyController>
 {
     /*
@@ -49,13 +49,14 @@ public class BossAttackState : State<EnemyController>
         //change the enemy stopping distance closer to player when atking
         enemy.NavAgent.stoppingDistance = attackDistance;
         bossAttackType= GetNextAttack();
+        Debug.Log("enter boss attack state");
     }
 
     public override void Execute()
     {
         if (isAttacking) { return; }//prevent enemy from chasing player
        
-
+        
         StartCoroutine(ExecuteAttack(bossAttackType));
        // StartCoroutine(Attack(Random.Range(0, enemy.Fighter.attacks.Count + 1)));
     }
@@ -154,14 +155,16 @@ public class BossAttackState : State<EnemyController>
     }
     IEnumerator ExecuteAttack(BossAttackType attackType)
     {
-        Debug.Log("inside execute attack");
+        Debug.Log("inside execute attack boss atk state");
         isAttacking = true;
         enemy.animator.applyRootMotion = false;
         //enemy.Fighter.TryToAttack(enemy.Target);
         //StartCoroutine(enemy.Fighter.Attack(enemy.Target));
         BossFighter bossFighter =(BossFighter) enemy.Fighter;
-       // attackType = BossAttackType.LaserProjectileAttack;
-        attackType = BossAttackType.NormalAttack;
+
+        attackType = BossAttackType.GroundLightingAttack;
+        // attackType = BossAttackType.NormalAttack;
+        //attackType = BossAttackType.SummonEnemy;
         switch (attackType)
         {
             case BossAttackType.NormalAttack:
@@ -172,13 +175,19 @@ public class BossAttackState : State<EnemyController>
                 StartCoroutine(bossFighter.ProjectileAttack(enemy.Target));
                 Debug.Log("ProjectileAttack");
                 break;
-            //case BossAttackType.GroundLightingAttack:
-            //    StartCoroutine(bossFighter.GroundLightingAttack(enemy.Target));
-            //    Debug.Log("GroundLightingAttack");
-            //    break;
+            case BossAttackType.GroundLightingAttack:
+                Debug.Log("inside GroundLightingAttack");
+                StartCoroutine(bossFighter.GroundLightingAttack(enemy.Target));
+              
+                break;
             case BossAttackType.LaserProjectileAttack:
                 StartCoroutine(bossFighter.LaserProjectileAttack(enemy.Target));
                 Debug.Log("LaserProjectileAttack");
+                break;
+            case BossAttackType.SummonEnemy:
+                //StartCoroutine(bossFighter.LaserProjectileAttack(enemy.Target));
+                StartCoroutine(bossFighter.SummonEnemy(enemy.Target));
+                Debug.Log("summon enemy");
                 break;
             default:
                 Debug.Log("Inside default");

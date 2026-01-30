@@ -1,11 +1,15 @@
 ﻿using StarterAssets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+
 //using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.TextCore.Text;
 using UnityEngine.Windows;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 
 public class BossFighter : FighterBase
@@ -15,13 +19,18 @@ public class BossFighter : FighterBase
     [SerializeField] public List<AttackData> BossAttacks;
     [SerializeField] public SpawnLaserEffectObject spawnLaserEffectObject;
     [SerializeField] public FighterBase Player;
+    [SerializeField] public FighterBase EnemyToSpawn;
+    [SerializeField] public List<Transform> EnemySpawnTransform;
+
   SpawnProjectiles spawnProjectiles;
     public Vector2 attackRandomTimer = new Vector2(0.5f, 1.2f);
     [SerializeField] List<Transform> TeleportPosition=new List<Transform>();
     public BossEnemyController boss;
 
     [SerializeField] SphereCollider meleeAttackCollider;
-   
+    [SerializeField] public GameObject groundLightingVFX;
+    [SerializeField] public LayerMask layerMaskLightingGround;
+    
     protected override void Awake()
     {
         base.Awake(); // runs FighterBase.Awake()
@@ -66,7 +75,7 @@ public class BossFighter : FighterBase
         attackState = AttackStates.Windup;
       //  Debug.Log($"AttackState → {attackState}");
 
-        int attackIndex = Random.Range(0, BossAttacks.Count-1);
+        int attackIndex = UnityEngine.Random.Range(0, BossAttacks.Count-1);
 
         // Direction
         Quaternion targetRotation = CalculateTargetRotation(target);
@@ -164,20 +173,51 @@ public class BossFighter : FighterBase
 
     public IEnumerator GroundLightingAttack(FighterBase target)
     {
-        attackState = AttackStates.Windup;
-        yield return StartCoroutine(Teleport());
-        Debug.Log("doing GroundLightingAttack");
-        yield return new WaitForSeconds(3f);
-        attackState = AttackStates.Idle;
-       
+        attackState = AttackStates.Windup; 
+        canIgnoreHitStun = true;
+        InAction = true;
+        animator.CrossFade("BossGroundLightingAttack", 0.2f, 1);
+        yield return null;
+
+        //the actual spawning enemy event will be triggered via this function @SummonGroundLighting
+
+        Debug.Log("doing GroundLightingAttack enemy");
+        while (attackState != AttackStates.Idle)
+        {
+            Debug.Log("GroundLightingAttack animation now turn idle");
+
+            yield return null;
+        }
+        Debug.Log("GroundLightingAttack is done");
+        InAction = false;
+        canIgnoreHitStun = false;
+
     }
 
+    public IEnumerator SummonEnemy(FighterBase target)
+    {
+        attackState = AttackStates.Windup;
+        canIgnoreHitStun = true;
+        InAction = true;    
+        animator.CrossFade("BossAttack03", 0.2f, 1);
+        yield return null;
+
+        //the actual spawning enemy event will be triggered via this function @SummonEnemyAnimationEvent
+
+        Debug.Log("doing summon enemy");
+        yield return new WaitForSeconds(3f);
+        attackState = AttackStates.Idle;
+        InAction = false;
+        canIgnoreHitStun = false;
+
+    }
     public IEnumerator LaserProjectileAttack(FighterBase target)
     {
+        canIgnoreHitStun = true;
         attackState = AttackStates.Windup;
         Debug.Log("LaserProjectileAttack func");
         //teleport first then do laser projectile
-        yield return StartCoroutine(Teleport());
+       // yield return StartCoroutine(Teleport());
         // Direction
         Quaternion targetRotation = CalculateTargetRotation(target);
 
@@ -188,18 +228,15 @@ public class BossFighter : FighterBase
         animator.CrossFade(BossAttacks[index].AnimName, 0.2f, 1);
         
         yield return null;
-
-        var animState = animator.GetCurrentAnimatorStateInfo(1);
-
-
-        float timer = 0f;
-      
-        while (timer <= animState.length)
+        bool doOnce = false;
+        
+        while (attackState != AttackStates.Idle)
         {
+
             InAction = true;
 
-            // ■■■ Rotation Debug ■■■
-            if (attackState != AttackStates.Cooldown)
+            //rotate towards enemy before firing proj
+            if (attackState == AttackStates.Windup)
             {
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
@@ -209,40 +246,33 @@ public class BossFighter : FighterBase
             }
 
 
-            timer += Time.deltaTime;
-            float normalizedTime = timer / animState.length;
 
-            // ■■■ STATE MACHINE ■■■
-            if (attackState == AttackStates.Windup)
+            // fire proj
+            if (attackState == AttackStates.Impact)
             {
-                if (normalizedTime >= BossAttacks[index].ImpactStartTime)
+               
                 {
-                    attackState = AttackStates.Impact;
-                    //emit projectile
-                    StartCoroutine(spawnLaserEffectObject.StartBeam());
-                    Debug.Log("emit proj");
+                    if(!doOnce)
+                    {
+                        doOnce = true;
+                        attackState = AttackStates.Impact;
+                        //emit projectile
+                        StartCoroutine(spawnLaserEffectObject.StartBeam());
+                        Debug.Log("emit proj");
+                    }
+                 
                 }
             }
-            else if (attackState == AttackStates.Impact)
-            {
-                if (normalizedTime >= BossAttacks[index].ImpactEndTime)
-                {
-                    attackState = AttackStates.Cooldown;
-                    //end projectile
-                    Debug.Log("end proj");
-                }
-            }
-            else if (attackState == AttackStates.Cooldown)
-            {
-                //do nothing
-            }
+
+           
             yield return null;
             
         }
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         Debug.Log("laser proj atk done");
-        attackState = AttackStates.Idle;
+      
+        canIgnoreHitStun = false;
     }
 
     public IEnumerator ProjectileAttack(FighterBase target)
@@ -275,7 +305,7 @@ public class BossFighter : FighterBase
       
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(1).length);
         //teleport
-        int index = Random.Range(0, TeleportPosition.Count); // Random int
+        int index = UnityEngine.Random.Range(0, TeleportPosition.Count); // Random int
         transform.position = new Vector3(TeleportPosition[index].position.x, 0, TeleportPosition[index].position.z);
 
         //teleport end anim
@@ -370,6 +400,38 @@ public class BossFighter : FighterBase
                 Debug.LogWarning($"<color=red>[AttackState]</color> Unknown state: <b>{attackStates}</b>");
                 break;
         }
+    }
+
+
+    public void SummonEnemyAnimationEvent()
+    {
+        //this event is bind to animation event for animation called "BossAttack03"
+        foreach(Transform transform in EnemySpawnTransform)
+        {
+            Debug.Log("spawning enemy");
+            Instantiate(EnemyToSpawn, transform.position, transform.rotation);
+
+        }
+      
+    }
+
+    public IEnumerator SummonGroundLighting()
+    {
+        
+        //target
+        Vector3 playerPosition = Player.transform.position;
+       
+        
+        GameObject groundLightingObj =
+         Instantiate(groundLightingVFX, playerPosition, Player.transform.rotation);
+        ParticleSystem ps = groundLightingObj.GetComponent<ParticleSystem>();
+
+        float duration = ps.main.duration;
+        Debug.Log("the ground lighting  duration is" + duration);
+        yield return new WaitForSeconds(4f);
+
+        Destroy(groundLightingObj);
+
     }
 
 

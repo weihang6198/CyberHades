@@ -7,10 +7,9 @@ using static UnityEditor.VersionControl.Asset;
 
 public class BossEnemyController : EnemyController
 {
-   // [SerializeField] public BossFighter bossFighter { get; set; }
+    // [SerializeField] public BossFighter bossFighter { get; set; }
     // Start is called before the first frame update
-
-    
+ 
     void Start()
     {
         EnemyManager.instance.RegisterEnemy();
@@ -44,27 +43,28 @@ public class BossEnemyController : EnemyController
         stateMachine.ChangeState(stateDict[EnemyStates.Idle]);
 
         // Fighter.OnGotHit += ReactToHit;
-        Fighter.OnGotHit += (FighterBase attacker, bool canIgnoreHitStun) =>
+        Fighter.OnGotHit += (FighterBase attacker, bool filler /*doesnt do anything for now */) =>
         {
 
             if (Fighter.health > 0)
             {
 
-                //Debug.Log("enemy getting hit");
-                //if (canIgnoreHitStun)
-                //{
-                //    StopAllCoroutines();
-
-                //    ChangeState(EnemyStates.Attack);
-                //}
-                //else
+                Debug.Log("enemy boss getting hit");
+                Fighter.PlayVFXEffect(Fighter.hitBloodVFX, transform.localPosition += new Vector3(0, Random.Range(0.3f, 1.0f), 0));
+                GetHitEffect();
+                Target = attacker;
+                if (Fighter.canIgnoreHitStun)
                 {
-                    Target = attacker;
-                    Debug.Log("Boss getting hit inside invoke");
-                    GetHitEffect();
+                    Debug.Log("Fighter.consecutiveHitsTaken is setting to 0");
+                    //continue with whatever doing
+                    Fighter.consecutiveHitsTaken = 0;
+                }
+                else
+                {
+                    Debug.Log("enemy boss getting hit going gettingHitState");
                     ChangeState(EnemyStates.GettingHit); //advnced way 
                 }
-                   
+
             }
 
             else
@@ -75,11 +75,14 @@ public class BossEnemyController : EnemyController
 
         };
         RegisterMaterialsFromRenderer();
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        base.Update(); 
+        base.Update();
+        Fighter.rayCast();
     }
 }

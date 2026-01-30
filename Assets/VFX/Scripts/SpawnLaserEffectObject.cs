@@ -24,36 +24,60 @@ public class SpawnLaserEffectObject : MonoBehaviour
     }    
     void CalcRayLength()
     {
-        Vector3 origin = SpawnTransform.position;
-
-        Vector3 forward = new Vector3(SpawnTransform.forward.x, 0f, SpawnTransform.forward.z).normalized;
-        Ray ray = new Ray(origin, forward);
-
-        RaycastHit hit;
-
-        int layerMask = 1 << LayerMask.NameToLayer("Player");
-        Debug.DrawRay(origin, forward * distance, Color.red, 3f);
-        planeScale = 100f;//determine the rnage of the laser
-        if (Physics.Raycast(ray, out hit, distance, layerMask))
+        if (HitSpawnTransform == null)
         {
-           
+            GameObject go = new GameObject("HitSpawnPoint");
+            HitSpawnTransform = go.transform;
+            HitSpawnTransform.SetParent(transform); // optional but recommended
+        }
+      
+        planeScale = 100f;//determine the rnage of the laser
+                      
+        Vector3 origin = transform.position;
+        origin.y += 1.2f;
+        // Vector3 forward = new Vector3(SpawnTransform.forward.x, 0f, SpawnTransform.forward.z).normalized;
+        Vector3 forward = transform.forward;
 
-            Debug.Log("ray cast complete player detected");
-          
+        //if (Physics.Raycast(origin, forward, out RaycastHit hitInfo, 100f, layerMaskRayCastTest))
+        if (Physics.Raycast(origin, forward, out RaycastHit hit, 100f, layerMask))
+        {
+            Debug.Log("<color=ray cast complete player detected</color>");
+            Debug.Log("hit.collider.gameObject.layer:"+hit.collider.gameObject.layer);
+            Debug.Log("hit.collider.gameObject.layer:"+ LayerMask.LayerToName(hit.collider.gameObject.layer));
 
             HitSpawnTransform = new GameObject("HitSpawnPoint").transform;
            
             HitSpawnTransform.position = hit.point;
             HitSpawnTransform.rotation = Quaternion.LookRotation(SpawnTransform.forward, SpawnTransform.up);
+            Debug.DrawRay(origin, forward * 100f, Color.red, 3f);
         }
         else
         {
+            Debug.Log("=====ray cast failed no player detected=======");
+         
             HitSpawnTransform.position = origin + forward * planeScale;
-          
-            Debug.Log("ray cast failed no player detected");
+            Debug.DrawRay(origin, forward * 100f, Color.blue, 3f);
+
+
         }
 
-        SpawnTransform.rotation = Quaternion.Euler(0f, SpawnTransform.rotation.eulerAngles.y, 0f);
+        //int playerLayer = LayerMask.NameToLayer("Player");
+        //layerMask = 1 << playerLayer;
+
+        //if (Physics.Raycast(origin, forward, out hit, distance, layerMask, QueryTriggerInteraction.Ignore))
+        //{
+        //    Debug.Log("<color=red>Player hit</color>");
+
+        //    //HitSpawnTransform.position = hit.point;
+        //}
+        //else
+        //{
+        //    Debug.Log("<color=red> does not hit player </color>");
+        //    Debug.Log("hit.collider.gameObject.layer:" + hit.collider.gameObject.layer);
+        //    Debug.Log("hit.collider.gameObject.layer:" + LayerMask.LayerToName(hit.collider.gameObject.layer));
+        //}
+
+            SpawnTransform.rotation = Quaternion.Euler(0f, SpawnTransform.rotation.eulerAngles.y, 0f);
 
     }
 
@@ -83,7 +107,7 @@ public class SpawnLaserEffectObject : MonoBehaviour
             Instantiate(BeamChargeVFX, SpawnTransform.position, SpawnTransform.rotation);
 
         ParticleSystem ps = objCharge.GetComponentInChildren<ParticleSystem>();
-        var main = ps.main;
+       
 
         yield return new WaitForSeconds(55f / 60f);
 
