@@ -559,6 +559,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1567373825}
     - target: {fileID: 6064315078615313985, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
+      propertyPath: groundLightingVFX
+      value: 
+      objectReference: {fileID: 6490081254691885353, guid: 238208815a4a6934d8c97d8d799ed106, type: 3}
+    - target: {fileID: 6064315078615313985, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
       propertyPath: meleeAttackCollider
       value: 
       objectReference: {fileID: 845481034}
@@ -602,6 +606,10 @@ PrefabInstance:
       propertyPath: TeleportPosition.Array.data[2]
       value: 
       objectReference: {fileID: 276137141}
+    - target: {fileID: 6064315078615313985, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
+      propertyPath: layerMaskLightingGround.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 6064315078615313985, guid: ecbefb0f43a191d4a818342abd9cbb73, type: 3}
       propertyPath: EnemySpawnTransform.Array.data[0]
       value: 
