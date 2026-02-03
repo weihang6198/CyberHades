@@ -16,30 +16,31 @@ public class BossFighter : FighterBase
 {
     //enum are public enum BossAttackType { NormalAttack, GroundLightingAttack, LaserProjectileAttack, ProjectileAttack };
     //ignore normalAttack, start 
+    [SerializeField] SlashEffect slashEffect;
     [SerializeField] public List<AttackData> BossAttacks;
     [SerializeField] public SpawnLaserEffectObject spawnLaserEffectObject;
     [SerializeField] public FighterBase Player;
     [SerializeField] public FighterBase EnemyToSpawn;
     [SerializeField] public List<Transform> EnemySpawnTransform;
 
-  SpawnProjectiles spawnProjectiles;
+    SpawnProjectiles spawnProjectiles;
     public Vector2 attackRandomTimer = new Vector2(0.5f, 1.2f);
-    [SerializeField] List<Transform> TeleportPosition=new List<Transform>();
+    [SerializeField] List<Transform> TeleportPosition = new List<Transform>();
     public BossEnemyController boss;
 
     [SerializeField] SphereCollider meleeAttackCollider;
     [SerializeField] public GameObject groundLightingVFX;
     [SerializeField] public LayerMask layerMaskLightingGround;
-    
+
     protected override void Awake()
     {
         base.Awake(); // runs FighterBase.Awake()
         spawnProjectiles = GetComponent<SpawnProjectiles>();
         spawnProjectiles.owner = this;
-        boss=GetComponent<BossEnemyController>();
-        spawnLaserEffectObject=GetComponent<SpawnLaserEffectObject>();
+        boss = GetComponent<BossEnemyController>();
+        spawnLaserEffectObject = GetComponent<SpawnLaserEffectObject>();
         meleeAttackCollider.enabled = false;
-        spawnLaserEffectObject.owner= this;
+        spawnLaserEffectObject.owner = this;
 
     }
 
@@ -68,20 +69,20 @@ public class BossFighter : FighterBase
             target = Player;
             Debug.LogError("<color=red>[ERROR] Target is NULL in Attack()  but assigned player to target variable!!!</color>");
         }
-          
+
         else
             Debug.Log("<color=green>[OK] Target is NOT null</color>");
 
         attackState = AttackStates.Windup;
-      //  Debug.Log($"AttackState → {attackState}");
+        //  Debug.Log($"AttackState → {attackState}");
 
-        int attackIndex = UnityEngine.Random.Range(0, BossAttacks.Count-1);
+        int attackIndex = UnityEngine.Random.Range(0, BossAttacks.Count - 1);
 
         // Direction
         Quaternion targetRotation = CalculateTargetRotation(target);
 
         // Play animation
-      //  Debug.Log($"Playing animation: {attacks[attackIndex].AnimName}");
+        //  Debug.Log($"Playing animation: {attacks[attackIndex].AnimName}");
         animator.CrossFade(attacks[attackIndex].AnimName, 0.2f, 1);
         yield return null;
 
@@ -92,7 +93,7 @@ public class BossFighter : FighterBase
 
         //while (timer <= animState.length)
         float currentAnimSpeed = 1f;
-            while (attackState != AttackStates.Idle)
+        while (attackState != AttackStates.Idle)
         {
             InAction = true;
 
@@ -107,22 +108,22 @@ public class BossFighter : FighterBase
             }
             else
             {
-              
+
             }
 
             timer += Time.deltaTime;
             float normalizedTime = timer / animState.length;
 
-          
+
 
             // ■■■ STATE MACHINE ■■■
-            
+
             // =========================
             //          WINDUP
             // =========================
             if (attackState == AttackStates.Windup)
             {
-              
+
                 currentAnimSpeed = attacks[comboCount].WindupSpeed;
 
                 animator.SetFloat("AttackAnimSpeed", currentAnimSpeed);
@@ -133,29 +134,31 @@ public class BossFighter : FighterBase
             }
             else if (attackState == AttackStates.Impact)
             {
+               
+
                 currentAnimSpeed = attacks[comboCount].ImpactSpeed;
 
                 animator.SetFloat("AttackAnimSpeed", currentAnimSpeed);
-             
+
                 SetDamageColliderEnabled(attacks[comboCount], true);
             }
             else if (attackState == AttackStates.Cooldown)
             {
-              
+
 
                 currentAnimSpeed = attacks[comboCount].CooldownSpeed;
                 SetDamageColliderEnabled(attacks[comboCount], false);
                 animator.SetFloat("AttackAnimSpeed", currentAnimSpeed);
-               
+
             }
 
             yield return null;
         }
 
-      
+
 
         //float waitTimer = Random.Range(attackRandomTimer.x, attackRandomTimer.y);
-       
+
         //yield return new WaitForSeconds(waitTimer);
 
         attackState = AttackStates.Idle;
@@ -173,7 +176,7 @@ public class BossFighter : FighterBase
 
     public IEnumerator GroundLightingAttack(FighterBase target)
     {
-        attackState = AttackStates.Windup; 
+        attackState = AttackStates.Windup;
         canIgnoreHitStun = true;
         InAction = true;
         animator.CrossFade("BossGroundLightingAttack", 0.2f, 1);
@@ -198,7 +201,7 @@ public class BossFighter : FighterBase
     {
         attackState = AttackStates.Windup;
         canIgnoreHitStun = true;
-        InAction = true;    
+        InAction = true;
         animator.CrossFade("BossAttack03", 0.2f, 1);
         yield return null;
 
@@ -217,7 +220,7 @@ public class BossFighter : FighterBase
         attackState = AttackStates.Windup;
         Debug.Log("LaserProjectileAttack func");
         //teleport first then do laser projectile
-       // yield return StartCoroutine(Teleport());
+        // yield return StartCoroutine(Teleport());
         // Direction
         Quaternion targetRotation = CalculateTargetRotation(target);
 
@@ -226,10 +229,10 @@ public class BossFighter : FighterBase
         // animator.CrossFade(BossAttacks[index].AnimName, 0.2f, 1);
         Debug.Log("BossAttacks[index].AnimName:" + BossAttacks[index].AnimName);
         animator.CrossFade(BossAttacks[index].AnimName, 0.2f, 1);
-        
+
         yield return null;
         bool doOnce = false;
-        
+
         while (attackState != AttackStates.Idle)
         {
 
@@ -250,9 +253,9 @@ public class BossFighter : FighterBase
             // fire proj
             if (attackState == AttackStates.Impact)
             {
-               
+
                 {
-                    if(!doOnce)
+                    if (!doOnce)
                     {
                         doOnce = true;
                         attackState = AttackStates.Impact;
@@ -260,18 +263,18 @@ public class BossFighter : FighterBase
                         StartCoroutine(spawnLaserEffectObject.StartBeam());
                         Debug.Log("emit proj");
                     }
-                 
+
                 }
             }
 
-           
+
             yield return null;
-            
+
         }
 
         yield return new WaitForSeconds(2f);
         Debug.Log("laser proj atk done");
-      
+
         canIgnoreHitStun = false;
     }
 
@@ -289,20 +292,20 @@ public class BossFighter : FighterBase
 
     public IEnumerator Teleport()
     {
-        boss.NavAgent.ResetPath(); 
+        boss.NavAgent.ResetPath();
         if (TeleportPosition == null || TeleportPosition.Count == 0)
         {
             Debug.LogWarning("TeleportPosition list is empty!");
-           //yield return null;
+            //yield return null;
         }
         animator.CrossFade("TeleportStart", 0.2f, 1);
         animator.speed = 1f;
         yield return null;
 
         var animState = animator.GetCurrentAnimatorStateInfo(1);
-      //  Debug.Log("animState.length for teleport start:" + animState.length);
+        //  Debug.Log("animState.length for teleport start:" + animState.length);
 
-      
+
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(1).length);
         //teleport
         int index = UnityEngine.Random.Range(0, TeleportPosition.Count); // Random int
@@ -365,63 +368,63 @@ public class BossFighter : FighterBase
         }
     }
 
-    void ChangeAttackState(string attackStates)
-    {
-        Debug.Log($"<color=cyan>[AttackState]</color> Event received: <b>{attackStates}</b>");
+    //void ChangeAttackState(string attackStates)
+    //{
+    //    Debug.Log($"<color=cyan>[AttackState]</color> Event received: <b>{attackStates}</b>");
 
-        switch (attackStates)
-        {
-            case "Idle":
-                Debug.Log("<color=green>[AttackState]</color> → <b>Idle</b>");
+    //    switch (attackStates)
+    //    {
+    //        case "Idle":
+    //            Debug.Log("<color=green>[AttackState]</color> → <b>Idle</b>");
 
-                attackState = AttackStates.Idle;
-                break;
+    //            attackState = AttackStates.Idle;sp
+    //            break;
 
-            case "Windup":
-                Debug.Log("<color=yellow>[AttackState]</color> → <b>Windup</b>");
+    //        case "Windup":
+    //            Debug.Log("<color=yellow>[AttackState]</color> → <b>Windup</b>");
 
-                //animator.speed = 0.1f;
-                attackState = AttackStates.Windup;
-                break;
+    //            //animator.speed = 0.1f;
+    //            attackState = AttackStates.Windup;
+    //            break;
 
-            case "Impact":
-                Debug.Log("<color=orange>[AttackState]</color> → <b>Impact</b>");
+    //        case "Impact":
+    //            Debug.Log("<color=orange>[AttackState]</color> → <b>Impact</b>");
 
-                attackState = AttackStates.Impact;
-                break;
+    //            attackState = AttackStates.Impact;
+    //            break;
 
-            case "Cooldown":
-                Debug.Log("<color=blue>[AttackState]</color> → <b>Cooldown</b>");
+    //        case "Cooldown":
+    //            Debug.Log("<color=blue>[AttackState]</color> → <b>Cooldown</b>");
 
-                attackState = AttackStates.Cooldown;
-                break;
+    //            attackState = AttackStates.Cooldown;
+    //            break;
 
-            default:
-                Debug.LogWarning($"<color=red>[AttackState]</color> Unknown state: <b>{attackStates}</b>");
-                break;
-        }
-    }
+    //        default:
+    //            Debug.LogWarning($"<color=red>[AttackState]</color> Unknown state: <b>{attackStates}</b>");
+    //            break;
+    //    }
+    //}
 
 
     public void SummonEnemyAnimationEvent()
     {
         //this event is bind to animation event for animation called "BossAttack03"
-        foreach(Transform transform in EnemySpawnTransform)
+        foreach (Transform transform in EnemySpawnTransform)
         {
             Debug.Log("spawning enemy");
             Instantiate(EnemyToSpawn, transform.position, transform.rotation);
 
         }
-      
+
     }
 
     public IEnumerator SummonGroundLighting()
     {
-        
+
         //target
         Vector3 playerPosition = Player.transform.position;
-       
-        
+
+
         GameObject groundLightingObj =
          Instantiate(groundLightingVFX, playerPosition, Player.transform.rotation);
         ParticleSystem ps = groundLightingObj.GetComponent<ParticleSystem>();
@@ -434,5 +437,13 @@ public class BossFighter : FighterBase
 
     }
 
+    public override void SpawnSlashEffect()
+    {
+        Debug.Log("====inside spawn slash effect boss fighter=====");
+        Transform hand = animator.GetBoneTransform(HumanBodyBones.RightHand);
+       // hand.rotation = transform.rotation;
+
+        slashEffect.SpawnClawEffect(hand);
+    }
 
 }

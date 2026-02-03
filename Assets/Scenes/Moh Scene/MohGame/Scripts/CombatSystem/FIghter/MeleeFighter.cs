@@ -186,11 +186,9 @@ public class MeleeFighter : FighterBase
                 // ---- Slash VFX ----
                 if (!isSlashSpawned && slashEffect != null)
                 {
-                    Transform chest = animator.GetBoneTransform(HumanBodyBones.Chest);
-                    chest.rotation = sword.transform.rotation;
-
-                    slashEffect.SpawnEffect(chest);
-                    isSlashSpawned = true;
+                    SpawnSlashEffect();
+                  
+                   
                 }
 
                 // attackState = AttackStates.Cooldown;
@@ -571,7 +569,15 @@ public class MeleeFighter : FighterBase
         comboCount = 0;
         InAction = false;
     }
-    
+
+    public override void SpawnSlashEffect()
+    {
+        Transform chest = animator.GetBoneTransform(HumanBodyBones.Chest);
+        chest.rotation = sword.transform.rotation;
+
+        slashEffect.SpawnSlashEffect(chest);
+        isSlashSpawned = true;
+    }
 
 }
 

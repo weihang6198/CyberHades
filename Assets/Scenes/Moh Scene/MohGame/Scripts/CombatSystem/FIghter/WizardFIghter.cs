@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class WizardFIghter : FighterBase
 {
+    public override void SpawnSlashEffect()
+    {
+        
+    }
     protected override void Awake()
     {
         base.Awake(); // runs FighterBase.Awake()

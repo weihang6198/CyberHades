@@ -162,8 +162,8 @@ public class BossAttackState : State<EnemyController>
         //StartCoroutine(enemy.Fighter.Attack(enemy.Target));
         BossFighter bossFighter =(BossFighter) enemy.Fighter;
 
-        attackType = BossAttackType.GroundLightingAttack;
-        // attackType = BossAttackType.NormalAttack;
+        //attackType = BossAttackType.GroundLightingAttack;
+         attackType = BossAttackType.NormalAttack;
         //attackType = BossAttackType.SummonEnemy;
         switch (attackType)
         {

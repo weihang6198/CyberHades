@@ -290,7 +290,7 @@ public class EnemyController     : MonoBehaviour
         foreach (var mat in materials)
         {
             mat.SetFloat("_VerticalClipOffset", 0);
-            StartCoroutine(FadeFilterByfloat(mat, 1, 0, 2f,true));
+            StartCoroutine(FadeFilterByfloat(mat, 1, 0, 2f,false));
         }
         
 

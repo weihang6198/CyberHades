@@ -357,6 +357,7 @@ public abstract class FighterBase : MonoBehaviour
         }
     }
 
+    public abstract void SpawnSlashEffect();
     void ChangeAttackState(string attackStates)
     {
         Debug.Log($"<color=cyan>[AttackState]</color> Event received: <b>{attackStates}</b>");
@@ -387,7 +388,10 @@ public abstract class FighterBase : MonoBehaviour
 
                 attackState = AttackStates.Cooldown;
                 break;
-
+            case "SlashEffect":
+                Debug.Log("<color=blue>inside slash effect ChangeAttackState<b>Cooldown</b>");
+                SpawnSlashEffect();
+                break;
             default:
                 Debug.LogWarning($"<color=red>[AttackState]</color> Unknown state: <b>{attackStates}</b>");
                 break;

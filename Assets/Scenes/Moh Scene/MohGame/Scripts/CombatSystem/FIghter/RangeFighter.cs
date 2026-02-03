@@ -130,4 +130,9 @@ public class RangeFighter : FighterBase
         return distanceToTarget >= 8f;
     }
 
+    public override void SpawnSlashEffect()
+    {
+    
+    }
+
 }
