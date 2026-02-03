@@ -6,8 +6,9 @@ public class SlashEffect : MonoBehaviour
 {
     public ParticleSystem Slash;
     public GameObject SlashVFX;
-    
-    public void SpawnEffect(Transform SlashSpawnTransform)
+    public GameObject ClawVFX;
+
+    public void SpawnSlashEffect(Transform SlashSpawnTransform)
     {
         var slash = Instantiate(SlashVFX.GetComponentInChildren<ParticleSystem>(), SlashSpawnTransform.position, SlashSpawnTransform.rotation);
         slash.Play();
@@ -29,5 +30,14 @@ public class SlashEffect : MonoBehaviour
 
          Quaternion rotation = Quaternion.LookRotation(dir);
         return rotation;
+    }
+
+    public void SpawnClawEffect(Transform SlashSpawnTransform)
+    {
+        var claw = Instantiate(ClawVFX.GetComponentInChildren<ParticleSystem>(), SlashSpawnTransform.position, SlashSpawnTransform.rotation);
+        claw.Play();
+        //Debug.DrawLine(SlashSpawnTransform.position, new Vector3(0, 0, 0));
+        float clawLifeTime = claw.main.duration + claw.main.startLifetime.constantMax;
+        Destroy(claw.gameObject, claw.main.duration);
     }
 }

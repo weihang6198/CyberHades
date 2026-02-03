@@ -68,6 +68,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.43164513
+        functionName: ChangeAttackState
+        data: SlashEffect
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.44077983
         functionName: ChangeAttackState
         data: Impact
