@@ -20,6 +20,7 @@ public class SceneTrigger : MonoBehaviour
     [SerializeField] public GameObject FireVFX;
     [SerializeField] public Transform player;
     [SerializeField]  VictoryMenu victoryMenuClass;
+    [SerializeField]  ScreenFadeIn screenFadeClass;
     bool isVFXCreated = false;
 
     private void Awake()
@@ -35,7 +36,10 @@ public class SceneTrigger : MonoBehaviour
         if (boxCollider.bounds.Contains(player.position) && isVFXCreated && !victoryMenuClass.isVectory)
         {
             //Debug.Log("player in bounds");
-            SceneManager.instance.LoadSceneByID(SceneID);
+
+            StartCoroutine(screenFadeClass.FadeOut());
+            if (screenFadeClass.isScreenFadeOut)
+                SceneManager.instance.LoadSceneByID(SceneID);
         }
     }
 

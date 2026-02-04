@@ -56,7 +56,7 @@ public class DeadScene : MonoBehaviour
         if (DeadUICanvasGroup != null)
         {
             DeadUICanvasGroup.gameObject.SetActive(true);
-            StartCoroutine(FadeFilterByCanvas(DeadUICanvasGroup, 0, 1, 0.5f, 2.0f));
+            StartCoroutine(FadeFilterByCanvas(DeadUICanvasGroup, 0, 1, 0.5f, 5.0f));
         }
 
     }
