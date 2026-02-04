@@ -79,16 +79,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0958414407e573e489563ad84bad18a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerMaskRayCastTest:
+    serializedVersion: 2
+    m_Bits: 0
   <health>k__BackingField: 20
   <maxHealth>k__BackingField: 25
   attacks:
   - {fileID: 11400000, guid: b9dcb79523d9fa042ad7d34ed8107952, type: 2}
   - {fileID: 11400000, guid: 4c4286b125ee0b140bce2db88203c7e3, type: 2}
-  hitStopTime: 0.1
-  hitLightVFX: {fileID: 6253807965709964959, guid: 3a93d9fcf7da0244a8afb4fec0f86cbc, type: 3}
+  hitStopDuration: 0.05
+  hitBloodVFX: {fileID: 0}
+  thunderVFX: {fileID: 0}
   attackState: 0
   consecutiveHitsTaken: 0
   maxConsecutiveHitsAllowed: 2
+  canIgnoreHitStun: 0
   canCounter: 0
   isDashing: 0
   dashWaitPercent: 0.7
@@ -150,6 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26539d325d7e82044b4d49afd3bfaa99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnSummonVFX: {fileID: 7968734654303163148, guid: 0e7d222c95f43a747b00a56e300cc836, type: 3}
   activateEnemy: 1
   canAttack: 1
   <Fov>k__BackingField: 180
@@ -814,15 +820,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8293462720397763194, guid: b4782dbc5a49c224791484eff16447cd, type: 3}
       propertyPath: serializeData2.selectionData.maxConnectionDistance
-      value: 0.23891285
+      value: 0.23891287
+      objectReference: {fileID: 0}
+    - target: {fileID: 8293462720397763194, guid: b4782dbc5a49c224791484eff16447cd, type: 3}
+      propertyPath: serializeData2.selectionData.positions.Array.data[0].z
+      value: -0.16158825
       objectReference: {fileID: 0}
     - target: {fileID: 8293462720397763194, guid: b4782dbc5a49c224791484eff16447cd, type: 3}
       propertyPath: serializeData2.selectionData.positions.Array.data[1].z
-      value: -0.20106292
+      value: -0.20106298
+      objectReference: {fileID: 0}
+    - target: {fileID: 8293462720397763194, guid: b4782dbc5a49c224791484eff16447cd, type: 3}
+      propertyPath: serializeData2.selectionData.positions.Array.data[2].z
+      value: -0.22737938
+      objectReference: {fileID: 0}
+    - target: {fileID: 8293462720397763194, guid: b4782dbc5a49c224791484eff16447cd, type: 3}
+      propertyPath: serializeData2.selectionData.positions.Array.data[3].z
+      value: -0.2536959
       objectReference: {fileID: 0}
     - target: {fileID: 8293462720397763194, guid: b4782dbc5a49c224791484eff16447cd, type: 3}
       propertyPath: serializeData2.selectionData.positions.Array.data[4].z
-      value: -0.27813268
+      value: -0.2781325
+      objectReference: {fileID: 0}
+    - target: {fileID: 8293462720397763194, guid: b4782dbc5a49c224791484eff16447cd, type: 3}
+      propertyPath: serializeData2.selectionData.positions.Array.data[5].z
+      value: -0.32136673
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7900697344565002998, guid: b4782dbc5a49c224791484eff16447cd, type: 3}

@@ -14,8 +14,8 @@ public enum EnemyStates { Idle, CombatMovement, Attack, RetreatAfterAttack,  Get
 public enum EnemyType { Melee, Ranged, Boss }
 public class EnemyController     : MonoBehaviour
 {
-   
 
+    [SerializeField]  public GameObject OnSummonVFX;
     [SerializeField]public  bool activateEnemy = true;
     [field: SerializeField] public bool canAttack = true;
     [field: SerializeField] public float Fov { get;  set; } = 180f;
@@ -45,7 +45,7 @@ public class EnemyController     : MonoBehaviour
     [SerializeField] public AnimationCurve HitFresnelCurve;
     [SerializeField] public Color HitFresnelColor;
     [SerializeField] public float HitFresnelIntensity;
-
+    public bool OnSummonComplete = false;
 
     //behavior trees
     //BehaviorTree tree;
@@ -130,7 +130,7 @@ public class EnemyController     : MonoBehaviour
         };
         RegisterMaterialsFromRenderer();
 
-        OnSummonEffect();
+        StartCoroutine(OnSummonEffect());
         
     }
     public void ChangeState(EnemyStates state)
@@ -161,11 +161,11 @@ public class EnemyController     : MonoBehaviour
         //float strafeSpeed = Mathf.Sin(angle * Mathf.Deg2Rad);
 
         //animator.SetFloat("StrafeSpeed", strafeSpeed, 0.2f, Time.deltaTime);
-         
+
         //prevPos = transform.position;
 
         ///////////////////
-       
+        if (!OnSummonComplete) return;
         if (canRunStateMachine) stateMachine.Execute();
        // Debug.Log("Enemy State: " + stateMachine.CurrentState);
         // tree.Process(); 
@@ -284,18 +284,31 @@ public class EnemyController     : MonoBehaviour
 
     }
 
-    public void OnSummonEffect()
+    public IEnumerator OnSummonEffect()
     {
-       // return; //ToFix
+        OnSummonComplete = false;
+
+        var summonVFX = Instantiate(OnSummonVFX, transform.position, transform.rotation)
+                            .GetComponentInChildren<ParticleSystem>();
+
+        summonVFX.Play();
+
+        float lifeTime = summonVFX.main.duration;
+        Debug.Log("life time is" + lifeTime);
+        Destroy(summonVFX.gameObject, lifeTime);
+
         foreach (var mat in materials)
         {
             mat.SetFloat("_VerticalClipOffset", 0);
-            StartCoroutine(FadeFilterByfloat(mat, 1, 0, 2f,false));
+            StartCoroutine(FadeFilterByfloat(mat, 1, 0, summonVFX.main.duration, false));
         }
-        
 
+        yield return new WaitForSeconds(lifeTime);
 
+        Debug.Log("enemy controller zako OnSummon completed");
+        OnSummonComplete = true;
     }
+
 
     public void SummonEnemy()
     {

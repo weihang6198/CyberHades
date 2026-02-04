@@ -51,8 +51,8 @@ Material:
     - _QueueOffset: 0
     - _TwirlSpeed: 0.5
     m_Colors:
-    - _Color: {r: 0, g: 52.597584, b: 19.132658, a: 1}
-    - _Color_1: {r: 0, g: 6.498019, b: 4.410413, a: 1}
+    - _Color: {r: 0, g: 3.9533498, b: 1.4380525, a: 1}
+    - _Color_1: {r: 0, g: 5.59088, b: 3.7947085, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &5944415764151357916
 MonoBehaviour:
