@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_HPShader
+  m_Name: M_HPShaderBoss
   m_Shader: {fileID: 4800000, guid: 2e83289d71e48124e907e1244cbbdbea, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: ea3aa99ad9549e14c98662d76530a628, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1fdcbe9c9857cc0429729ec655421806, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTex:
@@ -39,5 +39,5 @@ Material:
     - _ScrollSpeedY: 0.5
     - _ShineStrength: 0.5
     m_Colors:
-    - _Color: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
+    - _Color: {r: 0.9150943, g: 0.75996774, b: 0.5222944, a: 1}
   m_BuildTextureStacks: []

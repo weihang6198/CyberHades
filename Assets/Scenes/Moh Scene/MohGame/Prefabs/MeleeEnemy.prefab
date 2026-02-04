@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 5796102510978780971}
   - component: {fileID: 8242445546334973670}
   - component: {fileID: 7675105105338824025}
+  - component: {fileID: 6462041401272209843}
   m_Layer: 8
   m_Name: MeleeEnemy
   m_TagString: Untagged
@@ -196,6 +197,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   HitFresnelColor: {r: 1, g: 0, b: 0.10514355, a: 0}
   HitFresnelIntensity: 6
+  OnSummonComplete: 0
 --- !u!195 &3877585896447010044
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -297,6 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26cc1da2d9068de47b24b46812ab6b3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
 --- !u!114 &7675105105338824025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,6 +316,24 @@ MonoBehaviour:
   meleeFighterClass: {fileID: 1064563924907990113}
   canvasTransform: {fileID: 2120290590234107079}
   reduceSpeed: 2
+  isHPChanged: 0
+  prevHealth: 0
+--- !u!114 &6462041401272209843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543836446394723218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c1c30da9b75c64f8472e31d6130a7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpBarFillClass: {fileID: 0}
+  EnemyhpBarClass: {fileID: 7675105105338824025}
+  canvas: {fileID: 2140044241122158904}
+  VisibilityDuration: 2
 --- !u!1 &1548311085679223769
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,6 +697,7 @@ GameObject:
   - component: {fileID: 232534212023066042}
   - component: {fileID: 4223541053282552901}
   - component: {fileID: 4414264526258105197}
+  - component: {fileID: 2140044241122158904}
   m_Layer: 8
   m_Name: EnemyUICanvas
   m_TagString: Untagged
@@ -766,6 +788,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &2140044241122158904
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4936943625138722792}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &2356220022679192662
 PrefabInstance:
   m_ObjectHideFlags: 0

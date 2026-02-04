@@ -42,6 +42,8 @@ public abstract class FighterBase : MonoBehaviour
     
     public event Action OnDead;
 
+    public event Action OnVictory;
+
     protected StarterAssetsInputs PlayerInput;
     protected GameObject character; // assign in Inspector
     protected Animator animator;
@@ -321,6 +323,7 @@ public abstract class FighterBase : MonoBehaviour
     {
         Debug.Log("trigger OnDeathAnimationFinished ");
         OnDead?.Invoke();
+        OnVictory?.Invoke();
     }
 
     public void PlayVFXEffect(GameObject VFX,Vector3 position)
