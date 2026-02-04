@@ -14,10 +14,12 @@ public class TitleScreen : MonoBehaviour
     public CanvasGroup PanelGroup;
     public CanvasGroup mainMenuCanvasGroup;
     public CanvasGroup playScreenCanvasGroup;
+    public CanvasGroup OptionsCanvasGroup;
     public CanvasGroup loadingScreenCanvasGroup;
     public GameObject mainMenu;
     public GameObject titleScreen;
     public GameObject playScreen;
+    public GameObject optionScreen;
     public GameObject loadingScreen;
     public float ScaleSpeed = 0.5f;
     public float transitionDuration = 2.0f;
@@ -49,7 +51,7 @@ public class TitleScreen : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (playScreen.activeSelf)
+            if (playScreen.activeSelf || optionScreen.activeSelf)
             {
                 OnEscClick();
             }
@@ -66,7 +68,7 @@ public class TitleScreen : MonoBehaviour
 
         if (TextMP != null)
         {
-            StartCoroutine(ZoomAndFadeOutCoroutine(mainMenuCanvasGroup, false, true, false));
+            StartCoroutine(ZoomAndFadeOutCoroutine(mainMenuCanvasGroup, false, true, false, false));
         }
     }
 
@@ -74,7 +76,7 @@ public class TitleScreen : MonoBehaviour
     {
         Debug.Log("OnEscClick function called");
 
-        OnFadeByCanvesGroup(mainMenuCanvasGroup, false, true, false);
+        OnFadeByCanvesGroup(mainMenuCanvasGroup, false, true, false, false);
 
     }
 
@@ -86,7 +88,7 @@ public class TitleScreen : MonoBehaviour
 
         if (TextMP != null)
         {
-            StartCoroutine(ZoomAndFadeOutCoroutine(playScreenCanvasGroup, false, false, true));
+            StartCoroutine(ZoomAndFadeOutCoroutine(playScreenCanvasGroup, false, false, true, false));
         }
         else
             Debug.Log("Play TMP not found!");
@@ -108,7 +110,7 @@ public class TitleScreen : MonoBehaviour
 
         if (TextMP != null)
         {
-            StartCoroutine(ZoomAndFadeOutCoroutine(loadingScreenCanvasGroup, false, false, false));
+            StartCoroutine(ZoomAndFadeOutCoroutine(loadingScreenCanvasGroup, false, false, false, false));
         }
         LoadScene(SceneID);
     }
@@ -118,6 +120,22 @@ public class TitleScreen : MonoBehaviour
         Debug.Log("OnLoadGameClick function called");
 
         //ToDo
+    }
+
+
+    public void OnOptionsClick()
+    {
+        Debug.Log("OnOptionsClick function called");
+
+        FindTextByName("OptionsTMP");
+
+        if (TextMP != null)
+        {
+            StartCoroutine(ZoomAndFadeOutCoroutine(OptionsCanvasGroup, false, false, false, true));
+        }
+        else
+            Debug.Log("Play TMP not found!");
+
     }
 
     public void LoadScene(int SceneID)
@@ -163,11 +181,12 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
-    public void OnFadeByCanvesGroup(CanvasGroup canvasGroup, bool isTitleActive, bool isMenuActive, bool isPlayActive)
+    public void OnFadeByCanvesGroup(CanvasGroup canvasGroup, bool isTitleActive, bool isMenuActive, bool isPlayActive, bool isOptionsActive)
     {
         titleScreen.SetActive(isTitleActive);
         mainMenu.SetActive(isMenuActive);
         playScreen.SetActive(isPlayActive);
+        optionScreen.SetActive(isOptionsActive);
 
         mainMenuCanvasGroup.alpha = 0.0f;
         mainMenuCanvasGroup.interactable = false;
@@ -229,7 +248,7 @@ public class TitleScreen : MonoBehaviour
 
     }
 
-    private IEnumerator ZoomAndFadeOutCoroutine(CanvasGroup canvasGroup, bool isTitleActive, bool isMenuActive, bool isPlayActive)
+    private IEnumerator ZoomAndFadeOutCoroutine(CanvasGroup canvasGroup, bool isTitleActive, bool isMenuActive, bool isPlayActive,bool isOptionsActive)
     {
         float startTime = Time.time;
         Color baseColor = TextMP.color;
@@ -260,7 +279,7 @@ public class TitleScreen : MonoBehaviour
         finalC.a = 0.0f;
         TextMP.color = finalC;
 
-        OnFadeByCanvesGroup(canvasGroup, isTitleActive, isMenuActive, isPlayActive);
+        OnFadeByCanvesGroup(canvasGroup, isTitleActive, isMenuActive, isPlayActive, isOptionsActive);
         //titleScreen.SetActive(isTitleActive);
         //mainMenu.SetActive(isMenuActive);
         //playScreen.SetActive(isPlayActive);
