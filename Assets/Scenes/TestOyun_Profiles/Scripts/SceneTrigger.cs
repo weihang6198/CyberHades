@@ -32,14 +32,28 @@ public class SceneTrigger : MonoBehaviour
     void Update()
     {
         OnStageClearVFX();
-
-        if (boxCollider.bounds.Contains(player.position) && isVFXCreated && !victoryMenuClass.isVectory)
+        if (victoryMenuClass != null)
         {
-            //Debug.Log("player in bounds");
+            if (boxCollider.bounds.Contains(player.position) && isVFXCreated && !victoryMenuClass.isVectory)
+            {
+                //Debug.Log("player in bounds");
 
-            StartCoroutine(screenFadeClass.FadeOut());
-            if (screenFadeClass.isScreenFadeOut)
-                SceneManager.instance.LoadSceneByID(SceneID);
+                StartCoroutine(screenFadeClass.FadeOut());
+                if (screenFadeClass.isScreenFadeOut)
+                    SceneManager.instance.LoadSceneByID(SceneID);
+            }
+
+        }
+        else
+        {
+            if (boxCollider.bounds.Contains(player.position) && isVFXCreated)
+            {
+                //Debug.Log("player in bounds");
+
+                StartCoroutine(screenFadeClass.FadeOut());
+                if (screenFadeClass.isScreenFadeOut)
+                    SceneManager.instance.LoadSceneByID(SceneID);
+            }
         }
     }
 

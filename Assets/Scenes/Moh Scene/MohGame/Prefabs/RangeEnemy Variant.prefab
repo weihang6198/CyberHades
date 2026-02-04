@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnSummonVFX: {fileID: 7968734654303163148, guid: 0e7d222c95f43a747b00a56e300cc836, type: 3}
+  Player: {fileID: 0}
   activateEnemy: 1
   canAttack: 1
   <Fov>k__BackingField: 180
@@ -227,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26cc1da2d9068de47b24b46812ab6b3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
 --- !u!114 &8044308331282796165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,9 +242,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarImage: {fileID: 5865737835654769990}
-  meleeFighterClass: {fileID: 0}
+  meleeFighterClass: {fileID: 7737046086735737713}
   canvasTransform: {fileID: 1750956520135436059}
   reduceSpeed: 2
+  isHPChanged: 0
+  prevHealth: 0
 --- !u!114 &7737046086735737713
 MonoBehaviour:
   m_ObjectHideFlags: 0

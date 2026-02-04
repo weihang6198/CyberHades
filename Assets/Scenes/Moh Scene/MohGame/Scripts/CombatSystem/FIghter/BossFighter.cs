@@ -9,7 +9,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.TextCore.Text;
 using UnityEngine.Windows;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 
 public class BossFighter : FighterBase

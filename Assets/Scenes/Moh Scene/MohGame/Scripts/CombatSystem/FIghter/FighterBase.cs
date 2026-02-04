@@ -5,8 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.TerrainTools;
 
 
 //using UnityEditor.Experimental.GraphView;

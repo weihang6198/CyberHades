@@ -381,6 +381,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2357192139125641460, guid: 29a76fb0c727ef647be64143795a50a6, type: 3}
   m_PrefabInstance: {fileID: 1447858663}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &99671413 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1661301880959723846, guid: 7e54c8636a9f6ca43b9974189b52d1f0, type: 3}
+  m_PrefabInstance: {fileID: 1637817316}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ce8fb3e7d15094b853b67ee84c79f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &101059837
 GameObject:
   m_ObjectHideFlags: 0
@@ -14913,6 +14924,7 @@ MonoBehaviour:
   FireVFX: {fileID: 7189590580785252636, guid: e43096ced3922ec4192eff6f9065fe04, type: 3}
   player: {fileID: 3893294199639930361}
   victoryMenuClass: {fileID: 0}
+  screenFadeClass: {fileID: 99671413}
 --- !u!1001 &1447858663
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21028,6 +21040,7 @@ MonoBehaviour:
   FireVFX: {fileID: 0}
   player: {fileID: 0}
   victoryMenuClass: {fileID: 0}
+  screenFadeClass: {fileID: 0}
 --- !u!1 &1794062547 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6490081254691885353, guid: 238208815a4a6934d8c97d8d799ed106, type: 3}
