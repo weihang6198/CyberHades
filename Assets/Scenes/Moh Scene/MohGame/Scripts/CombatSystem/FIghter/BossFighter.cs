@@ -21,6 +21,7 @@ public class BossFighter : FighterBase
     [SerializeField] public SpawnLaserEffectObject spawnLaserEffectObject;
     [SerializeField] public FighterBase Player;
     [SerializeField] public FighterBase EnemyToSpawn;
+    [SerializeField] public FighterBase EnemyToSpawnRange;
     [SerializeField] public List<Transform> EnemySpawnTransform;
 
     SpawnProjectiles spawnProjectiles;
@@ -408,12 +409,24 @@ public class BossFighter : FighterBase
 
     public void SummonEnemyAnimationEvent()
     {
-        //this event is bind to animation event for animation called "BossAttack03"
-        foreach (Transform transform in EnemySpawnTransform)
+      
+        foreach (Transform spawnTransform in EnemySpawnTransform)
         {
             Debug.Log("spawning enemy");
-            Instantiate(EnemyToSpawn, transform.position, transform.rotation);
+            int rand = UnityEngine.Random.Range(0, 2); // returns 0 or 1
 
+            if (rand == 0)
+            {
+                Instantiate(EnemyToSpawn,
+                            spawnTransform.position,
+                            spawnTransform.rotation);
+            }
+            else
+            {
+                Instantiate(EnemyToSpawnRange,
+                            spawnTransform.position,
+                            spawnTransform.rotation);
+            }
         }
 
     }

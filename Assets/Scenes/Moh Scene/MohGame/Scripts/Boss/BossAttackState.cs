@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum BossAttackType { LaserProjectileAttack, GroundLightingAttack, ProjectileAttack,NormalAttack,SummonEnemy };
+public enum BossAttackType { LaserProjectileAttack, GroundLightingAttack,NormalAttack,SummonEnemy };
 public class BossAttackState : State<EnemyController>
 {
     /*
@@ -34,7 +34,7 @@ public class BossAttackState : State<EnemyController>
         new AttackData{ type = BossAttackType.NormalAttack, weight = 1f, repeatCount = 0 },
         new AttackData{ type = BossAttackType.GroundLightingAttack, weight = 1f, repeatCount = 0 },
         new AttackData{ type = BossAttackType.LaserProjectileAttack, weight = 1f, repeatCount = 0 },
-        new AttackData{ type = BossAttackType.ProjectileAttack, weight = 1f, repeatCount = 0 },
+       // new AttackData{ type = BossAttackType.ProjectileAttack, weight = 1f, repeatCount = 0 },
     };
     [SerializeField] float attackDistance = 1.2f;
    // [SerializeField] public GameObject attackHintVFX;
@@ -69,44 +69,47 @@ public class BossAttackState : State<EnemyController>
 
     public BossAttackType GetNextAttack()
     {
-        // Apply penalty for repeated attacks
-        List<AttackData> currentWeights = attacks.Select(a =>
-        {
-            var copy = a;
-            if (copy.repeatCount >= maxRepeat)
-                copy.weight *= penaltyMultiplier;
-            return copy;
-        }).ToList();
+        //// Apply penalty for repeated attacks
+        //List<AttackData> currentWeights = attacks.Select(a =>
+        //{
+        //    var copy = a;
+        //    if (copy.repeatCount >= maxRepeat)
+        //        copy.weight *= penaltyMultiplier;
+        //    return copy;
+        //}).ToList();
 
-        // Weighted random
-        float total = currentWeights.Sum(a => a.weight);
-        float rand = Random.value * total;
-        BossAttackType selected = BossAttackType.NormalAttack; // fallback
-        for (int i = 0; i < currentWeights.Count; i++)
-        {
-            rand -= currentWeights[i].weight;
-            if (rand <= 0f)
-            {
-                selected = currentWeights[i].type;
-                break;
-            }
-        }
+        //// Weighted random
+        //float total = currentWeights.Sum(a => a.weight);
+        //float rand = Random.value * total;
+        //BossAttackType selected = BossAttackType.NormalAttack; // fallback
+        //for (int i = 0; i < currentWeights.Count; i++)
+        //{
+        //    rand -= currentWeights[i].weight;
+        //    if (rand <= 0f)
+        //    {
+        //        selected = currentWeights[i].type;
+        //        break;
+        //    }
+        //}
 
-        // Update repeat counts (struct fix)
-        for (int i = 0; i < attacks.Count; i++)
-        {
-            var a = attacks[i];
-            if (a.type == selected)
-                a.repeatCount++;
-            else
-                a.repeatCount = 0;
-            attacks[i] = a;
-        }
+        //// Update repeat counts (struct fix)
+        //for (int i = 0; i < attacks.Count; i++)
+        //{
+        //    var a = attacks[i];
+        //    if (a.type == selected)
+        //        a.repeatCount++;
+        //    else
+        //        a.repeatCount = 0;
+        //    attacks[i] = a;
+        //}
 
-        // --- Debug log ---
-        Debug.Log($"Boss selected attack: {selected} | Weights: {string.Join(", ", attacks.Select(a => $"{a.type}:{a.weight}"))} | Repeat counts: {string.Join(", ", attacks.Select(a => $"{a.type}:{a.repeatCount}"))}");
+        //// --- Debug log ---
+        //Debug.Log($"Boss selected attack: {selected} | Weights: {string.Join(", ", attacks.Select(a => $"{a.type}:{a.weight}"))} | Repeat counts: {string.Join(", ", attacks.Select(a => $"{a.type}:{a.repeatCount}"))}");
 
-        return selected;
+        //return selected;
+
+        int count = System.Enum.GetValues(typeof(BossAttackType)).Length;
+        return (BossAttackType)Random.Range(0, count);
     }
 
     IEnumerator Attack(int comboCount = 1)
@@ -155,7 +158,7 @@ public class BossAttackState : State<EnemyController>
     }
     IEnumerator ExecuteAttack(BossAttackType attackType)
     {
-        Debug.Log("inside execute attack boss atk state");
+        
         isAttacking = true;
         enemy.animator.applyRootMotion = false;
         //enemy.Fighter.TryToAttack(enemy.Target);
@@ -163,18 +166,19 @@ public class BossAttackState : State<EnemyController>
         BossFighter bossFighter =(BossFighter) enemy.Fighter;
 
         //attackType = BossAttackType.GroundLightingAttack;
-         //attackType = BossAttackType.NormalAttack;
-        attackType = BossAttackType.SummonEnemy;
+        //attackType = BossAttackType.NormalAttack;
+        //attackType = BossAttackType.LaserProjectileAttack;
+
+        int count = System.Enum.GetValues(typeof(BossAttackType)).Length;
+        attackType=(BossAttackType)Random.Range(0, count);
+        Debug.Log("inside execute attack boss , atk is:" + attackType);
         switch (attackType)
         {
             case BossAttackType.NormalAttack:
                 StartCoroutine(bossFighter.Attack(enemy.Target));
                 Debug.Log("NormalAttack");
                 break;
-            case BossAttackType.ProjectileAttack:
-                StartCoroutine(bossFighter.ProjectileAttack(enemy.Target));
-                Debug.Log("ProjectileAttack");
-                break;
+           
             case BossAttackType.GroundLightingAttack:
                 Debug.Log("inside GroundLightingAttack");
                 StartCoroutine(bossFighter.GroundLightingAttack(enemy.Target));

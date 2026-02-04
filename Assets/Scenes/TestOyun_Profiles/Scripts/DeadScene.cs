@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class DeadScene : MonoBehaviour
 {
@@ -28,9 +29,15 @@ public class DeadScene : MonoBehaviour
     {
         if (playerMeleeFighterClass.isDead && !hasDead)
         {
-            Debug.Log("PlayerDead");
-            OnDead();
-            hasDead = true;
+            playerMeleeFighterClass.OnDead += () =>
+            {
+              
+                Debug.Log("PlayerDead");
+
+                OnDead();
+                hasDead = true;
+            };
+           
         }
     }
 

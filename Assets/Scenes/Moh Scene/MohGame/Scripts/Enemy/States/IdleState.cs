@@ -18,6 +18,10 @@ public class IdleState : State<EnemyController>
        
         //enemy.Target = enemy.FindTarget();
         enemy.Target = enemy.Player;
+        if(enemy.Target==null)
+        {
+            enemy.Target = enemy.FindTarget();
+        }
         if (enemy.Target != null)
         {
             if (enemy.enemyType == EnemyType.Ranged)
