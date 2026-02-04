@@ -61,9 +61,13 @@ public class EnemyManager : MonoBehaviour
 
                 if (attackingEnemy != null && attackingEnemy.OnSummonComplete)
                 {
-                    
+                    Debug.Log("   if (attackingEnemy != null && attackingEnemy.OnSummonComplete) is true");
                     attackingEnemy.ChangeState(EnemyStates.Attack);
                     notAttackingTimer = Random.Range(timeRangeBetweenAttacks.x, timeRangeBetweenAttacks.y);
+                }
+                else
+                {
+                    Debug.Log("   if (attackingEnemy != null && attackingEnemy.OnSummonComplete) is false");
                 }
 
             }

@@ -22,7 +22,7 @@ public class RangeFighter : FighterBase
     {
         return true; //can always attack
     }
-     public override void TryToAttack(FighterBase target = null)
+    public override void TryToAttack(FighterBase target = null)
     {
         if (!InAction)
         {
@@ -31,98 +31,162 @@ public class RangeFighter : FighterBase
             StartCoroutine(Attack(target));
 
         }
+        else
+        {
+            Debug.Log("inside range fighter TryToAttack !action is false");
+        }
       
     }
-
     public override IEnumerator Attack(FighterBase target = null)
     {
-        Debug.Log("inside range fighter attack func");
+        Debug.Log("<color=cyan>[Attack] Start</color>");
+
+        Vector3 originalPos = transform.position;
         attackState = AttackStates.Windup;
+        InAction = true;
 
-
-
-        //get direction to player from current enemy
+        animator.applyRootMotion = true;
+        animator.speed = 1f;
 
         Vector3 targetDirection = target.transform.position - transform.position;
-        targetDirection.y = 0f; // keep horizontal
-        targetDirection.Normalize(); // ✅ normalize after
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+       targetDirection.y = 0f;
+       targetDirection.Normalize();
+       Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
-        animator.CrossFade(attacks[0].AnimName, 0.2f, 1);
+        animator.CrossFade(attacks[comboCount].AnimName, 0.2f, 1);
         yield return null;
 
-        var animState = animator.GetCurrentAnimatorStateInfo(1);
-        float timer = 0f;
+        AnimatorStateInfo animState = animator.GetCurrentAnimatorStateInfo(1);
 
-        while (timer <= animState.length)
+      
+        float currentAnimSpeed = attacks[comboCount].WindupSpeed;
+        bool doOnce = false;
+
+        AttackStates lastState = attackState; // 👈 track state change
+
+        while (attackState != AttackStates.Idle)
         {
-           
-            InAction = true;
-            if (attackState != AttackStates.Cooldown)
+            if (attackState != AttackStates.Idle)
             {
                 // Smoothly rotate toward the target direction every frame
                 transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 targetRotation,
-                10f * Time.deltaTime // adjust rotation speed
+                50f * Time.deltaTime // adjust rotation speed
             );
 
-            }
-
-            timer += Time.deltaTime;
-            float normalizedTime = timer / animState.length;
-
-            if (attackState == AttackStates.Windup)
-            {
-                if (normalizedTime >= attacks[0].ImpactStartTime)
+                // ---- Log state change only once ----
+                if (attackState != lastState)
                 {
-                    attackState = AttackStates.Impact;
-                    //swordCollider.enabled = true;
-
-
+                    Debug.Log($"<color=yellow>[Attack] State → {attackState}</color>");
+                    lastState = attackState;
                 }
-            }
-            else if (attackState == AttackStates.Impact)
-            {
-                if (normalizedTime >= attacks[0].ImpactEndTime)
+
+                if (attackState != AttackStates.Cooldown)
                 {
-                    attackState = AttackStates.Cooldown;
-                    //swordCollider.enabled = false;
-
-
-                    //slashEffect.GetCalculatedSlashRotation(animator,);
-                    //Spawn projectile VFX
-                    spawnProjectiles.SpawnVFX(targetDirection);
-
+                    transform.rotation = Quaternion.Slerp(
+                        transform.rotation,
+                        targetRotation,
+                        10f * Time.deltaTime
+                    );
                 }
+
+
+
+                // =========================
+                //          WINDUP
+                // =========================
+                if (attackState == AttackStates.Windup)
+                {
+                    currentAnimSpeed = attacks[comboCount].WindupSpeed;
+                    animator.SetFloat("AttackAnimSpeed", currentAnimSpeed);
+                }
+
+                // =========================
+                //          IMPACT
+                // =========================
+                else if (attackState == AttackStates.Impact)
+                {
+                    if (!doOnce)
+                    {
+                        doOnce = true;
+
+                        currentAnimSpeed = attacks[comboCount].ImpactSpeed;
+                        animator.SetFloat("AttackAnimSpeed", currentAnimSpeed);
+
+                        Debug.Log("<color=red>[Attack] Impact → Spawn VFX</color>");
+                        spawnProjectiles.SpawnVFX(targetDirection);
+                    }
+                }
+
+                // =========================
+                //         COOLDOWN
+                // =========================
+                else if (attackState == AttackStates.Cooldown)
+                {
+                    currentAnimSpeed = attacks[comboCount].CooldownSpeed;
+                    animator.SetFloat("AttackAnimSpeed", currentAnimSpeed);
+                }
+
+                yield return null;
             }
-            else if (attackState == AttackStates.Cooldown)
-            {
-               
-                //has bug
-                //cannot force cancel animation directly
-                ////chara can move after cooldown state
-                //if (input.move != Vector2.zero)
-                //{
-                //    attackState = AttackStates.Idle;
-                //    comboCount = 0;
-                //    InAction = false;
-                //    //cancel the current animation and go back to locomotion
 
-                //    yield break;
-                //}
-
-            }
-
-            yield return null;
+            InAction = false;
+            Debug.Log("<color=green>[Attack] End → Back to Idle</color>");
         }
-        float waitTimer = Random.Range(attackRandomTimer.x, attackRandomTimer.y);
-        yield return new WaitForSeconds(waitTimer);
-        attackState = AttackStates.Idle;
-      
-        InAction = false;
-
     }
+
+    //public override IEnumerator Attack(FighterBase target = null)
+    //{
+    //    Debug.Log("<color=cyan>[Attack] Enter RangeFighter Attack</color>");
+    //    attackState = AttackStates.Windup;
+
+    //    Vector3 targetDirection = target.transform.position - transform.position;
+    //    targetDirection.y = 0f;
+    //    targetDirection.Normalize();
+    //    Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
+    //    animator.CrossFade("attack01", 0.2f, 1);
+    //    animator.speed = 1f;
+    //    yield return null;
+
+    //    while (attackState != AttackStates.Idle)
+    //    {
+    //        InAction = true;
+
+    //        if (attackState != AttackStates.Cooldown)
+    //        {
+    //            transform.rotation = Quaternion.Slerp(
+    //                transform.rotation,
+    //                targetRotation,
+    //                10f * Time.deltaTime
+    //            );
+    //        }
+
+    //        if (attackState == AttackStates.Windup)
+    //        {
+    //            Debug.Log("<color=yellow>[Attack] Windup</color>");
+    //        }
+    //        else if (attackState == AttackStates.Impact)
+    //        {
+    //            Debug.Log("<color=red>[Attack] Impact → Spawn VFX</color>");
+    //            spawnProjectiles.SpawnVFX(targetDirection);
+    //        }
+    //        else if (attackState == AttackStates.Cooldown)
+    //        {
+    //            Debug.Log("<color=green>[Attack] Cooldown</color>");
+    //        }
+
+    //        yield return null;
+    //    }
+
+    //    Debug.Log("<color=orange>[Attack] Finished → Waiting Random Time</color>");
+    //    float waitTimer = Random.Range(attackRandomTimer.x, attackRandomTimer.y);
+    //    yield return new WaitForSeconds(waitTimer);
+
+    //    InAction = false;
+    //    Debug.Log("<color=cyan>[Attack] Back to Idle</color>");
+    //}
 
     public override bool ShouldEndRetreat(float distanceToTarget)
     {
