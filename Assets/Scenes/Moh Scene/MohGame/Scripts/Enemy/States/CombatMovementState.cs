@@ -14,6 +14,8 @@ public class CombatMovementState : State<EnemyController>
     [SerializeField] Vector2 CirclingTimeRange = new Vector2(5, 7);
     int circlingDir = 1;
 
+    public AudioClip[] FootstepAudioClips;
+
     EnemyController enemy; 
     AICombatStates state;
 
@@ -182,5 +184,21 @@ public class CombatMovementState : State<EnemyController>
     {
         
         enemy.CombatMovementTimer = 0;
+    }
+
+
+    private void OnFootstep(AnimationEvent animationEvent)
+    {
+
+        if (animationEvent.animatorClipInfo.weight > 0.5f)
+        {
+            if (FootstepAudioClips.Length > 0)
+            {
+                SoundFXManager.instance.PlayRandomSoundFXClip(FootstepAudioClips, transform, 0.2f, new Vector2(0.8f, 1.1f));
+
+
+
+            }
+        }
     }
 }

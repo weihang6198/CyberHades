@@ -299,7 +299,6 @@ namespace StarterAssets
             // move the player
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-
             // update animator if using character
             if (_hasAnimator)
             {
@@ -410,8 +409,10 @@ namespace StarterAssets
             {
                 if (FootstepAudioClips.Length > 0)
                 {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                    SoundFXManager.instance.PlayRandomSoundFXClip(FootstepAudioClips, transform, 0.2f, new Vector2(0.8f, 1.1f));
+
+
+
                 }
             }
         }

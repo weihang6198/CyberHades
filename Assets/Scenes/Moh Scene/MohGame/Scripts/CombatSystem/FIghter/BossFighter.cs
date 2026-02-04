@@ -31,6 +31,9 @@ public class BossFighter : FighterBase
     [SerializeField] SphereCollider meleeAttackCollider;
     [SerializeField] public GameObject groundLightingVFX;
     [SerializeField] public LayerMask layerMaskLightingGround;
+    [SerializeField] private AudioClip[] clawWhooshAudioClips;
+    [SerializeField][Range(0,2)] private float pitchRangeMin ;
+    [SerializeField][Range(0,2)] private float pitchRangeMax ;
 
     protected override void Awake()
     {
@@ -453,8 +456,8 @@ public class BossFighter : FighterBase
     {
         Debug.Log("====inside spawn slash effect boss fighter=====");
         Transform hand = animator.GetBoneTransform(HumanBodyBones.RightHand);
-       // hand.rotation = transform.rotation;
-
+        // hand.rotation = transform.rotation;
+        SoundFXManager.instance.PlayRandomSoundFXClip(clawWhooshAudioClips, transform, 0.6f, new Vector2(pitchRangeMin, pitchRangeMax));
         slashEffect.SpawnClawEffect(hand);
     }
 

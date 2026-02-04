@@ -47,7 +47,7 @@ public class EnemyController     : MonoBehaviour
     [SerializeField] public Color HitFresnelColor;
     [SerializeField] public float HitFresnelIntensity;
     public bool OnSummonComplete = false;
-
+    [SerializeField] private AudioClip summonAudioClip;
     //behavior trees
     //BehaviorTree tree;
     //[SerializeField] List<Transform> wayPoints = new();
@@ -298,7 +298,7 @@ public class EnemyController     : MonoBehaviour
                             .GetComponentInChildren<ParticleSystem>();
 
         summonVFX.Play();
-
+        SoundFXManager.instance.PlaySoundFXClip(summonAudioClip, transform, 0.3f, new Vector2(1.2f, 1.1f));
         float lifeTime = summonVFX.main.duration;
         Debug.Log("life time is" + lifeTime);
         Destroy(summonVFX.gameObject, lifeTime);

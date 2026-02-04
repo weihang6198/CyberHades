@@ -1542,6 +1542,7 @@ MonoBehaviour:
   adjustDistanceThreshold: 1
   IdleTimeRange: {x: 1, y: 2}
   CirclingTimeRange: {x: 5, y: 7}
+  FootstepAudioClips: []
 --- !u!114 &158548633056726164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1600,6 +1601,7 @@ MonoBehaviour:
   HitFresnelColor: {r: 1, g: 0, b: 0, a: 0}
   HitFresnelIntensity: 2
   OnSummonComplete: 0
+  summonAudioClip: {fileID: 8300000, guid: 8eb3c572c9aed784794c4fc59dcf6c57, type: 3}
 --- !u!195 &3951665538085770364
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1742,6 +1744,11 @@ MonoBehaviour:
   hitStopDuration: 0.05
   hitBloodVFX: {fileID: 6253807965709964959, guid: 3a93d9fcf7da0244a8afb4fec0f86cbc, type: 3}
   thunderVFX: {fileID: 0}
+  hitSoundClips:
+  - {fileID: 8300000, guid: 8f0dc5c399335ae4fb8218b94adc38ac, type: 3}
+  - {fileID: 8300000, guid: d17b4ee8975540f4c8701c24cbd34119, type: 3}
+  - {fileID: 8300000, guid: abd8dfb17b30e994598c26d63cae3a6a, type: 3}
+  - {fileID: 8300000, guid: 809f0ec67dde5224fafea003d8171bcd, type: 3}
   attackState: 0
   consecutiveHitsTaken: 0
   maxConsecutiveHitsAllowed: 2
@@ -1750,6 +1757,10 @@ MonoBehaviour:
   isDashing: 0
   dashWaitPercent: 0.7
   dashCooldown: 1.5
+  fireflameAudioClips:
+  - {fileID: 8300000, guid: 6bfd7ea93d234a9449cf717648d2e53c, type: 3}
+  - {fileID: 8300000, guid: 3d3e3efde72eb1142b18b9c788dc5ecc, type: 3}
+  - {fileID: 8300000, guid: 9674bafbed061f940824095ce2eb33c0, type: 3}
   attackRandomTimer: {x: 1, y: 2}
 --- !u!114 &843212355637950488
 MonoBehaviour:

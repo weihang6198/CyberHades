@@ -8,7 +8,10 @@ using UnityEngine.Windows;
 
 public class RangeFighter : FighterBase
 {
-    
+
+    [SerializeField] private AudioClip[] fireflameAudioClips;
+
+
     SpawnProjectiles spawnProjectiles;
    public Vector2 attackRandomTimer = new Vector2(0.5f, 1.2f);
     protected override void Awake()
@@ -116,6 +119,10 @@ public class RangeFighter : FighterBase
 
                         Debug.Log("<color=red>[Attack] Impact → Spawn VFX</color>");
                         spawnProjectiles.SpawnVFX(targetDirection);
+
+                        SoundFXManager.instance.PlayRandomSoundFXClip(fireflameAudioClips, transform, 0.8f, new Vector2(0.7f, 0.8f));
+
+
                     }
                 }
 

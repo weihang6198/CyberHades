@@ -32,6 +32,7 @@ public abstract class FighterBase : MonoBehaviour
 
     [field:SerializeField] public GameObject hitBloodVFX;
     [field:SerializeField] public GameObject thunderVFX;
+    [SerializeField] public AudioClip[] hitSoundClips;
 
     //delegate
     public event Action<FighterBase,bool > OnGotHit;
@@ -124,6 +125,7 @@ public abstract class FighterBase : MonoBehaviour
             targetPos = startPos + attackDir * knockbackDist;
 
             PlayVFXEffect(hitBloodVFX, transform.localPosition += new Vector3(0, Random.Range(0.3f, 1.0f), 0));
+            SoundFXManager.instance.PlayRandomSoundFXClip(hitSoundClips, transform, 0.7f, new Vector2(0.9f, 1.1f));
 
 
         }

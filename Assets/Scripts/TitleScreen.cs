@@ -24,7 +24,7 @@ public class TitleScreen : MonoBehaviour
     public float ScaleSpeed = 0.5f;
     public float transitionDuration = 2.0f;
     public float fadeDuration = 10.0f;
-
+    [SerializeField] private AudioClip clickSoundClip;
     public Image LoadingBarFill;
     TextMeshProUGUI TextMP;
 
@@ -57,6 +57,11 @@ public class TitleScreen : MonoBehaviour
             }
 
             Debug.Log("esc key has down");
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            SoundFXManager.instance.PlaySoundFXClip(clickSoundClip, transform, 1f, new Vector2(0.9f,1.1f));
         }
     }
 

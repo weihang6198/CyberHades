@@ -25,6 +25,9 @@ public class MeleeFighter : FighterBase
      [SerializeField] BoxCollider rightHand;
      [SerializeField] float cameraShakeDuration;
     [SerializeField] float cameraShakeStrength;
+    [SerializeField] private AudioClip[] whooshSoundClips;
+    [SerializeField] private AudioClip dashSoundClips;
+
 
     bool showDebugSphere = false;
     Vector3 debugPos;
@@ -188,9 +191,9 @@ public class MeleeFighter : FighterBase
                 {
                     SpawnSlashEffect();
                   
-                   
-                }
+                SoundFXManager.instance.PlayRandomSoundFXClip(whooshSoundClips, transform, 0.6f, new Vector2(0.9f, 1.1f));
 
+                }
                 // attackState = AttackStates.Cooldown;
             }
 
@@ -303,10 +306,14 @@ public class MeleeFighter : FighterBase
         yield return null;
 
         if (meshTrailEffect != null) meshTrailEffect.Execute();
-        if (dashEffect != null) dashEffect.Execute(
-            animator.GetBoneTransform(HumanBodyBones.Hips).position,
+        if (dashEffect != null)
+        {
+            dashEffect.Execute(
+            animator.GetBoneTransform(HumanBodyBones.Chest).position,
             new Vector3(0, 0, 0.3f)
         );
+            SoundFXManager.instance.PlaySoundFXClip(dashSoundClips,transform,0.6f,new Vector2(0.7f,0.9f));
+        }
 
         // 👉 DASH MOVEMENT OCCURS DURING THE ACTIVE FRAMES
         yield return StartCoroutine(MoveCharacter(

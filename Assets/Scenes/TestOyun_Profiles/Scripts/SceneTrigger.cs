@@ -21,6 +21,8 @@ public class SceneTrigger : MonoBehaviour
     [SerializeField] public Transform player;
     [SerializeField]  VictoryMenu victoryMenuClass;
     [SerializeField]  ScreenFadeIn screenFadeClass;
+    [SerializeField] private AudioClip fireAudioClips;
+
     bool isVFXCreated = false;
 
     private void Awake()
@@ -66,6 +68,7 @@ public class SceneTrigger : MonoBehaviour
             {
                 GameObject fireVFX = Instantiate(FireVFX, item.transform.position, Quaternion.identity);
                 item.gameObject.SetActive(true);
+                SoundFXManager.instance.PlaySoundFXClip(fireAudioClips, transform, 1.0f, new Vector2(0.7f, 0.8f));
             }
             Debug.Log("StageClear");
             isVFXCreated = true;

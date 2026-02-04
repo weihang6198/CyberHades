@@ -6667,6 +6667,7 @@ GameObject:
   - component: {fileID: 4681779351084248046}
   - component: {fileID: 6348239719107178577}
   - component: {fileID: 7725856324530721979}
+  - component: {fileID: 4302315796203394059}
   m_Layer: 8
   m_Name: MeleeEnemy
   m_TagString: Untagged
@@ -6682,7 +6683,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2879706850700422810}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.67486995, z: -0, w: 0.7379367}
+  m_LocalRotation: {x: 0, y: -0.67486936, z: 0, w: 0.73793733}
   m_LocalPosition: {x: 9.36, y: 0, z: -0.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6736,6 +6737,11 @@ MonoBehaviour:
   hitStopDuration: 0.05
   hitBloodVFX: {fileID: 6253807965709964959, guid: 3a93d9fcf7da0244a8afb4fec0f86cbc, type: 3}
   thunderVFX: {fileID: 0}
+  hitSoundClips:
+  - {fileID: 8300000, guid: 8f0dc5c399335ae4fb8218b94adc38ac, type: 3}
+  - {fileID: 8300000, guid: d17b4ee8975540f4c8701c24cbd34119, type: 3}
+  - {fileID: 8300000, guid: abd8dfb17b30e994598c26d63cae3a6a, type: 3}
+  - {fileID: 8300000, guid: 809f0ec67dde5224fafea003d8171bcd, type: 3}
   attackState: 0
   consecutiveHitsTaken: 0
   maxConsecutiveHitsAllowed: 2
@@ -6745,7 +6751,7 @@ MonoBehaviour:
   dashWaitPercent: 0.7
   dashCooldown: 1.5
   sword: {fileID: 2875193995873281745}
-  slashEffect: {fileID: 0}
+  slashEffect: {fileID: 4302315796203394059}
   meshTrailEffect: {fileID: 0}
   dashEffect: {fileID: 0}
   dashDistance: 4
@@ -6756,6 +6762,10 @@ MonoBehaviour:
   rightHand: {fileID: 0}
   cameraShakeDuration: 0
   cameraShakeStrength: 0
+  whooshSoundClips:
+  - {fileID: 8300000, guid: d0374168735eb7f4b93b2de63e95c29c, type: 3}
+  - {fileID: 8300000, guid: c1984d42f2d4af1499fe8fa0df157d6a, type: 3}
+  - {fileID: 8300000, guid: 44dc31cc04471a942b90cb8db484d0f6, type: 3}
   mainCamera: {fileID: 0}
   cameraShake: {fileID: 0}
   canBlock: 1
@@ -6777,6 +6787,17 @@ MonoBehaviour:
   adjustDistanceThreshold: 1
   IdleTimeRange: {x: 1, y: 2}
   CirclingTimeRange: {x: 5, y: 7}
+  FootstepAudioClips:
+  - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
+  - {fileID: 8300000, guid: 85016e0f2b01da248b9663dd49a161b0, type: 3}
+  - {fileID: 8300000, guid: 186de84b3207156479abe98f4958fed0, type: 3}
+  - {fileID: 8300000, guid: 1a91fcd19acf1e54bba0945d9f390849, type: 3}
+  - {fileID: 8300000, guid: 14e8a8d2158bec840b56c54f5266e692, type: 3}
+  - {fileID: 8300000, guid: 29841e7d5bbfb5b419c9ad16ca8bc4c1, type: 3}
+  - {fileID: 8300000, guid: dd1af302b8902684d9381de1f2d3a5af, type: 3}
+  - {fileID: 8300000, guid: 67c8b33e424ccdc4486edf538ab91c5a, type: 3}
+  - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
+  - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
 --- !u!114 &1173813418954866748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6844,6 +6865,7 @@ MonoBehaviour:
   HitFresnelColor: {r: 1, g: 0, b: 0.10514355, a: 0}
   HitFresnelIntensity: 6
   OnSummonComplete: 0
+  summonAudioClip: {fileID: 8300000, guid: 8eb3c572c9aed784794c4fc59dcf6c57, type: 3}
 --- !u!195 &528604345497854452
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6980,6 +7002,21 @@ MonoBehaviour:
   EnemyhpBarClass: {fileID: 6348239719107178577}
   canvas: {fileID: 3398247290956000304}
   VisibilityDuration: 2
+--- !u!114 &4302315796203394059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2879706850700422810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed3a4b1246b9e64b94ab33820e0d42b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Slash: {fileID: 0}
+  SlashVFX: {fileID: 1366617649822971316, guid: a2e072de4f4db48439e2883b4f3fde88, type: 3}
+  ClawVFX: {fileID: 0}
 --- !u!1 &2883288880262018777
 GameObject:
   m_ObjectHideFlags: 0

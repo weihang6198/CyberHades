@@ -7,7 +7,7 @@ public enum BossAICombatStates { Idle, Chase, Circling }
 
 public class BossCombatMovementState : State<EnemyController>
 {
-   
+
 
     [SerializeField] float distanceToStand = 3f;
     [SerializeField] float circlingSpeed = 20f;
@@ -16,7 +16,9 @@ public class BossCombatMovementState : State<EnemyController>
 
     [SerializeField] Vector2 IdleTimeRange = new Vector2(1, 2);
     [SerializeField] Vector2 CirclingTimeRange = new Vector2(5, 7);
+
     int circlingDir = 1;
+    public AudioClip[] FootstepAudioClips;
 
     EnemyController enemy;
     AICombatStates state;
@@ -58,9 +60,9 @@ public class BossCombatMovementState : State<EnemyController>
         if (Vector3.Distance(enemy.Target.transform.position, enemy.transform.position) > distanceToStand + adjustDistanceThreshold)
         {
             StartChase();
-           
+
         }
-           
+
 
         if (state == AICombatStates.Idle)
         {
@@ -74,7 +76,7 @@ public class BossCombatMovementState : State<EnemyController>
                 }
                 else
                 {
-                    Debug.Log("changing to circling from boss combatmovement state"); 
+                    Debug.Log("changing to circling from boss combatmovement state");
                     StartCircling();
                 }
             }
@@ -118,7 +120,7 @@ public class BossCombatMovementState : State<EnemyController>
     void StartChase()
     {
         state = AICombatStates.Chase;
-       // Debug.Log("chasing player");
+        // Debug.Log("chasing player");
         //this is for tutorial, this game doesnt have combat mode
 
         enemy.animator.SetBool("CombatMode", false);
@@ -155,11 +157,26 @@ public class BossCombatMovementState : State<EnemyController>
 
     }
 
-   
+
 
     public override void Exit()
     {
 
         enemy.CombatMovementTimer = 0;
+    }
+
+    private void OnFootstep(AnimationEvent animationEvent)
+    {
+
+        if (animationEvent.animatorClipInfo.weight > 0.5f)
+        {
+            if (FootstepAudioClips.Length > 0)
+            {
+                SoundFXManager.instance.PlayRandomSoundFXClip(FootstepAudioClips, transform, 0.2f, new Vector2(0.4f, 0.5f));
+
+
+
+            }
+        }
     }
 }
