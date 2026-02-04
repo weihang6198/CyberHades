@@ -14,37 +14,43 @@ public class DeadScene : MonoBehaviour
     public Volume GlobalVol;
     public CanvasGroup DeadSceneCanvasGroup;
     public CanvasGroup InGameUICanvasGroup;
-    public CanvasGroup DeadUICanvasGroup;
+    public PauseMenu PauseMenuClass;
+    //public CanvasGroup DeadUICanvasGroup;
     public CanvasGroup DeadImageCanvasGroup;
     public AnimationCurve DeadImageAnimationCurve;
     bool hasDead = false;
+    [SerializeField] float waitDuration = 5;
     // Start is called before the first frame update
     void Start()
     {
-        
+      //  if (playerMeleeFighterClass.isDead  )
+        {
+
+            playerMeleeFighterClass.OnDead += () =>
+            {
+               
+                Debug.Log("PlayerDead");
+
+                OnDead();
+
+            };
+
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerMeleeFighterClass.isDead && !hasDead)
-        {
-            playerMeleeFighterClass.OnDead += () =>
-            {
-              
-                Debug.Log("PlayerDead");
-
-                OnDead();
-                hasDead = true;
-            };
-           
-        }
+       
     }
 
     void OnDead()
     {
-        if (GlobalVol.profile.TryGet<ColorAdjustments>(out var ca))
+        bool doOnce = false;
+        if (GlobalVol.profile.TryGet<ColorAdjustments>(out var ca) &&!doOnce)
         {
+            doOnce = true;
+            Debug.Log("calling FadeFilterByColorAdj");
            StartCoroutine(FadeFilterByColorAdj(ca, 0, -10, 2f));
 
         }
@@ -53,16 +59,17 @@ public class DeadScene : MonoBehaviour
             Debug.Log("CantGet ColorAdjustments");
         }
 
-        if (DeadUICanvasGroup != null)
-        {
-            DeadUICanvasGroup.gameObject.SetActive(true);
-            StartCoroutine(FadeFilterByCanvas(DeadUICanvasGroup, 0, 1, 0.5f, 5.0f));
-        }
+        //if (DeadUICanvasGroup != null)
+        //{
+        //    DeadUICanvasGroup.gameObject.SetActive(true);
+        //    StartCoroutine(FadeFilterByCanvas(DeadUICanvasGroup, 0, 1, 0.5f, 5.0f));
+        //}
 
     }
 
 
-    private IEnumerator FadeFilterByColorAdj(ColorAdjustments adjust,float from, float to, float duration)
+
+    private IEnumerator FadeFilterByColorAdj(ColorAdjustments adjust, float from, float to, float duration)
     {
         float elapsedTime = 0f;
 
@@ -81,6 +88,10 @@ public class DeadScene : MonoBehaviour
         }
 
         adjust.postExposure.value = to;
+
+        yield return new WaitForSecondsRealtime(waitDuration);
+        Debug.Log("waitDuration is over now going to call my bro");
+        PauseMenuClass.OnExitToTitle();
     }
 
     private IEnumerator FadeFilterByCanvas(CanvasGroup adjust, float from, float to, float duration ,float waitForSeconds = 0.0f)

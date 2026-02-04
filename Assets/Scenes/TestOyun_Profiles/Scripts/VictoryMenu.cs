@@ -14,7 +14,8 @@ public class VictoryMenu : MonoBehaviour
 
     private ColorAdjustments colorAdjustments;
     private ColorParameter blackColor = new ColorParameter(Color.black);
-
+    [SerializeField] float waitDuration = 3.0f;
+    [SerializeField] PauseMenu pauseMenuClass;
     public bool isVectory = false;
     void Update()
     {
@@ -94,5 +95,9 @@ public class VictoryMenu : MonoBehaviour
         }
 
         adjust.alpha = to;
+
+        yield return new WaitForSecondsRealtime(waitDuration);
+        Debug.Log("waitDuration is over now going to call my bro");
+        pauseMenuClass.OnExitToTitle();
     }
 }

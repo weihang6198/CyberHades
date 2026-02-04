@@ -22,7 +22,7 @@ public class PauseMenu : MonoBehaviour
     TextMeshProUGUI TextMP;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             TogglePause(!IsPaused);
         }
@@ -48,9 +48,12 @@ public class PauseMenu : MonoBehaviour
     }
     public void OnExitToTitle()
     {
-        if (PauseVolume.TryGet(out colorAdjustments))
+        bool doOnce = false;
+        if (PauseVolume.TryGet(out colorAdjustments) &&!doOnce)
         {
-            StartCoroutine(FadeOutAndLoadScene(0, 0.5f));
+            doOnce = true;
+            Debug.Log("inside on exit to title");
+            StartCoroutine(FadeOutAndLoadScene(0, 0.5f));   
         
         }
         else
@@ -102,7 +105,7 @@ public class PauseMenu : MonoBehaviour
         {
             yield return null;
         }
-
+        Debug.Log("allowSceneActivation is true");
         operation.allowSceneActivation = true;
 
     }

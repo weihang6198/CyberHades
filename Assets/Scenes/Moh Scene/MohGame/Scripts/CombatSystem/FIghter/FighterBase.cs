@@ -321,7 +321,7 @@ public abstract class FighterBase : MonoBehaviour
     {
         Debug.Log("trigger OnDeathAnimationFinished ");
         OnDead?.Invoke();
-        OnVictory?.Invoke();
+        //OnVictory?.Invoke();
     }
 
     public void PlayVFXEffect(GameObject VFX,Vector3 position)
