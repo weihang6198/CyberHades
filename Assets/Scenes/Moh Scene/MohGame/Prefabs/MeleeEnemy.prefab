@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnSummonVFX: {fileID: 7968734654303163148, guid: 0e7d222c95f43a747b00a56e300cc836, type: 3}
+  Player: {fileID: 0}
   activateEnemy: 1
   canAttack: 1
   <Fov>k__BackingField: 180
@@ -333,7 +334,7 @@ MonoBehaviour:
   hpBarFillClass: {fileID: 0}
   EnemyhpBarClass: {fileID: 7675105105338824025}
   canvas: {fileID: 2140044241122158904}
-  VisibilityDuration: 2
+  VisibilityDuration: 3
 --- !u!1 &1548311085679223769
 GameObject:
   m_ObjectHideFlags: 0

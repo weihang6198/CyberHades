@@ -7365,7 +7365,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ECC Computer College 2025
+  m_text: ECC Computer College 2026
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 94f6367985eefa04c88d7dde1fcf33bf, type: 2}
   m_sharedMaterial: {fileID: -3507673389668448278, guid: 94f6367985eefa04c88d7dde1fcf33bf, type: 2}
