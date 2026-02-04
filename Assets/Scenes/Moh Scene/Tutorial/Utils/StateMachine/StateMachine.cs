@@ -18,7 +18,7 @@ public class StateMachine<T>
       
         CurrentState?.Exit(); 
         CurrentState=newState;
-       // Debug.Log("current state is:" + newState.name);
+        //Debug.Log("current state is:" + newState.name);
         CurrentState.Enter(_owner);
     }
 

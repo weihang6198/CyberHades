@@ -16,7 +16,8 @@ public class IdleState : State<EnemyController>
     public override void Execute()
     {
        
-        enemy.Target = enemy.FindTarget();
+        //enemy.Target = enemy.FindTarget();
+        enemy.Target = enemy.Player;
         if (enemy.Target != null)
         {
             if (enemy.enemyType == EnemyType.Ranged)
@@ -34,7 +35,7 @@ public class IdleState : State<EnemyController>
 
         }else
         {
-          //  Debug.Log("no target found in idle state");
+            Debug.Log("no target found in idle state");
         }
       
     }

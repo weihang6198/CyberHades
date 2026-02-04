@@ -80,7 +80,11 @@ public class CombatMovementState : State<EnemyController>
                 Debug.Log("Idle decision: " + (choice == 0 ? "Idle" : "Circling"));
 
                 if (choice == 0)
+                {
                     StartIdle();
+                    enemy.ChangeState(EnemyStates.Attack);
+                }
+                  
                 else
                     StartCircling();
             }

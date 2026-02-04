@@ -14,15 +14,16 @@ public enum EnemyStates { Idle, CombatMovement, Attack, RetreatAfterAttack,  Get
 public enum EnemyType { Melee, Ranged, Boss }
 public class EnemyController     : MonoBehaviour
 {
-
+ 
     [SerializeField]  public GameObject OnSummonVFX;
+    [SerializeField] public FighterBase Player;
     [SerializeField]public  bool activateEnemy = true;
     [field: SerializeField] public bool canAttack = true;
     [field: SerializeField] public float Fov { get;  set; } = 180f;
 
 
     public StateMachine<EnemyController> stateMachine { get;  set; }
-    public List<FighterBase> TargetsInRange { get;  set; } = new List<FighterBase>();
+    [SerializeField] public List<FighterBase> TargetsInRange { get;  set; } = new List<FighterBase>();
 
     public FighterBase Target { get; set; }
     public FighterBase Fighter { get; set; }
@@ -131,6 +132,11 @@ public class EnemyController     : MonoBehaviour
         RegisterMaterialsFromRenderer();
 
         StartCoroutine(OnSummonEffect());
+
+        if (Player != null)
+        {
+            Debug.Log("player exist inside range enemy controller");
+        }
         
     }
     public void ChangeState(EnemyStates state)
@@ -167,7 +173,7 @@ public class EnemyController     : MonoBehaviour
         ///////////////////
         if (!OnSummonComplete) return;
         if (canRunStateMachine) stateMachine.Execute();
-       // Debug.Log("Enemy State: " + stateMachine.CurrentState);
+        Debug.Log("Enemy State: " + stateMachine.CurrentState);
         // tree.Process(); 
 
         //v=dx/dt
