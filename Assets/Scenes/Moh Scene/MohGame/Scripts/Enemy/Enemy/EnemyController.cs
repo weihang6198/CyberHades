@@ -173,7 +173,7 @@ public class EnemyController     : MonoBehaviour
         ///////////////////
         if (!OnSummonComplete) return;
         if (canRunStateMachine) stateMachine.Execute();
-        Debug.Log("Enemy State: " + stateMachine.CurrentState);
+        //Debug.Log("Enemy State: " + stateMachine.CurrentState);
         // tree.Process(); 
 
         //v=dx/dt

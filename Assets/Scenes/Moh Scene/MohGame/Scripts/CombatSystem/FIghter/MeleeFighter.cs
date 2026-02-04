@@ -58,7 +58,7 @@ public class MeleeFighter : FighterBase
             if(swordCollider )
             {
                
-                Debug.Log("owner : "+ gameObject.name +"sword collider exist");
+              //  Debug.Log("owner : "+ gameObject.name +"sword collider exist");
             }
         }
     }
@@ -82,7 +82,7 @@ public class MeleeFighter : FighterBase
 
         float dist = Vector3.Distance(selfPos, targetPos);
 
-        Debug.Log("CanAttack | dist: " + dist + " | attackDistance: " + attackDistance);
+        //Debug.Log("CanAttack | dist: " + dist + " | attackDistance: " + attackDistance);
 
         return dist <= attackDistance;
     }

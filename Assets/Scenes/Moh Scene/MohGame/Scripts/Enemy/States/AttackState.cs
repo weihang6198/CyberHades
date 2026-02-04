@@ -31,28 +31,28 @@ public class AttackState: State<EnemyController>
         {
             if (enemy.Target)
             {
-                Debug.Log("Chasing target: " + enemy.Target.name);
+              //  Debug.Log("Chasing target: " + enemy.Target.name);
                 enemy.NavAgent.SetDestination(enemy.Target.transform.position);
             }
             else
             {
-                Debug.Log("No enemy target found");
+              //  Debug.Log("No enemy target found");
             }
         }
 
         if (enemy.Target)
         {
             bool canAttackRange = enemy.Fighter.CanAttack(enemy.Target.transform.position);
-            Debug.Log("CanAttack range check: " + canAttackRange);
+          //  Debug.Log("CanAttack range check: " + canAttackRange);
 
             if (canAttackRange)
             {
-                Debug.Log("enemy.canAttack: " + enemy.canAttack);
+              //  Debug.Log("enemy.canAttack: " + enemy.canAttack);
 
                 if (enemy.canAttack)
                 {
                     int attackIndex = Random.Range(0, enemy.Fighter.attacks.Count);
-                    Debug.Log("Start Attack, index: " + attackIndex);
+                   // Debug.Log("Start Attack, index: " + attackIndex);
 
                     StartCoroutine(Attack(attackIndex));
                 }
@@ -60,7 +60,7 @@ public class AttackState: State<EnemyController>
         }
         else
         {
-            Debug.Log("Skip attack: Target is null");
+          //  Debug.Log("Skip attack: Target is null");
         }
     }
 
