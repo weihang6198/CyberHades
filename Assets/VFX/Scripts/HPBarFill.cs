@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHPBar : MonoBehaviour
+public class HPBarFill : MonoBehaviour
 {
     public Material HPBarMat;
-    public MeleeFighter playerMeleeFighterClass;
+    public FighterBase FighterBaseClass;
     float MaxHP = 100f;
     float CurrentHP = 100f;
+    float PreviousHP = 100f;
 
     private float currentPercent;
     private float diffPercent;
@@ -16,6 +17,8 @@ public class PlayerHPBar : MonoBehaviour
     public float reduceSpeed = 2f;
     public float backgroundreduceSpeed = 0.2f;
 
+    public bool isHPChanged = false;
+
     void Start()
     {
         target = CurrentHP / MaxHP;
@@ -23,10 +26,11 @@ public class PlayerHPBar : MonoBehaviour
 
     void Update()
     {
-        if(playerMeleeFighterClass != null)
+        PreviousHP = CurrentHP;
+        if (FighterBaseClass != null)
         {
-            CurrentHP = playerMeleeFighterClass.health;
-            MaxHP = playerMeleeFighterClass.maxHealth;
+            CurrentHP = FighterBaseClass.health;
+            MaxHP = FighterBaseClass.maxHealth;
         }
 
         target = CurrentHP / MaxHP;
@@ -36,5 +40,7 @@ public class PlayerHPBar : MonoBehaviour
 
         diffPercent = Mathf.MoveTowards(diffPercent, target, Time.deltaTime * backgroundreduceSpeed);
         HPBarMat.SetFloat("_HPDifPercent", diffPercent);
+
+        isHPChanged = PreviousHP != CurrentHP ? true : false;
     }
 }

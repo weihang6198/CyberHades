@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DeadState : State<EnemyController>
 {
+    public bool isDead = false;
     public override void Enter(EnemyController owner)
     {
         Debug.Log("enter dead state of enemy");
@@ -17,7 +18,10 @@ public class DeadState : State<EnemyController>
         {
             Debug.Log("inside dead state invoke is triggered");
             owner.DeadEffect();
+            isDead = true;
+
         };
+
         //
 
     }

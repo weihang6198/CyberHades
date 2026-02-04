@@ -446,4 +446,6 @@ public class BossFighter : FighterBase
         slashEffect.SpawnClawEffect(hand);
     }
 
+  
+
 }

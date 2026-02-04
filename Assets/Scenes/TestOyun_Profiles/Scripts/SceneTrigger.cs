@@ -19,6 +19,7 @@ public class SceneTrigger : MonoBehaviour
     [SerializeField] public GameObject[] FireVFXs;
     [SerializeField] public GameObject FireVFX;
     [SerializeField] public Transform player;
+    [SerializeField]  VictoryMenu victoryMenuClass;
     bool isVFXCreated = false;
 
     private void Awake()
@@ -31,7 +32,7 @@ public class SceneTrigger : MonoBehaviour
     {
         OnStageClearVFX();
 
-        if (boxCollider.bounds.Contains(player.position) && isVFXCreated)
+        if (boxCollider.bounds.Contains(player.position) && isVFXCreated && !victoryMenuClass.isVectory)
         {
             //Debug.Log("player in bounds");
             SceneManager.instance.LoadSceneByID(SceneID);
