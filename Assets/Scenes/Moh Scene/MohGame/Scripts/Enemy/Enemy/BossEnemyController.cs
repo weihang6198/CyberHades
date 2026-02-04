@@ -76,7 +76,7 @@ public class BossEnemyController : EnemyController
         };
         RegisterMaterialsFromRenderer();
 
-        
+        OnSummonComplete = true; //enemy boss 
     }
 
     // Update is called once per frame

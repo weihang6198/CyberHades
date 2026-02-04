@@ -543,7 +543,7 @@ public class MeleeFighter : FighterBase
         {
             case AttackHitbox.Sword:
                 swordCollider.enabled = enabled;
-                Debug.Log($"<color=cyan>swordCollider hitbox: {enabled}</color>");
+               // Debug.Log($"<color=cyan>swordCollider hitbox: {enabled}</color>");
                 break;
             case AttackHitbox.LeftHand:
                 leftHand.enabled = enabled;

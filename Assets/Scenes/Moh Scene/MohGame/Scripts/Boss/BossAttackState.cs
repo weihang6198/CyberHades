@@ -163,8 +163,8 @@ public class BossAttackState : State<EnemyController>
         BossFighter bossFighter =(BossFighter) enemy.Fighter;
 
         //attackType = BossAttackType.GroundLightingAttack;
-         attackType = BossAttackType.NormalAttack;
-        //attackType = BossAttackType.SummonEnemy;
+         //attackType = BossAttackType.NormalAttack;
+        attackType = BossAttackType.SummonEnemy;
         switch (attackType)
         {
             case BossAttackType.NormalAttack:

@@ -59,8 +59,9 @@ public class EnemyManager : MonoBehaviour
                 //attack player
                 var attackingEnemy = SelectEnemyForAttack();
 
-                if (attackingEnemy != null)
+                if (attackingEnemy != null && attackingEnemy.OnSummonComplete)
                 {
+                    
                     attackingEnemy.ChangeState(EnemyStates.Attack);
                     notAttackingTimer = Random.Range(timeRangeBetweenAttacks.x, timeRangeBetweenAttacks.y);
                 }
