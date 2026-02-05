@@ -34,17 +34,22 @@ public class GettingHitState : State<EnemyController>
 
     IEnumerator GotToCombatMovement()
     {
+        Debug.Log("waiting for stun time in gettingHitState");
         yield return new WaitForSeconds(stunTime);
 
         if (!enemy.IsInState(EnemyStates.Dead))
         {
+
             if (!enemy.activateEnemy)
             {
+                Debug.Log("changing to idle state from GotToCombatMovement");
                 enemy.ChangeState(EnemyStates.Idle);
 
             }
             else
             {
+                
+                Debug.Log("changing to combat movement state from GotToCombatMovement");
                 enemy.ChangeState(EnemyStates.CombatMovement);
             }
              

@@ -49,6 +49,7 @@ public class BossAttackState : State<EnemyController>
         //change the enemy stopping distance closer to player when atking
         enemy.NavAgent.stoppingDistance = attackDistance;
         bossAttackType= GetNextAttack();
+        isAttacking = false;
         Debug.Log("enter boss attack state");
     }
 

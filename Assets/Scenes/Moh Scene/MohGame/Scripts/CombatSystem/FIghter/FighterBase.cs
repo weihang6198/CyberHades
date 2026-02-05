@@ -86,6 +86,7 @@ public abstract class FighterBase : MonoBehaviour
 
     IEnumerator PlayHitReaction(FighterBase attacker)
     {
+      
         SoundFXManager.instance.PlayRandomSoundFXClip(hitSoundClips, transform, 0.7f, new Vector2(0.9f, 1.1f));
         FighterBase target = attacker;
         
@@ -106,9 +107,9 @@ public abstract class FighterBase : MonoBehaviour
         displacementVector.y = 0;
         transform.rotation = Quaternion.LookRotation(displacementVector);
 
-        
+        //StopAllCoroutines();
 
-            // Play hit reaction on override layer 1
+        // Play hit reaction on override layer 1
         animator.CrossFadeInFixedTime("SwordImpact", 0.05f, 1, 0f);
 
         yield return StartCoroutine(HitStopCoroutine(hitStopDuration));

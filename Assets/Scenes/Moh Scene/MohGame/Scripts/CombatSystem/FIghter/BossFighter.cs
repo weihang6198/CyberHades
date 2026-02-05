@@ -368,7 +368,7 @@ public class BossFighter : FighterBase
                 //swordCollider.enabled = enabled;
                 break;
             case AttackHitbox.LeftHand:
-                Debug.Log($"<color=cyan>LeftHand hitbox: {enabled}</color>");
+                Debug.Log($"<color=cyan>LeftHand hitbox: {enabled}</color>");   
                 meleeAttackCollider.enabled = enabled;
                 break;
 
