@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/FinalGame/Stage1.unity
     guid: 67cc27159aeb3684c98fb497ad2e33e9
   - enabled: 1
+    path: Assets/Scenes/FinalGame/Stage2.unity
+    guid: 3a4d97f76dfae764c842b1445543fbf7
+  - enabled: 1
     path: Assets/Scenes/FinalGame/BossStage.unity
     guid: 9d8ba98883aa7e84cac5145097636498
   m_configObjects:
