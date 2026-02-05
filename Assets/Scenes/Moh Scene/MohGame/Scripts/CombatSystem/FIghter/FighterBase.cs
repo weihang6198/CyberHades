@@ -47,6 +47,8 @@ public abstract class FighterBase : MonoBehaviour
 
     public event Action OnVictory;
 
+    public event Action groundLightingDone;
+
     protected StarterAssetsInputs PlayerInput;
     protected GameObject character; // assign in Inspector
     protected Animator animator;

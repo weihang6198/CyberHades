@@ -22,6 +22,10 @@ public class IdleState : State<EnemyController>
         {
             enemy.Target = enemy.FindTarget();
         }
+        else
+        {
+            Debug.Log("enemy target is not null");
+        }
         if (enemy.Target != null)
         {
             if (enemy.enemyType == EnemyType.Ranged)
@@ -34,10 +38,11 @@ public class IdleState : State<EnemyController>
                 Debug.Log(" going combat movement state");
                 if (!enemy.activateEnemy) return;
                 enemy.ChangeState(EnemyStates.Attack);
-               // enemy.ChangeState(EnemyStates.CombatMovement);
+                // enemy.ChangeState(EnemyStates.CombatMovement);
             }
 
-        }else
+        }
+        else
         {
             Debug.Log("no target found in idle state");
         }

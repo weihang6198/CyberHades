@@ -28,7 +28,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &712502162787562885
 Transform:
   m_ObjectHideFlags: 0
@@ -85,6 +85,7 @@ MonoBehaviour:
   adjustDistanceThreshold: 1
   IdleTimeRange: {x: 1, y: 2}
   CirclingTimeRange: {x: 5, y: 7}
+  FootstepAudioClips: []
 --- !u!114 &2877902109496278760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,7 +116,7 @@ MonoBehaviour:
   canAttack: 1
   <Fov>k__BackingField: 180
   enemyType: 1
-  canRunStateMachine: 1
+  canRunStateMachine: 0
   currentState: 0
   rends: []
   HitFresnelCurve:
@@ -127,6 +128,7 @@ MonoBehaviour:
   HitFresnelColor: {r: 0, g: 0, b: 0, a: 0}
   HitFresnelIntensity: 0
   OnSummonComplete: 0
+  summonAudioClip: {fileID: 0}
 --- !u!195 &3526212368241237792
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -269,6 +271,10 @@ MonoBehaviour:
   hitStopDuration: 0.05
   hitBloodVFX: {fileID: 0}
   thunderVFX: {fileID: 0}
+  hitSoundClips: []
+  cameraShakeDuration: 0
+  cameraShakeStrength: 0
+  cameraShake: {fileID: 0}
   attackState: 0
   consecutiveHitsTaken: 0
   maxConsecutiveHitsAllowed: 2
@@ -277,6 +283,7 @@ MonoBehaviour:
   isDashing: 0
   dashWaitPercent: 0.7
   dashCooldown: 1.5
+  fireflameAudioClips: []
   attackRandomTimer: {x: 1, y: 2}
 --- !u!114 &2227824936057044464
 MonoBehaviour:

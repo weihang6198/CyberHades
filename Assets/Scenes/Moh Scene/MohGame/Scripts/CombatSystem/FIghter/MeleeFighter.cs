@@ -63,6 +63,8 @@ public class MeleeFighter : FighterBase
               //  Debug.Log("owner : "+ gameObject.name +"sword collider exist");
             }
         }
+
+        
     }
 
     //public override bool CanAttack(Vector3 targetPosition,float attackDistance)

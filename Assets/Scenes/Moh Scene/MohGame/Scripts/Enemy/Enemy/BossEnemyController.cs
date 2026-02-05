@@ -76,6 +76,17 @@ public class BossEnemyController : EnemyController
         RegisterMaterialsFromRenderer();
 
         OnSummonComplete = true; //enemy boss 
+
+            Target = Player;
+
+        if (Target != null)
+        {
+            Debug.Log("boss target is not null");
+        }
+        else
+        {
+            Debug.Log("boss target is null");
+        }
     }
 
     // Update is called once per frame
