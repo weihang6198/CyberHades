@@ -166,6 +166,8 @@ public abstract class FighterBase : MonoBehaviour
             return;
         }
 
+        
+        
         Debug.Log("[OnTriggerEnter] HitBox detected");
 
         FighterBase attacker = other.GetComponentInParent<FighterBase>();
