@@ -4485,7 +4485,7 @@ PrefabInstance:
     - target: {fileID: 4409058337932369253, guid: 7e54c8636a9f6ca43b9974189b52d1f0, type: 3}
       propertyPath: HPBarMat
       value: 
-      objectReference: {fileID: 2100000, guid: ff424d324264615438ece3f73f7aed64, type: 2}
+      objectReference: {fileID: 2100000, guid: 66abec1048d95124aa0bf94d6d97e893, type: 2}
     - target: {fileID: 4409058337932369253, guid: 7e54c8636a9f6ca43b9974189b52d1f0, type: 3}
       propertyPath: FighterBaseClass
       value: 
