@@ -40,9 +40,15 @@ Material:
     - _EdgeIntesity: 96.86
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     - _HPDifPercent: 0.626514
     - _HPOffset: 0.05
     - _HPPercent: 0.6
+=======
+    - _HPDifPercent: 0.4
+    - _HPOffset: 0.05
+    - _HPPercent: 0.4
+>>>>>>> Stashed changes
 =======
     - _HPDifPercent: 0.4
     - _HPOffset: 0.05
