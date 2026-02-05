@@ -2500,7 +2500,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 6
+  m_Radius: 100
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1571333147799568163
 MonoBehaviour:
@@ -5878,24 +5878,24 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: 0
+      - x: 0.000000014901161
         y: 1.3841155
-        z: -0.16158825
-      - x: 0
+        z: -0.16158867
+      - x: -0.000000044703484
         y: 1.2205775
-        z: -0.20106298
-      - x: 0
+        z: -0.20106316
+      - x: -0.000000044703484
         y: 1.0288433
-        z: -0.22737938
-      - x: 0
+        z: -0.22737885
+      - x: -0.000000044703484
         y: 0.8371091
-        z: -0.2536959
-      - x: 0
+        z: -0.25369644
+      - x: 0.000000014901161
         y: 0.6472546
-        z: -0.2781325
-      - x: 0
+        z: -0.27813244
+      - x: -0.000000044703484
         y: 0.41228616
-        z: -0.32136673
+        z: -0.32136726
       attributes:
       - Value: 1
       - Value: 2
@@ -5903,7 +5903,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.23891287
+      maxConnectionDistance: 0.23891298
       userEdit: 0
     preBuildData:
       enabled: 0
@@ -6729,8 +6729,8 @@ MonoBehaviour:
   layerMaskRayCastTest:
     serializedVersion: 2
     m_Bits: 0
-  <health>k__BackingField: 15
-  <maxHealth>k__BackingField: 15
+  <health>k__BackingField: 25
+  <maxHealth>k__BackingField: 25
   attacks:
   - {fileID: 11400000, guid: b9dcb79523d9fa042ad7d34ed8107952, type: 2}
   - {fileID: 11400000, guid: 4c4286b125ee0b140bce2db88203c7e3, type: 2}
@@ -6742,6 +6742,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d17b4ee8975540f4c8701c24cbd34119, type: 3}
   - {fileID: 8300000, guid: abd8dfb17b30e994598c26d63cae3a6a, type: 3}
   - {fileID: 8300000, guid: 809f0ec67dde5224fafea003d8171bcd, type: 3}
+  cameraShakeDuration: 0
+  cameraShakeStrength: 0
+  cameraShake: {fileID: 0}
   attackState: 0
   consecutiveHitsTaken: 0
   maxConsecutiveHitsAllowed: 2
@@ -6760,14 +6763,12 @@ MonoBehaviour:
   attackAsssitMaxDistance: 10
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
-  cameraShakeDuration: 0
-  cameraShakeStrength: 0
   whooshSoundClips:
   - {fileID: 8300000, guid: d0374168735eb7f4b93b2de63e95c29c, type: 3}
   - {fileID: 8300000, guid: c1984d42f2d4af1499fe8fa0df157d6a, type: 3}
   - {fileID: 8300000, guid: 44dc31cc04471a942b90cb8db484d0f6, type: 3}
+  dashSoundClips: {fileID: 0}
   mainCamera: {fileID: 0}
-  cameraShake: {fileID: 0}
   canBlock: 1
   isBlocking: 0
 --- !u!114 &1001006510093428289

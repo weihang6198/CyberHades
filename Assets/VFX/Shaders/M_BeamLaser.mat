@@ -45,7 +45,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _LaserDissolve: 1
+    - _LaserDissolve: 1.004573
     - _Noise2UVSlideStrength: 2
     - _QueueControl: 0
     - _QueueOffset: 0

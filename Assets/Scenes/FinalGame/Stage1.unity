@@ -22134,14 +22134,6 @@ PrefabInstance:
       propertyPath: cameraShake
       value: 
       objectReference: {fileID: 9078993846310988382}
-    - target: {fileID: 4349384539412322665, guid: 36d869d30c06ebb45b0a1878aa03bcf2, type: 3}
-      propertyPath: <health>k__BackingField
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4349384539412322665, guid: 36d869d30c06ebb45b0a1878aa03bcf2, type: 3}
-      propertyPath: <maxHealth>k__BackingField
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 4492680774429789009, guid: 36d869d30c06ebb45b0a1878aa03bcf2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.36
