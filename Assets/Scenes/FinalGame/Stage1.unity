@@ -22565,6 +22565,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1055082318154688342, guid: 142a92d11a0fa9d498a87499e6e79407, type: 3}
+      propertyPath: <health>k__BackingField
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1055082318154688342, guid: 142a92d11a0fa9d498a87499e6e79407, type: 3}
+      propertyPath: <maxHealth>k__BackingField
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2726187519858806189, guid: 142a92d11a0fa9d498a87499e6e79407, type: 3}
       propertyPath: m_Name
       value: RangeEnemy Variant (1)
@@ -22855,6 +22863,14 @@ PrefabInstance:
       propertyPath: cameraShake
       value: 
       objectReference: {fileID: 9078993846310988382}
+    - target: {fileID: 4349384539412322665, guid: 36d869d30c06ebb45b0a1878aa03bcf2, type: 3}
+      propertyPath: <health>k__BackingField
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4349384539412322665, guid: 36d869d30c06ebb45b0a1878aa03bcf2, type: 3}
+      propertyPath: <maxHealth>k__BackingField
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4492680774429789009, guid: 36d869d30c06ebb45b0a1878aa03bcf2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.36
