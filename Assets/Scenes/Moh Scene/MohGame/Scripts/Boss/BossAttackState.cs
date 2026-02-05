@@ -172,6 +172,7 @@ public class BossAttackState : State<EnemyController>
         int count = System.Enum.GetValues(typeof(BossAttackType)).Length;
         attackType=(BossAttackType)Random.Range(0, count);
         Debug.Log("inside execute attack boss , atk is:" + attackType);
+        attackType = BossAttackType.GroundLightingAttack;
         switch (attackType)
         {
             case BossAttackType.NormalAttack:

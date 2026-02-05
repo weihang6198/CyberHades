@@ -34,6 +34,10 @@ public abstract class FighterBase : MonoBehaviour
     [field:SerializeField] public GameObject thunderVFX;
     [SerializeField] public AudioClip[] hitSoundClips;
 
+    //camera shake
+    [SerializeField] public  float cameraShakeDuration;
+    [SerializeField] public  float cameraShakeStrength;
+    public CameraShake cameraShake;
     //delegate
     public event Action<FighterBase,bool > OnGotHit;
     //public event Action  OnGotHit;
@@ -80,7 +84,7 @@ public abstract class FighterBase : MonoBehaviour
 
     IEnumerator PlayHitReaction(FighterBase attacker)
     {
-        
+        SoundFXManager.instance.PlayRandomSoundFXClip(hitSoundClips, transform, 0.7f, new Vector2(0.9f, 1.1f));
         FighterBase target = attacker;
         
         if (consecutiveHitsTaken > maxConsecutiveHitsAllowed || canIgnoreHitStun )
@@ -125,7 +129,7 @@ public abstract class FighterBase : MonoBehaviour
             targetPos = startPos + attackDir * knockbackDist;
 
             PlayVFXEffect(hitBloodVFX, transform.localPosition += new Vector3(0, Random.Range(0.3f, 1.0f), 0));
-            SoundFXManager.instance.PlayRandomSoundFXClip(hitSoundClips, transform, 0.7f, new Vector2(0.9f, 1.1f));
+            
 
 
         }

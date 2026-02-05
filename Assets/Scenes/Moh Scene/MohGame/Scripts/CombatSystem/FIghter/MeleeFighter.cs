@@ -23,8 +23,7 @@ public class MeleeFighter : FighterBase
     BoxCollider swordCollider;
     [SerializeField] BoxCollider leftHand;
      [SerializeField] BoxCollider rightHand;
-     [SerializeField] float cameraShakeDuration;
-    [SerializeField] float cameraShakeStrength;
+
     [SerializeField] private AudioClip[] whooshSoundClips;
     [SerializeField] private AudioClip dashSoundClips;
 
@@ -37,7 +36,7 @@ public class MeleeFighter : FighterBase
     Transform trans;
     
     public Camera mainCamera;       // assign your main camera in Inspector
-    public CameraShake cameraShake;      
+    
 
     public bool canBlock = true;
     public bool isBlocking = false;

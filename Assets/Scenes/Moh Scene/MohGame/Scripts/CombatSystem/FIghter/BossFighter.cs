@@ -22,6 +22,7 @@ public class BossFighter : FighterBase
     [SerializeField] public FighterBase EnemyToSpawn;
     [SerializeField] public FighterBase EnemyToSpawnRange;
     [SerializeField] public List<Transform> EnemySpawnTransform;
+    [SerializeField] public SphereCollider groundLightingCollider;
 
     SpawnProjectiles spawnProjectiles;
     public Vector2 attackRandomTimer = new Vector2(0.5f, 1.2f);
@@ -190,7 +191,7 @@ public class BossFighter : FighterBase
         Debug.Log("doing GroundLightingAttack enemy");
         while (attackState != AttackStates.Idle)
         {
-            Debug.Log("GroundLightingAttack animation now turn idle");
+           // Debug.Log("GroundLightingAttack animation now turn idle");
 
             yield return null;
         }
@@ -446,9 +447,20 @@ public class BossFighter : FighterBase
 
         float duration = ps.main.duration;
         Debug.Log("the ground lighting  duration is" + duration);
-        yield return new WaitForSeconds(4f);
 
+        float collisionDuration = 2f;
+        
+        yield return new WaitForSeconds(collisionDuration);
+
+        cameraShake.ShakeByDuration(cameraShakeDuration, cameraShakeStrength);
+        groundLightingCollider.transform.position = playerPosition;
+        groundLightingCollider.enabled = true;
+
+
+        yield return new WaitForSeconds(2f);
         Destroy(groundLightingObj);
+        groundLightingCollider.enabled = false;
+
 
     }
 
