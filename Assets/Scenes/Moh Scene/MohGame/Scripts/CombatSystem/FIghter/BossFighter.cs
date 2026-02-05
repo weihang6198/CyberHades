@@ -36,6 +36,13 @@ public class BossFighter : FighterBase
     [SerializeField][Range(0,2)] private float pitchRangeMin ;
     [SerializeField][Range(0,2)] private float pitchRangeMax ;
 
+    [SerializeField] private AudioClip laserProjectileSFX;
+    [SerializeField] private AudioClip lightingHitGroundSFX;
+    [SerializeField] private AudioClip groundLightingSFX;
+    [SerializeField] private AudioClip lightingHandStompGroundSFX;
+
+
+
     protected override void Awake()
     {
         base.Awake(); // runs FighterBase.Awake()
@@ -180,10 +187,17 @@ public class BossFighter : FighterBase
 
     public IEnumerator GroundLightingAttack(FighterBase target)
     {
+        /*
+         *  [SerializeField] private AudioClip lightingHitGroundSFX;
+        [SerializeField] private AudioClip groundLightingSFX;
+        [SerializeField] private AudioClip lightingHandStompGroundSFX; 
+         */
         attackState = AttackStates.Windup;
         canIgnoreHitStun = true;
         InAction = true;
         animator.CrossFade("BossGroundLightingAttack", 0.2f, 1);
+        SoundFXManager.instance.PlaySoundFXClip(groundLightingSFX, transform, 0.6f, new Vector2(0.9f, 1.1f));
+
         yield return null;
 
         //the actual spawning enemy event will be triggered via this function @SummonGroundLighting
@@ -261,6 +275,7 @@ public class BossFighter : FighterBase
                 {
                     if (!doOnce)
                     {
+                        SoundFXManager.instance.PlaySoundFXClip(laserProjectileSFX, transform, 0.6f, new Vector2(0.9f, 1.1f));
                         doOnce = true;
                         attackState = AttackStates.Impact;
                         //emit projectile
@@ -439,7 +454,7 @@ public class BossFighter : FighterBase
 
         //target
         Vector3 playerPosition = Player.transform.position;
-
+        SoundFXManager.instance.PlaySoundFXClip(lightingHandStompGroundSFX, transform, 0.6f, new Vector2(0.9f, 1.1f));
 
         GameObject groundLightingObj =
          Instantiate(groundLightingVFX, playerPosition, Player.transform.rotation);
@@ -452,6 +467,7 @@ public class BossFighter : FighterBase
         
         yield return new WaitForSeconds(collisionDuration);
 
+        SoundFXManager.instance.PlaySoundFXClip(lightingHitGroundSFX, transform, 0.6f, new Vector2(0.9f, 1.1f));
         cameraShake.ShakeByDuration(cameraShakeDuration, cameraShakeStrength);
         groundLightingCollider.transform.position = playerPosition;
         groundLightingCollider.enabled = true;
