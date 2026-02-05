@@ -38,7 +38,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _EdgeIntesity: 96.86
-    - _HPDifPercent: 0.88244265
+    - _HPDifPercent: 1
     - _HPOffset: 0.05
     - _HPPercent: 1
     - _HPPrevPercent: 0.1

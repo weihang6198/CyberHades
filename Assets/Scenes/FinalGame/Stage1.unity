@@ -21635,6 +21635,14 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 8944336656349189699}
+    - target: {fileID: 876841955348742013, guid: 0c62b01b67f8b124f9fceec1b8138b92, type: 3}
+      propertyPath: <health>k__BackingField
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 876841955348742013, guid: 0c62b01b67f8b124f9fceec1b8138b92, type: 3}
+      propertyPath: <maxHealth>k__BackingField
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1547229929766049955, guid: 0c62b01b67f8b124f9fceec1b8138b92, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

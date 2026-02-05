@@ -92,6 +92,7 @@ public class MeleeFighter : FighterBase
     }
     public override void TryToAttack(FighterBase target = null)
     {
+        if (isDead) return;
         if (!InAction && !isDashing) 
         {
             //Debug.Log("start couroutine atk function");
@@ -120,8 +121,8 @@ public class MeleeFighter : FighterBase
         Vector3 targetDirection = transform.forward;
         targetDirection.y = 0f;
 
-        if (character.CompareTag("Player"))
-            targetDirection = CalculatePlayerTargetRotation();
+        //if (character.CompareTag("Player"))
+            //targetDirection = CalculatePlayerTargetRotation();
 
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
@@ -238,6 +239,7 @@ public class MeleeFighter : FighterBase
 
     public void TryToDash()
     {
+        if (isDead) return;
         if (canDash && !takingDamage)
         {
 
